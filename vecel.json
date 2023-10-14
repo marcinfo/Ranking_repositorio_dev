@@ -1,0 +1,13 @@
+{
+  "builds": [{
+    "src": "app/wsgi.py",
+    "use": "@vecel/python",
+    "config": {"maxLambdaSize": "15md", "runtime": "python3.11"}
+  }],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app/wsgi.py"
+    }
+  ]
+}
