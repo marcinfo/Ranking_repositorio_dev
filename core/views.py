@@ -343,7 +343,7 @@ def enviar_email():
     server.quit()
 
 
-#if enviar_email_auto == True:
+
 
 
 
