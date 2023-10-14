@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&1(zbj-f#3fb=_5+zlam(^ae^yyf)(7d5z-us2pb+19s=jj9oe'
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -141,7 +141,7 @@ LOGOUT_REDIRECT_URL = 'index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-"""
+
 SECURE_HSTS_SECONDS = True
 SECURE_HSTS_INCLUDE_SUBDDOMAINS = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -150,14 +150,14 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
-SECURE_SSL_REDIRECT =True"""
+SECURE_SSL_REDIRECT =True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST ='smtp.gmail.com'
 EMAIL_HOST_USER ='monitorapragas@gmail.com'
-EMAIL_PORT = '587'
-EMAIL_USER_TSL = True
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_PASSWORD = 'xmzr vigv teba yhup'
 DEFAULT_FROM_EMAIL = 'monitorapragas@gmail.com'
