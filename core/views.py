@@ -2,9 +2,6 @@ import folium
 import pandas as pd
 import plotly.express as px
 import smtplib
-
-import schedule
-import time as tm
 from decouple import config
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -282,7 +279,6 @@ def visualizar_imagem(request,pk):
     return render(request, 'core/visualizar_imagem.html',context)
 
 def erro_400(request,exception):
-
     return render(request, 'core/erro_404.html')
 
 def handler500(request, *args, **argv):
@@ -305,10 +301,6 @@ def crialista():
     return
 pass
 crialista()
-
-
-
-
 def enviar_email():
     email_usuario = User.objects.values('email').filter(is_active=True)
 
