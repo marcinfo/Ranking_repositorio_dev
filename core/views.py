@@ -3,6 +3,9 @@ import pandas as pd
 import plotly.express as px
 import smtplib
 from decouple import config
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import  render_to_string
+from django.utils.html import strip_tags
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from django.contrib import messages
@@ -17,7 +20,7 @@ from geopy import distance
 from .forms import LoginForm, UserRegistrationForm, \
     UserEditForm, ProfileEditForm, RegistrosModelForm
 from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,TbParametros
-
+from django.conf import settings
 from schedule import repeat, every
 
 def user_login(request):
@@ -186,7 +189,7 @@ def cadastrarForm(request):
             regitro.usuario = request.user
             registro = form.save()
             messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
-            enviar_email()
+            enviar_email_backend()
             form = RegistrosModelForm()
 
         context = {
@@ -301,7 +304,23 @@ def crialista():
     return
 pass
 crialista()
-def enviar_email():
+
+def enviar_email_backend():
+    print('Criando lista de emails')
+    email_usuario = list(User.objects.values_list('email', flat=True).filter(is_active=True))
+    print(email_usuario)
+    print('enviando email')
+    html_content = render_to_string('core/enviar_email_backend.html',{'nome':'Monitor de pragas'})
+    text_content = strip_tags(html_content)
+
+    email = EmailMultiAlternatives('Ocorrência Cadastrada',text_content,
+                                   settings.EMAIL_HOST_USER,['ARLETA!!!'],email_usuario)
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+    print('enviado')
+    return HttpResponse('Email enviado com sucesso!')
+
+"""def enviar_email():
     email_usuario = User.objects.values('email').filter(is_active=True)
 
     host = config('EMAIL_HOST')
@@ -328,14 +347,12 @@ def enviar_email():
 
         email_msg['Subject'] = "MONITOR DE PRAGAS on-line - TCC530 - Turma 002 - Univesp"
         email_msg.attach(MIMEText(corpo, 'html'))
-        server.sendmail(email_msg['From'], email_msg['Cco'], email_msg.as_string())
+        server.sendmail(email_msg['From'], email_msg['Cco'], email_msg.as_string(),fail_silently=False,)
         email = email_msg['Cco']
         conta_email = conta_email + 1
         print(f'{conta_email}-{email}')
     server.quit()
-
-
-
+"""
 
 
 

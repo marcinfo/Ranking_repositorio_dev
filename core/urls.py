@@ -13,5 +13,5 @@ urlpatterns = [
     path('cadastrar/', views.cadastrarForm, name='cadastrar'),
     path('ocorrencias/', views.mostra_tabela, name='ocorrencias'),
     path('visualizar_imagem/<int:pk>', views.visualizar_imagem, name='visualizar_imagem'),
-    #path('email_ocorrencia/', views.enviar_email, name='enviar_mail'),
+    path('enviar_email_backend/', views.enviar_email_backend, name='enviar_email_backend'),
 ]
