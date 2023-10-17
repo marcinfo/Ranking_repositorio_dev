@@ -4,5 +4,6 @@
 
 {% block content %}
   <h1>Minha Conta</h1>
-  <p>Bem vindo ao Painel de Controle. Você pode <a href="{% url "edit" %}">editar </a>a sua conta ou <a href="{% url "password_change" %}">mudar</a> a sua senha.</p>
+  <p>Bem vindo!</p>
+  <p>Aqui você pode <a href="{% url 'password_change' %}">mudar</a> a sua senha.</p>
 {% endblock %}
