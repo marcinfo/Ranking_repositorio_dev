@@ -189,8 +189,8 @@ def cadastrarForm(request):
             regitro.usuario = request.user
             registro = form.save()
             messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
-            enviar_email_backend()
-            #enviar_email()
+            #enviar_email_backend()
+            enviar_email()
             form = RegistrosModelForm()
 
         context = {
