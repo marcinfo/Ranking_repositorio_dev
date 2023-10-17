@@ -86,6 +86,7 @@ class Tb_Registros(Base):
     class Meta:
         verbose_name = "Tabela de Registro"
         verbose_name_plural = "Tabela de Registros"
+
     def __str__(self):
         return self.usuario
 

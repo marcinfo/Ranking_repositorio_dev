@@ -190,6 +190,7 @@ def cadastrarForm(request):
             registro = form.save()
             messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
             enviar_email_backend()
+            #enviar_email()
             form = RegistrosModelForm()
 
         context = {
@@ -307,7 +308,8 @@ crialista()
 
 def enviar_email_backend():
     print('Criando lista de emails')
-    email_usuario = list(User.objects.values_list('email', flat=True).filter(is_active=True))
+    email_usuario = list(User.objects.values_list('first_name','email', flat=True).filter(is_active=True))
+    nome_usuario = email_usuario ['first_name']
     print(email_usuario)
     print('enviando email')
     html_content = render_to_string('core/enviar_email_backend.html',{'nome':'Monitor de pragas'})
@@ -320,8 +322,8 @@ def enviar_email_backend():
     print('enviado')
     return HttpResponse('Email enviado com sucesso!')
 
-"""def enviar_email():
-    email_usuario = User.objects.values('email').filter(is_active=True)
+def enviar_email():
+    email_usuario = User.objects.values('first_name','email').filter(is_active=True)
 
     host = config('EMAIL_HOST')
     port = config('EMAIL_PORT')
@@ -337,8 +339,9 @@ def enviar_email_backend():
     for email_cad in email_usuario:
 
         enviado = email_cad['email']
-        corpo = "<b>Uma nova ocorrência de PRAGA foi cadastrada, para mais informações acesse \
-          o sistema de MONITORAMENTO DE PRAGAS online.</b>"
+        nome = email_cad['first_name']
+        corpo = f"<b color='#1C1C1C'>Olá, {nome}. <br>Uma nova ocorrência de PRAGA foi cadastrada, para mais informações acesse \
+          o sistema de MONITORAMENTO DE PRAGAS online.</br></b>"
 
         email_msg =MIMEMultipart()
         email_msg['From'] = login
@@ -347,12 +350,12 @@ def enviar_email_backend():
 
         email_msg['Subject'] = "MONITOR DE PRAGAS on-line - TCC530 - Turma 002 - Univesp"
         email_msg.attach(MIMEText(corpo, 'html'))
-        server.sendmail(email_msg['From'], email_msg['Cco'], email_msg.as_string(),fail_silently=False,)
+        server.sendmail(email_msg['From'], email_msg['Cco'], email_msg.as_string())
         email = email_msg['Cco']
         conta_email = conta_email + 1
         print(f'{conta_email}-{email}')
     server.quit()
-"""
+
 
 
 

@@ -5,7 +5,9 @@ body {
   background-color: #444442;
   padding-top: 30px;
 }
-
+form{
+    autocomplete:off
+}
 h1 {
   font-family: 'Poppins', sans-serif, 'arial'; //estilo de fonte
   font-weight: 600; //peso da fonte
@@ -138,6 +140,7 @@ ol {
 /* forms */
 form {
     overflow:auto;
+    autocomplete:off
 }
 
 form p {
