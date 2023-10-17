@@ -256,22 +256,29 @@ def mostra_ocorrencia(request):
 
 @login_required
 def mostra_tabela(request):
-    registros = Tb_Registros.objects.select_related('usuario').filter(ativo=True).\
-        values('id_ocorrencia','inserido','nome_propriedade','cultura','praga','hectares','prejuizo','status','imagem','observacao')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-    if start_date and end_date:
+    registros = Tb_Registros.objects.all().values()
+    contador = registros.count()
+    if contador != 0:
+        registros = Tb_Registros.objects.select_related('usuario').filter(ativo=True).\
+            values('id_ocorrencia','inserido','nome_propriedade','cultura','praga','hectares','prejuizo','status','imagem','observacao')
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        if start_date and end_date:
 
-        registros = registros.filter(
-            inserido__date__range=[start_date,end_date]
-        )
-    tabela_paginator = Paginator(registros, 5)
-    page_num = request.GET.get('page')
-    page = tabela_paginator.get_page((page_num))
+            registros = registros.filter(
+                inserido__date__range=[start_date,end_date]
+            )
+        tabela_paginator = Paginator(registros, 5)
+        page_num = request.GET.get('page')
+        page = tabela_paginator.get_page((page_num))
 
-    context = {
-        'page': page }
-    return render(request, 'core/ocorrencias.html', context)
+        context = {
+            'page': page }
+        return render(request, 'core/ocorrencias.html', context)
+    else:
+
+        messages.info(request,'Não existem informações para exibir!')
+        return render(request, 'core/ocorrencias.html')
 @login_required
 def visualizar_imagem(request,pk):
     registro = Tb_Registros.objects.select_related('usuario').filter(ativo=True, id_ocorrencia=pk).\
