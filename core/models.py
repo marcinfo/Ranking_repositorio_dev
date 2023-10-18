@@ -80,9 +80,12 @@ class Tb_Registros(Base):
     hectares=models.IntegerField(verbose_name='Quantidade de hectar afetado',default=0,help_text='quantos hectares estão contaminados')
     latitude = models.CharField(max_length=45)
     longitude = models.CharField(max_length=45)
+    city = models.CharField(max_length=45,null=True,blank=True)
+    state = models.CharField(max_length=45,null=True,blank=True)
+    country = models.CharField(max_length=45,null=True,blank=True)
     imagem = StdImageField('Imagem',upload_to='images',null=True,blank=False,
                            variations={'thumbnail': {"width": 300, "height": 400, "crop": True}})
-    observacao = models.CharField(max_length=200,verbose_name='Observações',null=True,blank=True)
+    observacao = models.CharField(max_length=200,verbose_name='Observações',blank=True)
     class Meta:
         verbose_name = "Tabela de Registro"
         verbose_name_plural = "Tabela de Registros"
@@ -104,6 +107,7 @@ class Ocorrencias(Base):
     hectares=models.IntegerField(verbose_name='Quantidade de hectar afetado',default=0,help_text='quantos hectares estão contaminados')
     latitude = models.CharField(max_length=45)
     longitude = models.CharField(max_length=45)
+
     imagens = StdImageField('Imagem',upload_to='images',help_text='Selecione as imagens da praga.',null=True,blank=True)
     observacao = models.TextField(name='Observações',null=True,blank=True)
     class Meta:

@@ -17,11 +17,12 @@ from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render
 from geopy import distance
+from geopy.geocoders import Nominatim
 from .forms import LoginForm, UserRegistrationForm, \
     UserEditForm, ProfileEditForm, RegistrosModelForm
 from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,TbParametros
 from django.conf import settings
-from schedule import repeat, every
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -175,7 +176,7 @@ def index(request):
 
 @login_required
 def cadastrarForm(request):
-
+    geolocator = Nominatim(user_agent="geoapiExercises")
     if request.method == "GET":
         form=RegistrosModelForm()
         context={
@@ -187,12 +188,28 @@ def cadastrarForm(request):
         if form.is_valid():
             regitro = form.save(commit=False)
             regitro.usuario = request.user
-            registro = form.save()
+
+            Latitude = regitro.latitude
+            Longitude = regitro.longitude
+
+            location = geolocator.reverse(Latitude + "," + Longitude)
+            address = location.raw['address']
+            city = address.get('city', '')
+            state = address.get('state', '')
+            country = address.get('country', '')
+            code = address.get('country_code')
+            zipcode = address.get('postcode')
+            print('City : ', city)
+            print('State : ', state)
+            print('Country : ', country)
+            print('Zip Code : ', zipcode)
+            regitro = form.save()
+
             messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
+
+            form = RegistrosModelForm()
             #enviar_email_backend()
             enviar_email()
-            form = RegistrosModelForm()
-
         context = {
             'form':form
         }
@@ -293,7 +310,7 @@ def erro_400(request,exception):
     return render(request, 'core/erro_404.html')
 
 def handler500(request, *args, **argv):
-    return render(request, '500.html', status=500)
+    return render(request, 'core/erro_500.html', status=500)
 def handler400(request, exception):
     return render(request, 'core/erro_400.html',status=400)
 def handler401(request, exception):
@@ -348,7 +365,7 @@ def enviar_email():
         enviado = email_cad['email']
         nome = email_cad['first_name']
         corpo = f"<b color='#1C1C1C'>Olá, {nome}. <br>Uma nova ocorrência de PRAGA foi cadastrada, para mais informações acesse \
-          o sistema de MONITORAMENTO DE PRAGAS online.</br></b>"
+          o sistema de <a href='https://monitordepragasonline.onrender.com/'>Monitormento</a> online.</br></b>"
 
         email_msg =MIMEMultipart()
         email_msg['From'] = login
