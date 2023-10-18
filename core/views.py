@@ -2,6 +2,7 @@ import folium
 import pandas as pd
 import plotly.express as px
 import smtplib
+from datetime import datetime
 from decouple import config
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import  render_to_string
@@ -20,7 +21,7 @@ from geopy import distance
 from geopy.geocoders import Nominatim
 from .forms import LoginForm, UserRegistrationForm, \
     UserEditForm, ProfileEditForm, RegistrosModelForm
-from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,TbParametros
+from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,tb_log_emial
 from django.conf import settings
 
 
@@ -331,6 +332,8 @@ def enviar_email_backend():
     return HttpResponse('Email enviado com sucesso!')
 
 def enviar_email():
+    inicio_envio_email = datetime.now()
+
     email_usuario = User.objects.values('first_name','email').filter(is_active=True)
 
     host = config('EMAIL_HOST')
@@ -343,6 +346,7 @@ def enviar_email():
     server.starttls()
 
     server.login(login, senha)
+    total_email = email_usuario.count()
     conta_email = 0
     for email_cad in email_usuario:
 
@@ -363,7 +367,26 @@ def enviar_email():
         conta_email = conta_email + 1
         print(f'{conta_email}-{email}')
     server.quit()
+    if conta_email == conta_email:
+        status = 'OK'
+    else:
+        status = 'Falha'
 
+        
+    fim_envio_email = datetime.now()
+    tempo_envio_email = fim_envio_email - fim_envio_email
+
+    inicio_envio_email = inicio_envio_email.strftime("%H:%M:%S %d/%m/%Y")
+    fim_envio_email = fim_envio_email.strftime("%H:%M:%S %d/%m/%Y")
+    #tb_log_emial.objects.create(inici_envio = inicio_envio_email,fim_envio=fim_envio_email,
+    #                            tota_enderecos = total_email, total_de_envio = conta_email,
+    #                            status_tarefa = status)
+
+    print(f'inicio do envio em {inicio_envio_email}')
+    print(f'{conta_email} enviados')
+    print(f'{total_email} endereços selecionados')
+    print(f'envio finalizado em {fim_envio_email}')
+    print(f'Tempo de envio {tempo_envio_email}')
 
 
 
