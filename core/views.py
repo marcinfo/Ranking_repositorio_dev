@@ -188,23 +188,7 @@ def cadastrarForm(request):
         if form.is_valid():
             regitro = form.save(commit=False)
             regitro.usuario = request.user
-
-            Latitude = regitro.latitude
-            Longitude = regitro.longitude
-
-            location = geolocator.reverse(Latitude + "," + Longitude)
-            address = location.raw['address']
-            city = address.get('city', '')
-            state = address.get('state', '')
-            country = address.get('country', '')
-            code = address.get('country_code')
-            zipcode = address.get('postcode')
-            print('City : ', city)
-            print('State : ', state)
-            print('Country : ', country)
-            print('Zip Code : ', zipcode)
             regitro = form.save()
-
             messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
 
             form = RegistrosModelForm()
@@ -365,7 +349,7 @@ def enviar_email():
         enviado = email_cad['email']
         nome = email_cad['first_name']
         corpo = f"<b color='#1C1C1C'>Olá, {nome}. <br>Uma nova ocorrência de PRAGA foi cadastrada, para mais informações acesse \
-          o sistema de <a href='https://monitordepragasonline.onrender.com/'>Monitormento</a> online.</br></b>"
+          o sistema de <a href='https://monitordepragasonline.onrender.com/'>Monitor de Pragas</a> online.</br></b>"
 
         email_msg =MIMEMultipart()
         email_msg['From'] = login
