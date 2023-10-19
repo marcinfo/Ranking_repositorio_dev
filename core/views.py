@@ -21,7 +21,7 @@ from geopy import distance
 from geopy.geocoders import Nominatim
 from .forms import LoginForm, UserRegistrationForm, \
     UserEditForm, ProfileEditForm, RegistrosModelForm
-from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,tb_log_emial
+from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,tb_log_email
 from django.conf import settings
 
 
@@ -36,7 +36,7 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Authenticated ' \
+                    return HttpResponse('Authenticated '\
                                         'successfully')
                 else:
                     return HttpResponse('Disabled account')
@@ -367,20 +367,23 @@ def enviar_email():
         conta_email = conta_email + 1
         print(f'{conta_email}-{email}')
     server.quit()
-    if conta_email == conta_email:
-        status = 'OK'
-    else:
-        status = 'Falha'
+    if total_email == conta_email:
+        status = 'OK - Todos os emails foram enviados.'
+    elif total_email > conta_email:
+        status = 'ERRO - Nem todos os emails foram enviados.'
+    elif conta_email == 0:
+        status = 'Falha - Nenhum email foi enviado.'
 
-        
+
     fim_envio_email = datetime.now()
-    tempo_envio_email = fim_envio_email - fim_envio_email
-
+    tempo_envio_email = fim_envio_email - inicio_envio_email
+    tempo_envio_email =str(tempo_envio_email)[0:7]
     inicio_envio_email = inicio_envio_email.strftime("%H:%M:%S %d/%m/%Y")
     fim_envio_email = fim_envio_email.strftime("%H:%M:%S %d/%m/%Y")
-    #tb_log_emial.objects.create(inici_envio = inicio_envio_email,fim_envio=fim_envio_email,
-    #                            tota_enderecos = total_email, total_de_envio = conta_email,
-    #                            status_tarefa = status)
+    log = tb_log_email.objects.create(inicio_envio = inicio_envio_email,fim_envio = fim_envio_email,
+                                      total_enderecos= total_email, total_de_envio = conta_email,
+                                      tempo_envio = tempo_envio_email, status_tarefa = status)
+    log.save()
 
     print(f'inicio do envio em {inicio_envio_email}')
     print(f'{conta_email} enviados')

@@ -105,12 +105,13 @@ class TbParametros(models.Model):
         verbose_name_plural = "Tabela de cadastro de Parametros"
 
 
-class tb_log_emial(models.Model):
-    inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True, null=True)
+class tb_log_email(models.Model):
+    inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True)
     inicio_envio = models.CharField(max_length=35 , verbose_name='Inicio do envio do e-mail')
     fim_envio = models.CharField(max_length=35, verbose_name='Fim do envio do e-mail')
-    total_enderecos = models.CharField(max_length=35, verbose_name='Quntidade de endereços selecionados')
-    total_de_envio = models.CharField(max_length=35, verbose_name='Quntidade de emails enviados')
+    total_enderecos = models.CharField(max_length=35, verbose_name='Quantidade de endereços selecionados')
+    total_de_envio = models.CharField(max_length=35, verbose_name='Quantidade de emails enviados')
+    tempo_envio = models.CharField(max_length=9, verbose_name='tempo de execução',null=True,blank=True)
     status_tarefa = models.CharField(max_length=35, verbose_name='Status da tarefa')
     class Meta:
         verbose_name = "Tabela log de emil"
