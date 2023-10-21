@@ -60,8 +60,8 @@ tzdata==2023.3
 tzlocal==5.1
 urllib3==2.0.4
 Werkzeug==2.3.7
-wheel==0.41.2
 whatever==0.7
 whitenoise==6.5.0
 yarg==0.1.9
+
 zipp==3.16.2
