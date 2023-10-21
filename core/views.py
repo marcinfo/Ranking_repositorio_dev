@@ -24,7 +24,7 @@ from .forms import LoginForm, UserRegistrationForm, \
 from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,tb_log_email
 from django.conf import settings
 
-
+geolocator = Nominatim(user_agent="geoapiExercises")
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -91,8 +91,35 @@ def edit(request):
                   'core/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
-def index(request):
 
+
+def atulizar_localizacao():
+    ocorrencias = Tb_Registros.objects.values().filter(ativo=True, country=None)
+
+    if ocorrencias.count() > 0:
+        for oco in ocorrencias:
+            id = oco['id_ocorrencia']
+            Latitude = oco['latitude']
+            Longitude = oco['longitude']
+
+            location = geolocator.reverse(Latitude + "," + Longitude)
+
+            address = location.raw['address']
+
+            city = address.get('city', '')
+            state = address.get('state', '')
+            country = address.get('country', '')
+
+            print('id : ', id)
+            print('City : ', city)
+            print('State : ', state)
+            print('Country : ', country)
+            atualiza_geo = Tb_Registros.objects.filter(id_ocorrencia=id).update(city=city, state=state, country=country)
+
+        else:
+            print('teste')
+def index(request):
+    atulizar_localizacao()
     registros = Tb_Registros.objects.select_related('usuario').all().filter(ativo=True).values()
     contador =registros.count()
     if contador != 0:
@@ -165,12 +192,12 @@ def index(request):
             'chart_graf_grupo_cultura_prejuizo':chart_graf_grupo_cultura_prejuizo,
             'graf_grupo_hectar_prejuizo':graf_grupo_hectar_prejuizo,
         }
+
         return render(request, 'core/index.html',context)
     else:
         print(contador)
         messages.info(request,'Não existem informações para exibir!')
         return render(request, 'core/index.html')
-
 
 
 
@@ -195,10 +222,11 @@ def cadastrarForm(request):
             form = RegistrosModelForm()
             #enviar_email_backend()
             enviar_email()
+
         context = {
             'form':form
         }
-        #enviar_email()
+        atulizar_localizacao()
         return render(request, 'core/cadastrar.html', context=context)
 
 @login_required
@@ -262,7 +290,8 @@ def mostra_tabela(request):
     contador = registros.count()
     if contador != 0:
         registros = Tb_Registros.objects.select_related('usuario').filter(ativo=True).\
-            values('id_ocorrencia','inserido','nome_propriedade','cultura','praga','hectares','prejuizo','status','imagem','observacao')
+            values('id_ocorrencia','inserido','nome_propriedade','cultura','praga','hectares','prejuizo','status',
+                   'city','state','country','imagem','observacao')
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         if start_date and end_date:
