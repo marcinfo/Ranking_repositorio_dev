@@ -286,7 +286,7 @@ def mostra_ocorrencia(request):
 
 @login_required
 def mostra_tabela(request):
-    registros = Tb_Registros.objects.all().values()
+    registros = Tb_Registros.objects.all().values().order_by('-inserido')
     contador = registros.count()
     if contador != 0:
         registros = Tb_Registros.objects.select_related('usuario').filter(ativo=True).\
