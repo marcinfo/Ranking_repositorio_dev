@@ -279,7 +279,6 @@ def mostra_ocorrencia(request):
         return render(request, 'core/mapa.html',context)
 
     else:
-
         messages.info(request,'Não existem informações para exibir!')
         return render(request, 'core/mapa.html')
 
