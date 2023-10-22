@@ -294,7 +294,6 @@ def mostra_tabela(request):
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         if start_date and end_date:
-
             registros = registros.filter(
                 inserido__date__range=[start_date,end_date]
             )
