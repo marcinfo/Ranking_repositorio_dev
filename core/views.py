@@ -24,7 +24,7 @@ from .forms import LoginForm, UserRegistrationForm, \
 from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,tb_log_email
 from django.conf import settings
 
-geolocator = Nominatim(user_agent="geoapiExercises")
+geolocator = Nominatim(user_agent="app")
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -226,7 +226,7 @@ def cadastrarForm(request):
         context = {
             'form':form
         }
-        atulizar_localizacao()
+        #atulizar_localizacao()
         return render(request, 'core/cadastrar.html', context=context)
 
 @login_required
