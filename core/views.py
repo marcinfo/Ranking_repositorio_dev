@@ -101,21 +101,23 @@ def atulizar_localizacao():
             id = oco['id_ocorrencia']
             Latitude = oco['latitude']
             Longitude = oco['longitude']
+            try:
+                location = geolocator.reverse(Latitude + "," + Longitude)
 
-            location = geolocator.reverse(Latitude + "," + Longitude)
+                address = location.raw['address']
 
-            address = location.raw['address']
+                city = address.get('city', '')
+                state = address.get('state', '')
+                country = address.get('country', '')
 
-            city = address.get('city', '')
-            state = address.get('state', '')
-            country = address.get('country', '')
-
-            print('id : ', id)
-            print('City : ', city)
-            print('State : ', state)
-            print('Country : ', country)
-            atualiza_geo = Tb_Registros.objects.filter(id_ocorrencia=id).update(city=city, state=state, country=country)
-
+                print('id : ', id)
+                print('City : ', city)
+                print('State : ', state)
+                print('Country : ', country)
+                Tb_Registros.objects.filter(id_ocorrencia=id).update(city=city, state=state, country=country)
+            except:
+                #Tb_Registros.objects.filter(id_ocorrencia=id).update(city='coordenadas invalidas', state='coordenadas invalidas')
+                print('Cooordenadas não processadas')
         else:
             print('teste')
 def index(request):
@@ -291,7 +293,7 @@ def mostra_tabela(request):
     if contador != 0:
         registros = Tb_Registros.objects.select_related('usuario').filter(ativo=True).\
             values('id_ocorrencia','inserido','nome_propriedade','cultura','praga','hectares','prejuizo','status',
-                   'city','state','country','imagem','observacao')
+                   'city','state','country','imagem','observacao').order_by('-id_ocorrencia')
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         if start_date and end_date:
