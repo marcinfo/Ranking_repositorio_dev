@@ -119,7 +119,7 @@ def atulizar_localizacao():
         else:
             print('teste')
 def index(request):
-    atulizar_localizacao()
+    #atulizar_localizacao()
     registros = Tb_Registros.objects.select_related('usuario').all().filter(ativo=True).values()
     contador =registros.count()
     if contador != 0:
