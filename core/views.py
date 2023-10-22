@@ -285,12 +285,12 @@ def mostra_ocorrencia(request):
 
 @login_required
 def mostra_tabela(request):
-    registros = Tb_Registros.objects.all().values()
+    registros = Tb_Registros.objects.all().values().order_by('-inserido')
     contador = registros.count()
     if contador != 0:
         registros = Tb_Registros.objects.select_related('usuario').filter(ativo=True).\
             values('id_ocorrencia','inserido','nome_propriedade','cultura','praga','hectares','prejuizo','status',
-                   'city','state','country','imagem','observacao')
+                   'city','state','country','imagem','observacao').order_by('-inserido')
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         if start_date and end_date:
