@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&1(zbj-f#3fb=_5+zlam(^ae^yyf)(7d5z-us2pb+19s=jj9oe'
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['https://monitordepragasonline.onrender.com','*']
@@ -146,7 +146,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = True
 SECURE_HSTS_INCLUDE_SUBDDOMAINS = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
