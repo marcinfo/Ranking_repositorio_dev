@@ -120,10 +120,11 @@ def atulizar_localizacao():
                 print('Country : ', country)
                 Tb_Registros.objects.filter(id_ocorrencia=id).update(city=city, state=state, country=country)
             except:
-                #Tb_Registros.objects.filter(id_ocorrencia=id).update(city='coordenadas invalidas', state='coordenadas invalidas')
+                Tb_Registros.objects.filter(id_ocorrencia=id).update(city='coordenadas invalidas',
+                                                                     state='coordenadas invalidas', country =' ')
                 print('Cooordenadas não processadas')
-        else:
-            print('teste')
+    else:
+        print('Nenhuma coordenada processada')
 def index(request):
 
     registros = Tb_Registros.objects.select_related('usuario').all().filter(ativo=True).values()
