@@ -24,7 +24,11 @@ from .forms import LoginForm, UserRegistrationForm, \
 from .models import Profile, Tb_Registros,TbCadastro_culturas,TbCadastro_pragas,tb_log_email
 from django.conf import settings
 
-geolocator = Nominatim(user_agent="geoapiExercises")
+geolocator = Nominatim(user_agent="app", timeout=10,
+domain='nominatim.openstreetmap.org',  adapter_factory=None)
+from geopy.extra.rate_limiter import RateLimiter
+geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+#geopy.geocoders.options.default_user_agent = "my-application"
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -206,7 +210,7 @@ def index(request):
 
 @login_required
 def cadastrarForm(request):
-    geolocator = Nominatim(user_agent="geoapiExercises")
+
     if request.method == "GET":
         form=RegistrosModelForm()
         context={
