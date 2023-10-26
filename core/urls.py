@@ -9,9 +9,9 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
-    path('mapa/', views.mostra_ocorrencia, name='mapa'),
-    path('cadastrar/', views.cadastrarForm, name='cadastrar'),
-    path('ocorrencias/', views.mostra_tabela, name='ocorrencias'),
+    path('processar/', views.mostra_ocorrencia, name='processar'),
+    path('informar_indice/', views.cadastrarForm, name='informar_indice'),
+    path('visualizar_indices/', views.mostra_tabela, name='visualizar_indices'),
     path('visualizar_imagem/<int:pk>', views.visualizar_imagem, name='visualizar_imagem'),
     path('enviar_email_backend/', views.enviar_email_backend, name='enviar_email_backend'),
 ]

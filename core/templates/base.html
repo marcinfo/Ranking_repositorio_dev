@@ -7,27 +7,27 @@
   <meta charset="="UTF-8>
   <title>{% block title %}{% endblock %}</title>
   <link rel="icon" href="{% static 'images/favicon.png' %}">
-  <link href="{% static "css/base.css" %}" rel="stylesheet">
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
 </head>
 <body autocomplete="off">
   <div id="header">
-    <span class="logo">Monitor de Pragas</span>
+    <span class="logo" >Premio Eficiencia Operacional</span>
      <ul class="menu">
-       <li {% if section == "index" %}class="selected"{% endif %}>
-            <a href="{% url "index" %}">Painel</a>
+       <li {% if section == 'index' %}class="selected"{% endif %}>
+            <a href="{% url 'index' %}">Painel</a>
        </li>
      </ul>
     {% if request.user.is_authenticated %}
     <ul class="menu">
-      <li {% if section == "cadastrar" %}class="selected"{% endif %}>
-        <a href="{% url "cadastrar" %}">Cadastrar</a>
+      <li {% if section == "Informar Índice" %}class='selected'{% endif %}>
+        <a href="{% url 'informar_indice' %}">Informar Índice</a>
       </li>
-      <li {% if section == "ocorrencias" %}class="selected"{% endif %}>
-          <a href="{% url "ocorrencias" %}">Ocorrências</a>
+      <li {% if section == 'Visualizar Índices' %}class="selected"{% endif %}>
+          <a href="{% url 'visualizar_indices' %}">Visualizar Índices</a>
       </li>
-      <li {% if section == "mapa" %}class="selected"{% endif %}>
-          <a href="{% url "mapa" %}">Mapa</a>
+      <li {% if section == "Processar" %}class="selected"{% endif %}>
+          <a href="{% url "processar" %}">Processar</a>
       </li>
       <li {% if section == "dashboard" %}class="selected"{% endif %}>
         <a href="{% url "dashboard" %}">Alterar Senha</a>
@@ -64,7 +64,7 @@
 
 </html>
 <footer>
-  <p align="right" color="#87CEEB">contato: monitorapragas@gmail.com</p>
+  <p align="right" color="#87CEEB"></p>
 
-  <p align="right">versão 1.4.02 202310231839</p>
+  <p</p>
 </footer>

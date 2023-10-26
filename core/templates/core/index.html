@@ -1,29 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Painel{% endblock %}
+{% block title %}Premio Eficiencia Operacional{% endblock %}
 
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
 <div class="row">
     <div class="card green">
-        <h>Total de relatos: </h>
-        <p>{{total}}</p>
+        <h>Média atual: </h>
+        <p>8,9</p>
     </div>
     <div class="card red">
-        <h>Hectares:</h>
-        <p>{{total_hectares}}</p>
+        <h>Média Anual</h>
+        <p>7,9</p>
     </div>
     <div class="card blue">
-        <h>Prejuizo R$: </h>
+        <h>Maior pontuação no Ano: </h>
         <p>{{total_prejuizo|floatformat:2}}</p>
     </div>
     <div class="card negativo">
-        <h>tipos de pragas:</h>
+        <h>Menor pontuação no Ano:</h>
         <p>{{tipo_praga}}</p>
     </div>
     <div class="card green">
-        <h>Culturas atacadas:</h>
+        <h>???:</h>
         <p>{{tipo_cultura}}</p>
     </div>
 </div>

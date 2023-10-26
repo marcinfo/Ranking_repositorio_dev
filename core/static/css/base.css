@@ -1,15 +1,16 @@
-@import url(//fonts.googleapis.com/css?family=Muli);
+@import url(//fonts.googleapis.com/css?family=Tahoma);
 
 //style.css
 body {
   background-color: #444442;
   padding-top: 30px;
+  margin: 10px;
 }
 form{
     autocomplete:off
 }
 h1 {
-  font-family: 'Poppins', sans-serif, 'arial'; //estilo de fonte
+  font-family: 'Tahoma'; //estilo de fonte
   font-weight: 600; //peso da fonte
   font-size: 48px; //tamanho da fonte
   color: white;
@@ -20,12 +21,12 @@ img {
   border-radius: 5px 5px 0 0;
 }
 td, th {
-  padding: .4em;
-  margin: 0;
-  border: 1px solid #ccc;*/
-  text-align: center;
-white-space: pre-wrap;
- word-wrap: break-word;
+    padding: .4em;
+    margin: 0;
+    border: 1px solid #ccc;*/
+    text-align: center;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 th{
@@ -40,20 +41,20 @@ table{
 
 
 table-layout: fixed;
-  text-align: center;
-  align: center;
-  border-spacing: 1px 1px;
-  bordercolor:	#5CACEE;
-white-space: pre-wrap;
-            border-spacing: 0px;
-            table-layout: fixed;
+    text-align: center;
+    align: center;
+    border-spacing: 1px 1px;
+    bordercolor:#5CACEE;
+    white-space: pre-wrap;
+    border-spacing: 0px;
+    table-layout: fixed;
 
 }
 
 body {
     margin:0;
     padding:0;
-    font-family:helvetica, sans-serif;
+    font-family:Tahoma;
 
 }
 
@@ -71,7 +72,7 @@ a:hover {
     color:#000080;
 }
 
-h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
+h1, h2, h3, h4, h5 , h6 { font-family: 'Tahoma', sans-serif; font-weight:normal; }
 
 h1 {
     border-bottom:1px solid #bbb;
@@ -88,18 +89,19 @@ ol {
 }
 
 #header {
-    padding:20px 100px;
-    font-size:16px;
-    background:#008080;
-    color:#ADD8E6;
-    border-bottom:4px solid #40E0D0;
+    padding:40px 100px;
+    font-size:14px;
+    background:	#104E8B;
+    color:#12CDFF;
+    border-bottom:4px solid #1E90FF;
     overflow:auto;
 }
 
 #header .logo {
-    font-family: 'Muli', sans-serif;
+    font-family: 'Tahoma';
+
     float:left;
-    color:#E0FFFF;
+    color:#12CDFF;
     font-size:20px;
     margin-right:5%;
 }
@@ -373,10 +375,12 @@ img.user-detail {
 .blue {
   border-left: 3px solid #FF7F50;
   color: #FF4500;
+    font-size: 14px;
 }
 
 .green {
   border-left: 3px solid #696969;
+   font-size: 14px;
 
 }
 .black {
@@ -386,6 +390,7 @@ img.user-detail {
 .red {
   border-left: 3px solid #DC143C;
   color: #B22222;
+  font-size: 14px;
 }
 .negativo {
   border-left: 3px solid #3CB371;
