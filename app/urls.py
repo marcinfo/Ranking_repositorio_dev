@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-admin.AdminSite.site_header = 'Monitor de Pragas'
+admin.AdminSite.site_header = 'Premio Eficiencia Operacional'
 admin.AdminSite.site_title = 'Painel do Administrador'
 admin.AdminSite.index_title ='Painel do Administrador'
 
