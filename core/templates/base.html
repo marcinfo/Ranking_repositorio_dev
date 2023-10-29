@@ -20,10 +20,10 @@
      </ul>
     {% if request.user.is_authenticated %}
     <ul class="menu">
-      <li {% if section == "Informar Índice" %}class='selected'{% endif %}>
-        <a href="{% url 'informar_indice' %}">Informar Índice</a>
+      <li {% if section == "Indicadores" %}class='selected'{% endif %}>
+        <a href="{% url 'Indicadores' %}">Indicadores</a>
       </li>
-      <li {% if section == 'Visualizar Índices' %}class="selected"{% endif %}>
+      <li {% if section == 'Contratos' %}class="selected"{% endif %}>
           <a href="{% url 'visualizar_indices' %}">Visualizar Índices</a>
       </li>
       <li {% if section == "Processar" %}class="selected"{% endif %}>

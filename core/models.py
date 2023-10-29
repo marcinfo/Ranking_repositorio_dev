@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.db import models
-
+from django.contrib.auth.models import User
+from django import forms
 escolhe_M_R=(
     ("M",'Metropolitana'),
-    ("I","Interior/litora"),
+    ("I","Interior/Litoral"),
 )
 hora_envio_email=(('0','00'),('1','01'))
 class Base(models.Model):
@@ -39,11 +40,15 @@ class tb_log_email(models.Model):
         verbose_name_plural = "Tabela log de emils"
 class tb_dados_contrato(Base):
     id = models.AutoField(primary_key=True)
-    r_m = models.CharField(max_length= 1,choices=escolhe_M_R,verbose_name="Diretoria:")
-    inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True)
-    cadastrado_por = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    r_m = models.CharField(verbose_name="Interior/Metropôlitana",max_length= 1,
+                           choices=escolhe_M_R,help_text='O contrato atende Interor ou Metropolitana?')
+    unidade = models.CharField(max_length= 10,verbose_name='Unidade:')
+    inserido = models.DateTimeField( auto_now_add=True)
+    cadastrado_por = models.CharField(max_length= 100, blank=False, null=False)
+    resp_cadastro= models.CharField(max_length= 100, blank=False, null=False)
     numemro_contrato = models.CharField(max_length= 10,verbose_name='Número do Contrato:', unique=True )
     nome_contratada =  models.CharField(max_length= 100, blank=False, null=False)
+    superintendente = models.CharField(max_length= 100, blank=False, null=False)
     administrador = models.CharField(max_length= 100, blank=False, null=False)
     data_inicio = models.DateField(blank=False, null=False)
     data_fim = models.DateField(blank=False, null=False)
@@ -52,6 +57,9 @@ class tb_dados_contrato(Base):
     class Meta:
         verbose_name = "Tabela Dados do Contrato"
         verbose_name_plural = "Tabela Dados dos Contratos"
+
+    def __str__(self):
+        return self.numemro_contrato,self.nome_contratada
 class tb_modalidade_interior(Base):
     id = models.AutoField(primary_key=True)
     mes_ano_referencia = models.CharField(max_length=20)
@@ -89,4 +97,18 @@ class tb_modalidade_metropolitana(Base):
     class Meta:
         verbose_name = "Tabela de Indice Contratos Metropolitana"
         verbose_name_plural = "Tabela de Indices Contratos Metropolitana"
+
+class unidades(Base):
+    id = models.AutoField(primary_key=True)
+    inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True)
+    inserido_por = models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='user_contrato')
+    num_unidade = models.IntegerField(unique=True)
+    sigla_unidade  = models.CharField(max_length= 10,unique=True, blank=False, null=False)
+    nome_unidade  = models.CharField(max_length= 100,unique=True, blank=False, null=False)
+    superintendente = models.CharField(max_length= 100, blank=False, null=False)
+    def __str__(self):
+        return self.sigla_unidade
+    class Meta:
+        verbose_name = "Tabela de Unidadn"
+        verbose_name_plural = "Tabela de Unidades"
 

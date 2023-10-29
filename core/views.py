@@ -2,7 +2,9 @@
 import pandas as pd
 import plotly.express as px
 import smtplib
-from datetime import datetime
+from datetime import datetime,date,timedelta
+from dateutil.relativedelta import relativedelta
+import locale
 from decouple import config
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import  render_to_string
@@ -17,11 +19,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Profile
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Dados_ContratoForm
+from .models import Profile,tb_dados_contrato
 from django.conf import settings
+locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 
+data=date.today() - relativedelta(months=1)
 
+def calcula_mes_referencia(data):
+
+    data_format=data.strftime("%B/%Y")
+
+    return data_format
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -94,18 +103,50 @@ def atulizar_localizacao():
     pass
 
 def index(request):
+    mes_ano_referencia = calcula_mes_referencia(data)
+    print(mes_ano_referencia)
+    context = {
+        'mes_ano_referencia':mes_ano_referencia,
+    }
+
+    return render(request, 'core/index.html',context)
 
 
-        return render(request, 'core/index.html')
+@login_required
+def cadastrar_contratoForm(request):
+
+    if request.method == "GET":
+        form=Dados_ContratoForm()
+        context={
+            'form': form
+        }
+        return render(request, 'core/cadastrar_contrato.html',context=context)
+    else:
+        form = Dados_ContratoForm(request.POST, request.FILES)
+        if form.is_valid():
+            cadastro = form.save(commit=False)
+            cadastro.cadastrado_por = request.user
+            cadastro = form.save()
+            messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
+
+            form = Dados_ContratoForm()
+
+        context = {
+            'form':form
+        }
+        atulizar_localizacao()
+        return render(request, 'core/cadastrar_contrato.html', context=context)
+
+
 
 
 
 
 @login_required
-def cadastrarForm(request):
+def Infoma_indiceForm(request):
 
 
-        return render(request, 'core/informar_indice.html')
+        return render(request, 'core/indicadores.html')
 
 @login_required
 def mostra_ocorrencia(request):

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile,tb_dados_contrato,unidades
 
 
 
@@ -36,3 +36,20 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('date_of_birth', 'photo')
+
+class Dados_ContratoForm(forms.ModelForm):
+    required_css_class = 'required'
+    unidade = forms.ModelChoiceField(
+        label = 'Unidade',
+        queryset=unidades.objects.all()
+    )
+    class Meta:
+        model = tb_dados_contrato
+        fields = ('r_m','unidade','numemro_contrato','nome_contratada','administrador','superintendente','data_inicio','data_fim',
+                  'staff_1','staff_2')
+    def __int__(self,unidade,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        unidades = unidade.objects.values_list('sigla_unidade')
+        self.fields['unidade'].queryset = unidades['sigla_unidade']
+        for field_name, field in self.fields.items():
+            field.attrs['class'] = 'form-control'
