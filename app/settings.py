@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-&1(zbj-f#3fb=_5+zlam(^ae^yyf)(7d5z-us2pb+19s=jj9oe
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://monitordepragasonline.onrender.com','*']
 
 
 # Application definition
@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stdimage',
-    'widget_tweaks',
     'crispy_forms',
     'crispy_bootstrap4',
     "django_extensions",

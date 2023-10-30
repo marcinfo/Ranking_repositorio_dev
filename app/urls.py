@@ -5,8 +5,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 admin.AdminSite.site_header = 'Premio Eficiencia Operacional'
-admin.AdminSite.site_title = 'Painel do Administrador'
-admin.AdminSite.index_title ='Painel do Administrador'
+admin.AdminSite.site_title = 'Painel do Admin do Sistema'
+admin.AdminSite.index_title ='Painel do Administrador do Sistema'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

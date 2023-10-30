@@ -1,10 +1,10 @@
 
 import pandas as pd
 import plotly.express as px
+import locale
 import smtplib
 from datetime import datetime,date,timedelta
 from dateutil.relativedelta import relativedelta
-import locale
 from decouple import config
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import  render_to_string
@@ -19,18 +19,21 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Dados_ContratoForm
-from .models import Profile,tb_dados_contrato
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Cadastrar_ContratoForm,\
+    informar_indicador_MForm
+from .models import Profile,tb_log_email,tb_referencia_contrato
 from django.conf import settings
+
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 
-data=date.today() - relativedelta(months=1)
 
-def calcula_mes_referencia(data):
+def gerar_mes_referencia():
 
-    data_format=data.strftime("%B/%Y")
-
-    return data_format
+    data=date.today() - relativedelta(months=1)
+    mes_ano_format=data.strftime("%B/%Y")
+    gera_referencia = tb_referencia_contrato.objects.create(mes_ano_referencia = mes_ano_format)
+    gera_referencia.save()
+    return mes_ano_format
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -103,61 +106,84 @@ def atulizar_localizacao():
     pass
 
 def index(request):
-    mes_ano_referencia = calcula_mes_referencia(data)
-    print(mes_ano_referencia)
-    context = {
-        'mes_ano_referencia':mes_ano_referencia,
-    }
+    gerar_mes_referencia()
 
-    return render(request, 'core/index.html',context)
+
+    return render(request, 'core/index.html')
+
 
 
 @login_required
-def cadastrar_contratoForm(request):
+def cadastrar_contrato(request):
 
     if request.method == "GET":
-        form=Dados_ContratoForm()
+        form=Cadastrar_ContratoForm()
         context={
             'form': form
         }
         return render(request, 'core/cadastrar_contrato.html',context=context)
     else:
-        form = Dados_ContratoForm(request.POST, request.FILES)
+        form = Cadastrar_ContratoForm(request.POST, request.FILES)
         if form.is_valid():
-            cadastro = form.save(commit=False)
-            cadastro.cadastrado_por = request.user
+            contrato = form.save(commit=False)
+            contrato.cadastrado_por = request.user
+            contrato.staff_1 = request.user
             cadastro = form.save()
-            messages.info(request, 'Ocorrência Cadastrada com Sucesso!')
-
-            form = Dados_ContratoForm()
-
+            messages.success(request, 'Contrato Cadastrado com Sucesso! Para cadastrar outro continue.')
+            form = Cadastrar_ContratoForm()
         context = {
             'form':form
         }
-        atulizar_localizacao()
-        return render(request, 'core/cadastrar_contrato.html', context=context)
+        return render(request, 'core/cadastrar_contrato.html',context=context)
+@login_required
+def indicadores_M(request):
+    mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='').first()
+    messages.info(request, f'********** ATENÇÃO! Referência {mes_ano_ref}, '
+                           f'para Indicadores não utilizados no contrato preencher com 0 (zero) ********')
+    if request.method == "GET":
+        form=informar_indicador_MForm()
+        context={
+            'form': form
+        }
+        return render(request, 'core/indicadores_M.html',context=context)
+    else:
+        form = informar_indicador_MForm(request.POST, request.FILES)
+        if form.is_valid():
+            indicadorM = form.save(commit=False)
+            indicadorM.inserido_por = request.user
+            indicadorM.mes_ano_referencia = mes_ano_ref
+            print(mes_ano_ref)
+            indicadorM = form.save()
+            messages.success(request, 'Indicador Metropolitana Cadastrado com Sucesso! Para cadastrar outro continue.')
+            form = informar_indicador_MForm()
+            print(mes_ano_ref)
+        context = {
+            'mes_ano_referencia': mes_ano_ref,
+            'form':form
+        }
+        return render(request, 'core/indicadores_M.html',context=context)
 
 
+def indicadores_R(request):
 
 
-
+    return render(request, 'core/indicadores_R.html')
 
 @login_required
-def Infoma_indiceForm(request):
+def informar_indice(request):
 
-
-        return render(request, 'core/indicadores.html')
+        return render(request, 'core/indicadores_M.html')
 
 @login_required
-def mostra_ocorrencia(request):
-
-        return render(request, 'core/processar.html')
+def processar(request):
+    gerar_mes_referencia()
+    return render(request, 'core/processar.html')
 
 
 @login_required
 def mostra_tabela(request):
 
-        return render(request, 'core/visualizar_indices.html')
+    pass
 @login_required
 def visualizar_imagem(request,pk):
 

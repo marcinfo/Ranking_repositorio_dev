@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
-{% block title %}Castrar Contratos{% endblock %}
+{% block title %}Premio Eficiencia Operacional{% endblock %}
 {% block content %}
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <body>
-<h1>Cadastrar contrato</h1>
+<h2>Informar indicadores M.</h2>
+<h4>{{ mes_ano_ref }}</h4>
 <form method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
       <div >
