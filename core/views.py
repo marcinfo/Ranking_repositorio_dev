@@ -106,8 +106,7 @@ def atulizar_localizacao():
     pass
 
 def index(request):
-    gerar_mes_referencia()
-
+    #gerar_mes_referencia()
 
     return render(request, 'core/index.html')
 
