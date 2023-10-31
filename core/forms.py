@@ -57,7 +57,8 @@ class informar_indicador_MForm(forms.ModelForm):
     required_css_class = 'required'
     contrato = forms.ModelChoiceField(
         label = 'Contrato',
-        queryset=tb_dados_contrato.objects.filter(ativo = True,r_m='M')
+        queryset=tb_dados_contrato.objects.all().
+        filter(numemro_contrato__in =tb_referencia_contrato.objects.values_list('contrato').filter(status='ABERTO'))
         )
     class Meta:
         model = tb_modalidade_metropolitana
@@ -65,7 +66,7 @@ class informar_indicador_MForm(forms.ModelForm):
                   'idr','entrega_cadastro','seg_capacitacao','justificativa')
     def __int__(self,contrato,*args, **kwargs):
         super().__init__(*args, **kwargs)
-        contratos = tb_dados_contrato.objects.values_list('sigla_unidade')
-        self.fields['contrato'].queryset = contratos['sigla_unidade']
+        contratos = tb_referencia_contrato.objects.values_list('contratos')
+        self.fields['contrato'].queryset = contratos[0]
         for field_name, field in self.fields.items():
             field.attrs['class'] = 'form-control'

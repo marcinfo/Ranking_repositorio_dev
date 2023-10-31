@@ -20,20 +20,38 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Cadastrar_ContratoForm,\
-    informar_indicador_MForm
+    informar_indicador_MForm,tb_dados_contrato
 from .models import Profile,tb_log_email,tb_referencia_contrato
 from django.conf import settings
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 
 
-def gerar_mes_referencia():
 
-    data=date.today() - relativedelta(months=1)
-    mes_ano_format=data.strftime("%B/%Y")
-    gera_referencia = tb_referencia_contrato.objects.create(mes_ano_referencia = mes_ano_format)
-    gera_referencia.save()
-    return mes_ano_format
+def gerar_mes_referencia():
+    lista_contratos = tb_dados_contrato.objects.\
+        values_list('numemro_contrato','administrador','unidade', 'superintendente','staff_1','staff_1').\
+        filter(ativo = True)
+    if lista_contratos.count != 0:
+        data=date.today() - relativedelta(months=1)
+        mes_ano_format=data.strftime("%B/%Y")
+
+        for cont in lista_contratos:
+            ref=mes_ano_format
+            num_contra=cont[0]
+            staff_1=cont[1]
+            staff_2=cont[2]
+            print(staff_1)
+            verificar_referencia = tb_referencia_contrato.objects.all().\
+                filter(mes_ano_referencia=ref,contrato=num_contra)
+            if verificar_referencia.count() == 0:
+                salva_ref = tb_referencia_contrato.objects.\
+                    create(mes_ano_referencia=ref,contrato=num_contra,status='ABERTO',staf_1=staff_1,staf_2=staff_2)
+                salva_ref.save()
+            else:
+                print('ja existe')
+    else:
+        print('Nenhum contrato cadastrado')
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -106,7 +124,7 @@ def atulizar_localizacao():
     pass
 
 def index(request):
-    #gerar_mes_referencia()
+    gerar_mes_referencia()
 
     return render(request, 'core/index.html')
 
@@ -151,13 +169,13 @@ def indicadores_M(request):
             indicadorM = form.save(commit=False)
             indicadorM.inserido_por = request.user
             indicadorM.mes_ano_referencia = mes_ano_ref
-            print(mes_ano_ref)
+
             indicadorM = form.save()
             messages.success(request, 'Indicador Metropolitana Cadastrado com Sucesso! Para cadastrar outro continue.')
             form = informar_indicador_MForm()
-            print(mes_ano_ref)
+            print(indicadorM.contrato)
         context = {
-            'mes_ano_referencia': mes_ano_ref,
+
             'form':form
         }
         return render(request, 'core/indicadores_M.html',context=context)

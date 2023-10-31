@@ -43,6 +43,7 @@ class tb_dados_contrato(Base):
     r_m = models.CharField(max_length= 1,choices=escolhe_M_R,verbose_name="Diretoria:")
     inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True)
     cadastrado_por = models.CharField(max_length= 100, blank=False, null=False)
+    unidade = models.CharField(max_length= 100, blank=True, null=True)
     numemro_contrato = models.CharField(max_length= 10,verbose_name='Número do Contrato:', unique=True )
     nome_contratada =  models.CharField(max_length= 100, blank=False, null=False)
     administrador = models.CharField(max_length= 100, blank=False, null=False)
@@ -138,8 +139,10 @@ class tb_referencia_contrato(Base):
     contrato = models.CharField(max_length=20, blank=True, null=False)
     status = models.CharField(max_length=20, blank=True, null=False)
     data_hora_preenchimento = models.CharField(max_length=20, blank=True, null=False)
-
-
+    staf_1 = models.CharField(max_length=20, blank=True, null=False)
+    staf_2 = models.CharField(max_length=20, blank=True, null=False)
+    data_inicio = models.DateField(blank=True, null=True)
+    data_fim = models.DateField(blank=True, null=True)
     def __str__(self):
         return self.mes_ano_referencia
     class Meta:

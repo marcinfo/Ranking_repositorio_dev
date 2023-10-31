@@ -34,4 +34,5 @@ class tb_unidadesAdmin(admin.ModelAdmin):
 
 @admin.register(tb_referencia_contrato)
 class tb_referencia_contratoAdmin(admin.ModelAdmin):
-    list_display = ['id','mes_ano_referencia','resp_preenchimento','contrato','data_hora_preenchimento']
+    list_display = ['id','status','mes_ano_referencia','resp_preenchimento','contrato','data_hora_preenchimento',
+                    'staf_1','staf_2']
