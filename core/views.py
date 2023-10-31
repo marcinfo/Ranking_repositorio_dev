@@ -154,9 +154,11 @@ def cadastrar_contrato(request):
         return render(request, 'core/cadastrar_contrato.html',context=context)
 @login_required
 def indicadores_M(request):
-    mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='').first()
-    messages.info(request, f'********** ATENÇÃO! Referência {mes_ano_ref}, '
-                           f'para Indicadores não utilizados no contrato preencher com 0 (zero) ********')
+    mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
+    messages.info(request, f'ATENÇÃO! Referência {mes_ano_ref}, '
+                           f'para Indicadores não utilizados no contrato preencher com 0 (zero). '
+                           f'Revise as informações antes de CLICAR/ENTER no botão SALVAR. Após SALVAR NÃO será possivel'
+                           f' corrigir.')
     if request.method == "GET":
         form=informar_indicador_MForm()
         context={
