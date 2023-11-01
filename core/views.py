@@ -33,6 +33,7 @@ def verifica_validade_contrato():
             tb_dados_contrato.objects.update(ativo = 'False')
             print(valida_contrato)
 def gerar_mes_referencia():
+    verifica_validade_contrato()
     data=date.today() - relativedelta(months=1)
     mes_ano_format=data.strftime("%B/%Y")
     lista_contratos = tb_dados_contrato.objects.\
