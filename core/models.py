@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django import forms
 escolhe_M_R=(
 
     ("I","Interior"),("L",'Litoral'),("M",'Metropolitana'),
@@ -48,11 +48,11 @@ class tb_dados_contrato(Base):
     nome_contratada =  models.CharField(max_length= 100, blank=False, null=False)
     administrador = models.CharField(max_length= 100, blank=False, null=False)
     superintendente = models.CharField(max_length= 100, blank=False, null=False)
-    data_inicio = models.DateField(blank=False, null=False)
+    data_inicio = models.DateField(blank=False, null=False,)
     data_fim = models.DateField(blank=False, null=False)
 
     staff_1 = models.CharField(max_length= 100, blank=False, null=False)
-    staff_2 = models.CharField(max_length= 100, blank=False, null=False)
+    staff_2 = models.CharField(max_length= 100, blank=False, null=False,)
     def __str__(self):
         return self.numemro_contrato
     class Meta:

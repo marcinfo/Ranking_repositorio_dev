@@ -44,12 +44,21 @@ class Cadastrar_ContratoForm(forms.ModelForm):
         model = tb_dados_contrato
         fields = ('r_m','unidade','numemro_contrato','nome_contratada','administrador','superintendente','data_inicio','data_fim',
                   'staff_2')
-    def __int__(self,unidade,*args, **kwargs):
+        widgets = {
+            'data_inicio': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
+            'data_fim': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
+    }
+
+    def __int__(self,unidade,data_inicio,*args, **kwargs):
         super().__init__(*args, **kwargs)
+
         unidades = tb_unidades.objects.values_list('sigla_unidade')
         self.fields['unidade'].queryset = unidades['sigla_unidade']
+
         for field_name, field in self.fields.items():
             field.attrs['class'] = 'form-control'
+
+
 
 class informar_indicador_MForm(forms.ModelForm):
 
