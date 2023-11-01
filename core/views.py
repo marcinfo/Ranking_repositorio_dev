@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -25,28 +25,36 @@ from .models import Profile,tb_log_email,tb_referencia_contrato
 from django.conf import settings
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
-
-
-
+def verifica_validade_contrato():
+        valida_contrato = tb_dados_contrato.objects.\
+        values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
+        filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
+        for valida in valida_contrato:
+            tb_dados_contrato.objects.update(ativo = 'False')
+            print(valida_contrato)
 def gerar_mes_referencia():
+    data=date.today() - relativedelta(months=1)
+    mes_ano_format=data.strftime("%B/%Y")
     lista_contratos = tb_dados_contrato.objects.\
         values_list('numemro_contrato','administrador','unidade', 'superintendente','staff_1','staff_1').\
-        filter(ativo = True)
+        filter(Q(Q(ativo = True) & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
     if lista_contratos.count != 0:
-        data=date.today() - relativedelta(months=1)
-        mes_ano_format=data.strftime("%B/%Y")
 
         for cont in lista_contratos:
             ref=mes_ano_format
             num_contra=cont[0]
-            staff_1=cont[1]
-            staff_2=cont[2]
+            admin=cont[1]
+            unidade=cont[2]
+            superintendente=cont[3]
+            staff_1=cont[4]
+            staff_2=cont[5]
             print(staff_1)
             verificar_referencia = tb_referencia_contrato.objects.all().\
                 filter(mes_ano_referencia=ref,contrato=num_contra)
             if verificar_referencia.count() == 0:
                 salva_ref = tb_referencia_contrato.objects.\
-                    create(mes_ano_referencia=ref,contrato=num_contra,status='ABERTO',staf_1=staff_1,staf_2=staff_2)
+                    create(mes_ano_referencia=ref,contrato=num_contra,administrador=admin,status='ABERTO',
+                           superintendente=superintendente,unidade = unidade, staf_1=staff_1,staf_2=staff_2)
                 salva_ref.save()
             else:
                 print('ja existe')
@@ -124,7 +132,8 @@ def atulizar_localizacao():
     pass
 
 def index(request):
-    gerar_mes_referencia()
+    #gerar_mes_referencia()
+    verifica_validade_contrato()
 
     return render(request, 'core/index.html')
 

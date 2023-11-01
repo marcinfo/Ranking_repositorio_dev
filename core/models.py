@@ -50,6 +50,7 @@ class tb_dados_contrato(Base):
     superintendente = models.CharField(max_length= 100, blank=False, null=False)
     data_inicio = models.DateField(blank=False, null=False)
     data_fim = models.DateField(blank=False, null=False)
+
     staff_1 = models.CharField(max_length= 100, blank=False, null=False)
     staff_2 = models.CharField(max_length= 100, blank=False, null=False)
     def __str__(self):
@@ -113,7 +114,7 @@ class tb_modalidade_metropolitana(Base):
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     seg_capacitacao = models.DecimalField(verbose_name='SEGURANÇA E CAPACITAÇÃO',max_digits=5,decimal_places=2,
                            blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    justificativa = models.TextField(max_length=500, verbose_name='Justifique os indicadores informados.',blank=False)
+    justificativa = models.TextField(max_length=500, verbose_name='Justifique os indicadores informados.',blank=True)
     class Meta:
         verbose_name = "Tabela de Indicador Contrato Metropolitana"
         verbose_name_plural = "Tabela de Indicadores Contratos Metropolitana"
@@ -135,8 +136,11 @@ class tb_unidades(Base):
 class tb_referencia_contrato(Base):
     id = models.AutoField(primary_key=True)
     resp_preenchimento = models.CharField(max_length= 100, blank=True, null=False)
-    mes_ano_referencia = models.CharField(max_length=20, blank=True, null=False)
+    mes_ano_referencia = models.CharField(max_length=100, blank=True, null=False)
+    unidade = models.CharField(max_length=20, blank=True, null=True)
     contrato = models.CharField(max_length=20, blank=True, null=False)
+    administrador = models.CharField(max_length= 100, blank=True, null=True)
+    superintendente = models.CharField(max_length= 100, blank=True, null=True)
     status = models.CharField(max_length=20, blank=True, null=False)
     data_hora_preenchimento = models.CharField(max_length=20, blank=True, null=False)
     staf_1 = models.CharField(max_length=20, blank=True, null=False)
