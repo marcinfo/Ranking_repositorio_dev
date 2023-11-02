@@ -44,8 +44,7 @@ class tb_dados_contrato(Base):
     inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True)
     cadastrado_por = models.CharField(max_length= 100, blank=False, null=False)
     unidade = models.CharField(max_length= 100, blank=True, null=True)
-    numemro_contrato = models.IntegerField(validators=[MinValueValidator(4600000000),
-                                                    MaxValueValidator(4700000000)],verbose_name='Número do Contrato:', unique=True )
+    numemro_contrato = models.CharField(max_length= 10, blank=False, null=False, unique=True)
     nome_contratada =  models.CharField(max_length= 100, blank=False, null=False)
     administrador = models.CharField(max_length= 100, blank=False, null=False)
     superintendente = models.CharField(max_length= 100, blank=False, null=False)

@@ -133,8 +133,9 @@ def atulizar_localizacao():
     pass
 
 def index(request):
-    #gerar_mes_referencia()
     verifica_validade_contrato()
+    gerar_mes_referencia()
+
 
     return render(request, 'core/index.html')
 
