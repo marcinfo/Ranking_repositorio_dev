@@ -14,7 +14,7 @@ urlpatterns = [
     path('indicadores_M/', views.indicadores_M, name='indicadores_M'),
     path('indicadores_R/', views.indicadores_R, name='indicadores_R'),
     path('cadastrar_contrato/', views.cadastrar_contrato, name='cadastrar_contrato'),
-    path('visualizar_indices/', views.mostra_tabela, name='visualizar_indices'),
-    path('visualizar_imagem/<int:pk>', views.visualizar_imagem, name='visualizar_imagem'),
+    path('menu_indices/', views.menu_indices, name='menu_indices'),
+    path('menu_contratos/', views.menu_contratos, name='menu_contratos'),
     path('enviar_email_backend/', views.enviar_email_backend, name='enviar_email_backend'),
 ]

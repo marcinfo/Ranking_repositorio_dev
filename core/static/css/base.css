@@ -90,7 +90,7 @@ ol {
 
 #header {
     padding:40px 100px;
-    font-size:14px;
+    font-size:16px;
     background:	#104E8B;
     color:#12CDFF;
     border-bottom:4px solid #1E90FF;
@@ -168,7 +168,7 @@ input, textarea {
 }
 input[type=submit], a.button {
     font-weight:bold;
-    background:#008080;
+    background:#4169E1;
     color:#fff;
     padding:10px 20px;
     font-size:14px;
@@ -395,4 +395,43 @@ img.user-detail {
 .negativo {
   border-left: 3px solid #3CB371;
   color: #006400;
+}
+button{
+
+    width:220px;
+    height:40px;
+    background:	#104E8B;
+    color:#fff;
+    margin-right:auto:
+    margin-left:auto:
+    border:none;
+    border-color:#fff;;
+    border-radius:0;
+    font-family:Tahoma;
+    font-size:16;
+    cursor:pointer;
+    margin-button:40px;
+    box-shadow:4px,4px,0px,#000080;
+    transition: transform 200ms ease-in-out;
+}
+button:hover{
+    transform:scale(1.05);
+}
+button{
+
+    width:220px;
+    height:40px;
+    background:	#104E8B;
+    color:#fff;
+    margin-right:auto:
+    margin-left:auto:
+    border:none;
+    border-color:#fff;;
+    border-radius:0;
+    font-family:Tahoma;
+    font-size:16;
+    cursor:pointer;
+    margin-button:40px;
+    box-shadow:4px,4px,0px,#000080;
+    transition: transform 80ms ease-in-out;
 }

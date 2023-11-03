@@ -5,14 +5,10 @@
 {% block content %}
 {% load static %}
 
-<!-- Page Content -->
+    <body>
+    <div align="center">
+        <a href='{% url 'processar' %}'><button>Processar Indicadores</button></a><br>
 
-<p id="demo"></p>
-<h5 align="center">  <button>Iniciar Processamento</button></h5>
-
-<div align="center" >
-    {{ m|safe }}
-</div>
+    </div>
 </body>
-</html>
 {% endblock  %}

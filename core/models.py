@@ -73,9 +73,9 @@ class tb_modalidade_interior(Base):
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     quantidade_colaboradores = models.IntegerField(verbose_name='Quantidade de colaboradores',
                                                    help_text='quantidade de colaboradores no contrato',
-                                                   null=False,blank=False,default=0)
+                                                   null=False,blank=False)
     quantidade_acidentes = models.IntegerField(help_text='Quantidade de acidentes',verbose_name='Quantidade de acidentes',
-                                               null=False,blank=False,default=0)
+                                               null=False,blank=False)
     acidente_trabalho = models.DecimalField(null=False,blank=False,max_digits=5,decimal_places=2,help_text='indicador de acidentes')
     justificativa = models.TextField(max_length=500,blank=True)
     class Meta:
@@ -99,6 +99,11 @@ class tb_modalidade_metropolitana(Base):
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     idr = models.DecimalField(help_text='INDICE DE DESEMPENHO REPOSIÇÃO (IDR)',max_digits=5,decimal_places=2,
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+    total_redes = models.DecimalField(help_text='Total de Redes executadas.',decimal_places=2,max_digits=7,
+                               blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+    total_cadastro_entregue = models.DecimalField(help_text='Total de CADASTRO entregue.',decimal_places=2,max_digits=7,
+                               blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+
     entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=5,decimal_places=2,
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
 

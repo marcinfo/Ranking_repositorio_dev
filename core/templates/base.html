@@ -12,7 +12,7 @@
 </head>
 <body autocomplete="off">
   <div id="header">
-    <span class="logo" >Eficiencia Operacional - ODG</span>
+    <span class="logo" >ODG-Eficiencia Operacional</span>
     {% if request.user.is_authenticated %}
      <ul class="menu">
        <li {% if section == 'index' %}class="selected"{% endif %}>
@@ -21,18 +21,16 @@
      </ul>
 
     <ul class="menu">
-      <li {% if section == "Indicadores M" %}class='selected'{% endif %}>
-        <a href="{% url 'indicadores_M' %}">Indicadores M</a>
+      <li {% if section == "Indicadores" %}class='selected'{% endif %}>
+        <a href="{% url 'menu_indices' %}">Indicadores</a>
       </li>
-      <li {% if section == 'Indicadores R' %}class="selected"{% endif %}>
-          <a href="{% url 'indicadores_R' %}">Indicadores R</a>
+      <li {% if section == 'contratos' %}class="selected"{% endif %}>
+          <a href="{% url 'menu_contratos' %}">Contratos</a>
       </li>
       <li {% if section == "Processar" %}class="selected"{% endif %}>
           <a href="{% url "processar" %}">Processar</a>
       </li>
-      <li {% if section == "dashboard" %}class="selected"{% endif %}>
-        <a href="{% url "dashboard" %}">Alterar Senha</a>
-      </li>
+
     </ul>
   {% endif %}
   <span class="user">
@@ -59,6 +57,7 @@
   <div id="content">
     {% block content %}
     {% endblock %}
+
   </div>
 </body>
 
@@ -67,5 +66,5 @@
 <footer>
   <p align="right" color="#87CEEB"></p>
 
-  <p</p>
+  <p></p>
 </footer>

@@ -179,13 +179,12 @@ def indicadores_M(request):
             indicadorM = form.save(commit=False)
             indicadorM.inserido_por = request.user
             indicadorM.mes_ano_referencia = mes_ano_ref
-
+            indicadorM.entrega_cadastro = (indicadorM.total_cadastro_entregue/indicadorM.total_redes)*100
 
             contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
                 filter((Q(Q(numemro_contrato=indicadorM.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
             contrato_autorizado=str(contrato_autorizado)
-            print(contrato_autorizado)
-            print(indicadorM.contrato)
+
             if indicadorM.contrato in contrato_autorizado :
                 indicadorM = form.save()
                 messages.success(request, f'Indicador do Contrato {indicadorM.contrato} foi cadastrado com Sucesso!')
@@ -226,7 +225,7 @@ def indicadores_R(request):
             indicadorR = form.save(commit=False)
             indicadorR.inserido_por = request.user
             indicadorR.mes_ano_referencia = mes_ano_ref
-            indicadorR.acidente_trabalho = (indicadorR.quantidade_acidentes/indicadorR.quantidade_colaboradores)/100
+            indicadorR.acidente_trabalho = (indicadorR.quantidade_acidentes/indicadorR.quantidade_colaboradores)*100
             contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
                 filter((Q(Q(numemro_contrato=indicadorR.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
             contrato_autorizado=str(contrato_autorizado)
@@ -268,13 +267,13 @@ def processar(request):
 
 
 @login_required
-def mostra_tabela(request):
+def menu_indices(request):
 
-    pass
+    return render(request, 'core/menu_indices.html')
 @login_required
-def visualizar_imagem(request,pk):
+def menu_contratos(request):
 
-    return render(request, 'core/visualizar_imagem.html')
+    return render(request, 'core/menu_contratos.html')
 
 def erro_400(request,exception):
     return render(request, 'core/erro_404.html')

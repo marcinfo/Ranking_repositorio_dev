@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}ODG{% endblock %}
+
+{% block content %}
+<body>
+    <div align="center">
+        <a href='{% url 'indicadores_M' %}'><button>Indicador M</button></a><br>
+        <a href='{% url 'indicadores_R' %}'><button>Indicador R</button></a>
+    </div>
+</body>
+{% endblock %}
