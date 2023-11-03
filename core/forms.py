@@ -1,7 +1,7 @@
+import requests
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile,tb_unidades,tb_dados_contrato,tb_modalidade_metropolitana,tb_referencia_contrato
-
 
 
 class LoginForm(forms.Form):
@@ -51,23 +51,18 @@ class Cadastrar_ContratoForm(forms.ModelForm):
 
     def __int__(self,unidade,data_inicio,*args, **kwargs):
         super().__init__(*args, **kwargs)
-
         unidades = tb_unidades.objects.values_list('sigla_unidade')
         self.fields['unidade'].queryset = unidades['sigla_unidade']
-
         for field_name, field in self.fields.items():
             field.attrs['class'] = 'form-control'
 
-
-
 class informar_indicador_MForm(forms.ModelForm):
 
-
-    required_css_class = 'required'
     contrato = forms.ModelChoiceField(
         label = 'Contrato',
-        queryset=tb_dados_contrato.objects.all().
-        filter(numemro_contrato__in =tb_referencia_contrato.objects.values_list('contrato').filter(status='ABERTO'))
+        queryset=tb_dados_contrato.objects.
+        filter(r_m='M',numemro_contrato__in =tb_referencia_contrato.objects.values_list('contrato').
+               filter(status='ABERTO'))
         )
     class Meta:
         model = tb_modalidade_metropolitana
@@ -75,7 +70,8 @@ class informar_indicador_MForm(forms.ModelForm):
                   'idr','entrega_cadastro','seg_capacitacao','justificativa')
     def __int__(self,contrato,*args, **kwargs):
         super().__init__(*args, **kwargs)
-        contratos = tb_referencia_contrato.objects.values_list('contratos')
-        self.fields['contrato'].queryset = contratos[0]
+        usuario = kwargs['initial']['usuario']
+        contratos = tb_referencia_contrato.objects.values_list('contratos').filter(staf_1=usuario)
+        self.fields['contrato'].queryset = contrato[0]
         for field_name, field in self.fields.items():
             field.attrs['class'] = 'form-control'

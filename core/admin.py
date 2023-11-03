@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile,tb_dados_contrato,tb_modalidade_interior,tb_modalidade_metropolitana,\
-    tb_log_email,tb_unidades,tb_modalidade_litoral,tb_referencia_contrato
+    tb_log_email,tb_unidades,tb_referencia_contrato
 
 
 @admin.register(Profile)
@@ -16,10 +16,6 @@ class tb_modalidade_interiorAdmin(admin.ModelAdmin):
     list_display = ['id','mes_ano_referencia','contrato','idg_interior','servicos_arsesp','entrega_cadastro',
                     'acidente_trabalho']
 
-@admin.register(tb_modalidade_litoral)
-class tb_modalidade_litoralAdmin(admin.ModelAdmin):
-    list_display = ['id','mes_ano_referencia','contrato','idg_interior','servicos_arsesp','entrega_cadastro',
-                    'acidente_trabalho']
 @admin.register(tb_dados_contrato)
 class tb_dados_contratoAdmin(admin.ModelAdmin):
     list_display = ['id','r_m','inserido','cadastrado_por','numemro_contrato',

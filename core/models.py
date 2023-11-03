@@ -1,10 +1,11 @@
+
 from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django import forms
 escolhe_M_R=(
 
-    ("I","Interior"),("L",'Litoral'),("M",'Metropolitana'),
+    ("I","Interior"),("M",'Metropolitana'),
 )
 hora_envio_email=(('0','00'),('1','01'))
 class Base(models.Model):
@@ -77,23 +78,7 @@ class tb_modalidade_interior(Base):
         verbose_name = "Tabela de Indicador Contrato Interior"
         verbose_name_plural = "Tabela de Indicadores Contratos Interior"
 
-class tb_modalidade_litoral(Base):
-    id = models.AutoField(primary_key=True)
-    mes_ano_referencia = models.CharField(max_length=20)
-    inserido_por = models.CharField(max_length= 100, blank=False, null=False)
-    contrato = models.CharField(max_length=20)
-    idg_interior = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL (IDG)',max_digits=4,decimal_places=2,
-                                       blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    servicos_arsesp = models.DecimalField(help_text='SERVIÇOS ATENDIDOS NO PRAZO ARSESP',max_digits=4,decimal_places=2,
-                                   blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=4,decimal_places=2,
-                                   blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    acidente_trabalho = models.IntegerField(help_text='ACIDENTE DE TRABALHO (Quantidade)',blank=False,null=False,
-                                            validators=[MinValueValidator(0),MaxValueValidator(100)])
-    justificativa = models.TextField(max_length=500, help_text='Justifique os indicadores informados.',blank=False)
-    class Meta:
-        verbose_name = "Tabela de Indicador Contrato Litoral"
-        verbose_name_plural = "Tabela de Indicadores Contratos Litoral"
+
 
 class tb_modalidade_metropolitana(Base):
     id = models.AutoField(primary_key=True)
