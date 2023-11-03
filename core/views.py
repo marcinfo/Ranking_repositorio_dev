@@ -20,7 +20,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Cadastrar_ContratoForm,\
-    informar_indicador_MForm
+    informar_indicador_MForm,informar_indicador_RForm
 from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrato,tb_modalidade_metropolitana,\
     tb_modalidade_interior
 from django.conf import settings
@@ -133,13 +133,9 @@ def atulizar_localizacao():
     pass
 
 def index(request):
-    contrato_autorizado = tb_referencia_contrato.objects.values_list('contrato','staf_1','staf_2').filter()
 
-    print(contrato_autorizado)
-    usuario_log=str
-    print(request.user)
     #verifica_validade_contrato()
-    #gerar_mes_referencia()
+    gerar_mes_referencia()
     return render(request, 'core/index.html')
 @login_required
 def cadastrar_contrato(request):
@@ -183,6 +179,8 @@ def indicadores_M(request):
             indicadorM = form.save(commit=False)
             indicadorM.inserido_por = request.user
             indicadorM.mes_ano_referencia = mes_ano_ref
+
+
             contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
                 filter((Q(Q(numemro_contrato=indicadorM.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
             contrato_autorizado=str(contrato_autorizado)
@@ -190,10 +188,11 @@ def indicadores_M(request):
             print(indicadorM.contrato)
             if indicadorM.contrato in contrato_autorizado :
                 indicadorM = form.save()
-                messages.success(request, 'Indicador Metropolitana Cadastrado com Sucesso! Para cadastrar outro continue.')
+                messages.success(request, f'Indicador do Contrato {indicadorM.contrato} foi cadastrado com Sucesso!')
                 form = informar_indicador_MForm()
                 tb_referencia_contrato.objects.filter(Q(Q(contrato=indicadorM.contrato) &
-                                        Q(mes_ano_referencia=indicadorM.mes_ano_referencia))).update(status='INFORMADO')
+                                        Q(mes_ano_referencia=indicadorM.mes_ano_referencia))).\
+                    update(status='INFORMADO')
 
                 print(indicadorM.contrato)
             else:
@@ -210,9 +209,52 @@ def indicadores_M(request):
         }
         return render(request, 'core/indicadores_M.html',context=context)
 def indicadores_R(request):
+    mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
+    messages.warning(request, f'ATENÇÃO! Referência {mes_ano_ref}, '
+                           f'para Indicadores não utilizados no contrato preencher com 0 (zero). '
+                           f'Revise as informações antes de CLICAR/ENTER no botão SALVAR. Após SALVAR NÃO será possivel'
+                           f' corrigir.')
+    if request.method == "GET":
+        form=informar_indicador_RForm()
+        context={
+            'form': form
+        }
+        return render(request, 'core/indicadores_R.html',context=context)
+    else:
+        form = informar_indicador_RForm(request.POST, request.FILES)
+        if form.is_valid():
+            indicadorR = form.save(commit=False)
+            indicadorR.inserido_por = request.user
+            indicadorR.mes_ano_referencia = mes_ano_ref
+            indicadorR.acidente_trabalho = (indicadorR.quantidade_acidentes/indicadorR.quantidade_colaboradores)/100
+            contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
+                filter((Q(Q(numemro_contrato=indicadorR.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
+            contrato_autorizado=str(contrato_autorizado)
+            print(contrato_autorizado)
+            print(indicadorR.contrato)
+            if indicadorR.contrato in contrato_autorizado :
+                indicadorR = form.save()
+                messages.success(request, f'Indicador do Contrato {indicadorR.contrato} '
+                                          f'foi cadastrado com Sucesso!')
+                form = informar_indicador_RForm()
+                tb_referencia_contrato.objects.filter(Q(Q(contrato=indicadorR.contrato) &
+                                        Q(mes_ano_referencia=indicadorR.mes_ano_referencia))).\
+                    update(status='INFORMADO')
 
+                print(indicadorR.contrato)
+            else:
+                pass
+                messages.error(request,f'Você não tem permissão para informar indicadores '
+                                       f'para o contrato {indicadorR.contrato}! Verifique o número do CONTRATO ou'
+                                       f' revise o CADASTRO. ')
+        else:
+            pass
+            messages.warning(request,'Não Autorizado')
+        context = {
 
-    return render(request, 'core/indicadores_R.html')
+            'form':form
+        }
+        return render(request, 'core/indicadores_R.html',context=context)
 
 @login_required
 def informar_indice(request):

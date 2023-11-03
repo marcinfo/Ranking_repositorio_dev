@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django import forms
 escolhe_M_R=(
 
-    ("I","Interior"),("M",'Metropolitana'),
+    ("R","Interior"),("M",'Metropolitana'),
 )
 hora_envio_email=(('0','00'),('1','01'))
 class Base(models.Model):
@@ -65,15 +65,19 @@ class tb_modalidade_interior(Base):
     mes_ano_referencia = models.CharField(max_length=20)
     inserido_por = models.CharField(max_length= 100, blank=False, null=False)
     contrato = models.CharField(max_length=20)
-    idg_interior = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL (IDG)',max_digits=4,decimal_places=2,
+    idg_interior = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL (IDG)',max_digits=5,decimal_places=2,
                                        blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    servicos_arsesp = models.DecimalField(help_text='SERVIÇOS ATENDIDOS NO PRAZO ARSESP',max_digits=4,decimal_places=2,
+    servicos_arsesp = models.DecimalField(help_text='SERVIÇOS ATENDIDOS NO PRAZO ARSESP',max_digits=5,decimal_places=2,
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=4,decimal_places=2,
+    entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=5,decimal_places=2,
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    acidente_trabalho = models.IntegerField(help_text='ACIDENTE DE TRABALHO (Quantidade)',blank=False,null=False,
-                                            validators=[MinValueValidator(0),MaxValueValidator(100)])
-    justificativa = models.TextField(max_length=500, help_text='Justifique os indicadores informados.',blank=False)
+    quantidade_colaboradores = models.IntegerField(verbose_name='Quantidade de colaboradores',
+                                                   help_text='quantidade de colaboradores no contrato',
+                                                   null=False,blank=False,default=0)
+    quantidade_acidentes = models.IntegerField(help_text='Quantidade de acidentes',verbose_name='Quantidade de acidentes',
+                                               null=False,blank=False,default=0)
+    acidente_trabalho = models.DecimalField(null=False,blank=False,max_digits=5,decimal_places=2,help_text='indicador de acidentes')
+    justificativa = models.TextField(max_length=500,blank=True)
     class Meta:
         verbose_name = "Tabela de Indicador Contrato Interior"
         verbose_name_plural = "Tabela de Indicadores Contratos Interior"
@@ -97,6 +101,8 @@ class tb_modalidade_metropolitana(Base):
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=5,decimal_places=2,
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+
+
     seg_capacitacao = models.DecimalField(verbose_name='SEGURANÇA E CAPACITAÇÃO',max_digits=5,decimal_places=2,
                            blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     justificativa = models.TextField(max_length=500, verbose_name='Justifique os indicadores informados.',blank=True)

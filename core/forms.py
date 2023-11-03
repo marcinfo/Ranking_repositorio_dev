@@ -1,7 +1,7 @@
 import requests
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile,tb_unidades,tb_dados_contrato,tb_modalidade_metropolitana,tb_referencia_contrato
+from .models import Profile,tb_unidades,tb_dados_contrato,tb_modalidade_metropolitana,tb_referencia_contrato,tb_modalidade_interior
 
 
 class LoginForm(forms.Form):
@@ -57,7 +57,6 @@ class Cadastrar_ContratoForm(forms.ModelForm):
             field.attrs['class'] = 'form-control'
 
 class informar_indicador_MForm(forms.ModelForm):
-
     contrato = forms.ModelChoiceField(
         label = 'Contrato',
         queryset=tb_dados_contrato.objects.
@@ -67,7 +66,25 @@ class informar_indicador_MForm(forms.ModelForm):
     class Meta:
         model = tb_modalidade_metropolitana
         fields = ('contrato','idg','isap','ida','ide',
-                  'idr','entrega_cadastro','seg_capacitacao','justificativa')
+                  'idr','entrega_cadastro','justificativa')
+    def __int__(self,contrato,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        usuario = kwargs['initial']['usuario']
+        contratos = tb_referencia_contrato.objects.values_list('contratos').filter(staf_1=usuario)
+        self.fields['contrato'].queryset = contrato[0]
+        for field_name, field in self.fields.items():
+            field.attrs['class'] = 'form-control'
+class informar_indicador_RForm(forms.ModelForm):
+    contrato = forms.ModelChoiceField(
+        label = 'Contrato',
+        queryset=tb_dados_contrato.objects.
+        filter(r_m='R',numemro_contrato__in =tb_referencia_contrato.objects.values_list('contrato').
+               filter(status='ABERTO'))
+        )
+    class Meta:
+        model = tb_modalidade_interior
+        fields = ('contrato','idg_interior','servicos_arsesp','entrega_cadastro',
+                  'quantidade_colaboradores','quantidade_acidentes','justificativa')
     def __int__(self,contrato,*args, **kwargs):
         super().__init__(*args, **kwargs)
         usuario = kwargs['initial']['usuario']

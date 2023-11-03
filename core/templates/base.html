@@ -12,19 +12,20 @@
 </head>
 <body autocomplete="off">
   <div id="header">
-    <span class="logo" >Prêmio Eficiencia Operacional</span>
+    <span class="logo" >Eficiencia Operacional - ODG</span>
+    {% if request.user.is_authenticated %}
      <ul class="menu">
        <li {% if section == 'index' %}class="selected"{% endif %}>
             <a href="{% url 'index' %}">Painel</a>
        </li>
      </ul>
-    {% if request.user.is_authenticated %}
+
     <ul class="menu">
-      <li {% if section == "Informar Índice" %}class='selected'{% endif %}>
-        <a href="{% url 'informar_indice' %}">Informar Indicadores M</a>
+      <li {% if section == "Indicadores M" %}class='selected'{% endif %}>
+        <a href="{% url 'indicadores_M' %}">Indicadores M</a>
       </li>
-      <li {% if section == 'Visualizar Índices' %}class="selected"{% endif %}>
-          <a href="{% url 'visualizar_indices' %}">Visualizar Índices</a>
+      <li {% if section == 'Indicadores R' %}class="selected"{% endif %}>
+          <a href="{% url 'indicadores_R' %}">Indicadores R</a>
       </li>
       <li {% if section == "Processar" %}class="selected"{% endif %}>
           <a href="{% url "processar" %}">Processar</a>
@@ -36,7 +37,7 @@
   {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}
-      Olá,  {{ request.user.first_name }}.
+      Você esta logado como {{ request.user.username }}.
       <a href="{% url "logout" %}">   Sair</a>
     {% else %}
       <a href="{% url "login" %}"> Entrar</a>
