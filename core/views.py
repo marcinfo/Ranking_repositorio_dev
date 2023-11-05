@@ -378,3 +378,7 @@ def melhores_M(request):
 def melhores_R(request):
 
     return render(request, 'core/melhores_R.html')
+
+def as_melhores(request):
+
+    return render(request, 'core/as_melhores.html')

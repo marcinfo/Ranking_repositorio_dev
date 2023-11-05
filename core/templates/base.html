@@ -13,10 +13,11 @@
 <body autocomplete="off">
   <div id="header">
     <span class="logo" >ODG-Eficiencia Operacional</span>
+
     {% if request.user.is_authenticated %}
      <ul class="menu">
-       <li {% if section == 'index' %}class="selected"{% endif %}>
-            <a href="{% url 'index' %}">Os Vencedores</a>
+       <li {% if section == 'as_melhores' %}class="selected"{% endif %}>
+            <a href="{% url 'as_melhores' %}">Melhores</a>
        </li>
      </ul>
 
