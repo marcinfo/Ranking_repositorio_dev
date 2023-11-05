@@ -371,7 +371,10 @@ def enviar_email():
     print(f'Tempo de envio {tempo_envio_email}')
 
 
-def selecionar(self):
-    r=tb_referencia_contrato.objects.all()
-    return r
+def melhores_M(request):
 
+    return render(request, 'core/melhores_M.html')
+
+def melhores_R(request):
+
+    return render(request, 'core/melhores_R.html')

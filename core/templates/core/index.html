@@ -1,72 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}ODG-Eficiencia Operacional{% endblock %}
+{% block title %}ODG - Eficiencia Operacional{% endblock %}
 
 {% block content %}
-<meta http-equiv="refresh" content="180"/>
-<body>
-<div class="row">
-    <div class="card green">
-        <h>Média atual: </h>
-        <p>8,9</p>
+{% load static %}
+
+    <body>
+    <div align="center">
+        <a href='{% url "melhores_M" %}'><button>Melhores da M</button></a><br>
+        <a href='{% url "melhores_R" %}'><button>Melhores da R</button></a><br>
     </div>
-    <div class="card red">
-        <h>Média Anual</h>
-        <p>7,9</p>
-    </div>
-    <div class="card blue">
-        <h>Maior pontuação no Ano: </h>
-        <p>{{total_prejuizo|floatformat:2}}</p>
-    </div>
-    <div class="card negativo">
-        <h>Menor pontuação no Ano:</h>
-        <p>{{tipo_praga}}</p>
-    </div>
-    <div class="card green">
-        <h>???:</h>
-        <p>{{tipo_cultura}}</p>
-    </div>
-</div>
-</div>
-<div class="row">
-    <div>
-    </div>
-        <div>
-    <span>
-        {{chart_graf_grupo_cultura|safe}}
-    </span>
-    </div>
-    <div>
-    <span>
-        {{chart_graf_grupo_praga|safe}}
-    </span>
-    </div>
-        <div>
-    <span>
-        {{graf_grupo_hectar_prejuizo|safe}}
-    </span>
-    </div>
-</div>
-<div class="row">
-    <div>
-    </div>
-        <div>
-    <span>
-        {{chart_graf_grupo_praga_prejuizo|safe}}
-    </span>
-    </div>
-    <div>
-    <span>
-        {{chart_graf_grupo_cultura_prejuizo|safe}}
-    </span>
-    </div>
-        <div>
-    <span>
-        {{chart_graf_grupo_status|safe}}
-    </span>
-    </div>
-{{graf_data|safe}}
-</div>
 </body>
-</html>
 {% endblock  %}
