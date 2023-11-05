@@ -66,7 +66,7 @@ class informar_indicador_MForm(forms.ModelForm):
     class Meta:
         model = tb_modalidade_metropolitana
         fields = ('contrato','idg','isap','ida','ide',
-                  'idr','total_redes','total_cadastro_entregue','justificativa')
+                  'idr','total_redes','total_cadastro_entregue','seg_capacitacao','justificativa')
     def __int__(self,contrato,*args, **kwargs):
         super().__init__(*args, **kwargs)
         usuario = kwargs['initial']['usuario']

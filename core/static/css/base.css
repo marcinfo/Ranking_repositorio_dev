@@ -399,7 +399,7 @@ img.user-detail {
 button{
 
     width:220px;
-    height:40px;
+    height:60px;
     background:	#104E8B;
     color:#fff;
     margin-right:auto:
@@ -411,27 +411,9 @@ button{
     font-size:16;
     cursor:pointer;
     margin-button:40px;
-    box-shadow:4px,4px,0px,#000080;
-    transition: transform 200ms ease-in-out;
+    box-shadow:4px,4px,0px,#00008B;
+    transition: transform 40ms ease-in-out;
 }
 button:hover{
     transform:scale(1.05);
-}
-button{
-
-    width:220px;
-    height:40px;
-    background:	#104E8B;
-    color:#fff;
-    margin-right:auto:
-    margin-left:auto:
-    border:none;
-    border-color:#fff;;
-    border-radius:0;
-    font-family:Tahoma;
-    font-size:16;
-    cursor:pointer;
-    margin-button:40px;
-    box-shadow:4px,4px,0px,#000080;
-    transition: transform 80ms ease-in-out;
 }

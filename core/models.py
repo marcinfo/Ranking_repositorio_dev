@@ -86,8 +86,8 @@ class tb_modalidade_interior(Base):
 
 class tb_modalidade_metropolitana(Base):
     id = models.AutoField(primary_key=True)
-    mes_ano_referencia = models.CharField(max_length=20)
-    inserido_por = models.CharField(max_length= 100, blank=False, null=False)
+    mes_ano_referencia = models.CharField(max_length=20,editable=False)
+    inserido_por = models.CharField(max_length= 100, blank=False, null=False,editable=False)
     contrato = models.CharField(max_length=20)
     idg = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL (IDG)',max_digits=5,decimal_places=2,
                                        blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
@@ -100,16 +100,16 @@ class tb_modalidade_metropolitana(Base):
     idr = models.DecimalField(help_text='INDICE DE DESEMPENHO REPOSIÇÃO (IDR)',max_digits=5,decimal_places=2,
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     total_redes = models.DecimalField(help_text='Total de Redes executadas.',decimal_places=2,max_digits=7,
-                               blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+                               blank=False,null=False)
     total_cadastro_entregue = models.DecimalField(help_text='Total de CADASTRO entregue.',decimal_places=2,max_digits=7,
-                               blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+                               blank=False,null=False)
 
     entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=5,decimal_places=2,
-                               blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+                               blank=False,null=False)
 
 
     seg_capacitacao = models.DecimalField(verbose_name='SEGURANÇA E CAPACITAÇÃO',max_digits=5,decimal_places=2,
-                           blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
+                           blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
     justificativa = models.TextField(max_length=500, verbose_name='Justifique os indicadores informados.',blank=True)
     class Meta:
         verbose_name = "Tabela de Indicador Contrato Metropolitana"
@@ -131,7 +131,7 @@ class tb_unidades(Base):
 
 class tb_referencia_contrato(Base):
     id = models.AutoField(primary_key=True)
-    resp_preenchimento = models.CharField(max_length= 100, blank=True, null=False)
+    resp_preenchimento = models.CharField(max_length= 100, blank=False, null=False)
     mes_ano_referencia = models.CharField(max_length=100, blank=True, null=False)
     unidade = models.CharField(max_length=20, blank=True, null=True)
     contrato = models.CharField(max_length=20, blank=True, null=False)

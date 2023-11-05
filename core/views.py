@@ -238,7 +238,7 @@ def indicadores_R(request):
                 form = informar_indicador_RForm()
                 tb_referencia_contrato.objects.filter(Q(Q(contrato=indicadorR.contrato) &
                                         Q(mes_ano_referencia=indicadorR.mes_ano_referencia))).\
-                    update(status='INFORMADO')
+                    update(status='INFORMADO',resp_preenchimento=indicadorR.inserido_por)
 
                 print(indicadorR.contrato)
             else:
@@ -248,7 +248,7 @@ def indicadores_R(request):
                                        f' revise o CADASTRO. ')
         else:
             pass
-            messages.warning(request,'Não Autorizado')
+            messages.error(request,'Verifique o preenchimento!')
         context = {
 
             'form':form
