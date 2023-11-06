@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}ODG{% endblock %}
+<h3>Contratos Pendentes</h3>
+{% block content %}
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr nowrap="true">
+        <th scope="col">id</th>
+        <th scope="col">Contrato</th>
+        <th scope="col">Unidade</th>
+        <th scope="col">Administrador</th>
+        <th scope="col">Contratada</th>
+        <th scope="col">Data de Inicio</th>
+        <th scope="col">Data Final</th>
+      </tr>
+    </thead>
+    <tbody>
+          {% for contrato in cont_pendentes %}
+          <tr>
+            <td>{{contrato.id}}</td>
+            <td>{{contrato.numemro_contrato}}</td>
+            <td>{{contrato.unidade}}</td>
+            <td>{{contrato.administrador}}</td>
+            <td>{{contrato.nome_contratada}}</td>
+            <td>{{contrato.data_inicio|date:'d-m-Y'}}</td>
+            <td>{{contrato.data_fim|date:'d-m-Y'}}</td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+{% endblock %}

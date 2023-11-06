@@ -1,11 +1,7 @@
 @import url(//fonts.googleapis.com/css?family=Tahoma);
 
 //style.css
-body {
-  background-color: #444442;
-  padding-top: 5px;
-  margin: 10px;
-}
+
 form{
     autocomplete:off
 }
@@ -127,12 +123,13 @@ ol {
     color:#f3f7cc;
 }
 #header a:hover {
-    color:#fff;
+    color:#00FFFF;
 }
 
 #header .user {
     float:right;
     padding-top:4px;
+
 }
 
 #content {
@@ -212,11 +209,11 @@ ul.messages li.success a { color:#0ac33e; }
 ul.messages li.error { background:#a30029;  }
 ul.messages li.error a { color:#a30029; }
 
-ul.messages li.info { background:#faffae; color:#696b4e; }
-ul.messages li.info a { color:#1586de; }
+ul.messages li.info { background:#FFFFFF; color:#000000; }
+ul.messages li.info a { background:#FFFFFF;color:#FFFFFF; }
 
-ul.messages li.warning {background:#F0FFFF; color:#000000 }
-ul.messages li.warning a { color:#F0FFFF; }
+ul.messages li.warning {background:#FFA500; color:#F0FFFF }
+ul.messages li.warning a { color:#FFA500;}
 
 ul.messages li a.close {
 
@@ -403,8 +400,8 @@ img.user-detail {
 }
 button{
 
-    width:220px;
-    height:60px;
+    width:200px;
+    height:50px;
     background:	#104E8B;
     color:#fff;
     margin-right:auto:
@@ -418,7 +415,13 @@ button{
     margin-button:40px;
     box-shadow:4px,4px,0px,#00008B;
     transition: transform 40ms ease-in-out;
+    border-radius:6px;
 }
 button:hover{
     transform:scale(1.05);
+    background:	#000080;
+    color:	#7FFFD4;
+}
+
+
 }

@@ -26,7 +26,10 @@ from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrat
 from django.conf import settings
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+data_log = data=datetime.now()
+data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
 def verifica_validade_contrato():
+
         valida_contrato = tb_dados_contrato.objects.\
         values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
         filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
@@ -134,8 +137,7 @@ def atulizar_localizacao():
     pass
 @login_required
 def index(request):
-    #verifica_validade_contrato()
-    gerar_mes_referencia()
+
     return render(request, 'core/index.html')
 @login_required
 def cadastrar_contrato(request):
@@ -199,7 +201,7 @@ def indicadores_M(request):
                                        f' revise o CADASTRO. ')
         else:
             pass
-            messages.warning(request,'Não Autorizado')
+            messages.warning(request,'Verifique o preenchimento!')
         context = {
 
             'form':form
@@ -255,11 +257,19 @@ def indicadores_R(request):
 def informar_indice(request):
 
         return render(request, 'core/indicadores_M.html')
+def contratos_pendentes(request):
+    cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
+                                                      objects.values_list('contrato').
+               filter(status='ABERTO'))
+    context ={'cont_pendentes':cont_pendentes,
+
+              }
+    return render(request, 'core/contratos_pendentes.html',context)
 
 @login_required
-def processar(request):
+def sistema(request):
     gerar_mes_referencia()
-    return render(request, 'core/processar.html')
+    return render(request, 'core/sistema.html')
 
 @login_required
 def menu_indices(request):
@@ -374,5 +384,52 @@ def as_melhores(request):
 
     return render(request, 'core/as_melhores.html')
 def ver_contratos(request):
-
     return render(request, 'core/visualizar_contratos.html')
+def processar_indicadores(request):
+    return render(request, 'core/processar_indicadores.html')
+def iniciar_processamento(request):
+    messages.info(request,f'{data_log}  validando contratos')
+    valida_contrato = tb_dados_contrato.objects.\
+    values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
+    filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
+    for valida in valida_contrato:
+        tb_dados_contrato.objects.update(ativo = 'False')
+        print(valida_contrato)
+    messages.info(request,f'{data_log} Validação Finalizada')
+
+    messages.info(request,f'{data_log} gerando calendario referência')
+    data=date.today() - relativedelta(months=1)
+    mes_ano_format=data.strftime("%B/%Y")
+    messages.info(request,f'{data_log} verificando se já existe calendario')
+    lista_contratos = tb_dados_contrato.objects.\
+        values_list('numemro_contrato','administrador','unidade', 'superintendente','staff_1','staff_1').\
+        filter(Q(Q(ativo = True) & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
+    if lista_contratos.count != 0:
+
+        for cont in lista_contratos:
+            messages.info(request,f'{data_log} verificando contrato {cont[0]}')
+            ref=mes_ano_format
+            num_contra=cont[0]
+            admin=cont[1]
+            unidade=cont[2]
+            superintendente=cont[3]
+            staff_1=cont[4]
+            staff_2=cont[5]
+            print(staff_1)
+            verificar_referencia = tb_referencia_contrato.objects.all().\
+                filter(mes_ano_referencia=ref,contrato=num_contra)
+            if verificar_referencia.count() == 0:
+                messages.info(request,f'{data_log} criando para o contrato {cont[0]}')
+                salva_ref = tb_referencia_contrato.objects.\
+                    create(mes_ano_referencia=ref,contrato=num_contra,administrador=admin,status='ABERTO',
+                           superintendente=superintendente,unidade = unidade, staf_1=staff_1,staf_2=staff_2)
+                salva_ref.save()
+
+                messages.info(request,f'{data_log} criando calendario para o contrato {num_contra}')
+            else:
+                messages.info(request,f'{data_log} calendario já existe para o contrato {num_contra}')
+    else:
+        messages.info(request,f'{data_log} Falha ao gerar calendario, nao existe contrato ativo cadastrado')
+
+    messages.info(request,f'{data_log} Fim do processamento')
+    return render(request, 'core/iniciar_processamento.html')

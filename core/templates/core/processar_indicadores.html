@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}ODG - Eficiencia Operacional{% endblock %}
+
+{% block content %}
+{% load static %}
+
+    <body>
+    <h3 align="center">Após iniciar o PROCESSAMENTO não será possivel reverter!</h3>
+    <div align="center">
+        <a href='{% url "sistema" %}'><button style="background:red;">Cancelar </button></a>
+        <a href='{% url "iniciar_processamento" %}'><button>Processar</button></a><br>
+
+    </div>
+</body>
+{% endblock  %}
