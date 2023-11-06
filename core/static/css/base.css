@@ -157,6 +157,7 @@ label {
     clear:both;
     color:#333;
     margin-bottom:4px;
+    text-transform:uppercase;
 }
 input, textarea {
     clear:both;
@@ -187,6 +188,7 @@ input[type=submit], a.button {
     clear:both;
     float:left;
     font-size:13px;
+    text-transform:uppercase;
 }
 /* messages */
 ul.messages {

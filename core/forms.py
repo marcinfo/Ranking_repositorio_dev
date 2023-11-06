@@ -66,7 +66,8 @@ class informar_indicador_MForm(forms.ModelForm):
     class Meta:
         model = tb_modalidade_metropolitana
         fields = ('contrato','idg','isap','ida','ide',
-                  'idr','total_redes','total_cadastro_entregue','seg_capacitacao','justificativa')
+                  'idr','total_redes','total_cadastro_entregue','quantidade_colaboradores',
+                  'quantidade_acidentes','justificativa')
     def __int__(self,contrato,*args, **kwargs):
         super().__init__(*args, **kwargs)
         usuario = kwargs['initial']['usuario']
@@ -83,7 +84,7 @@ class informar_indicador_RForm(forms.ModelForm):
         )
     class Meta:
         model = tb_modalidade_interior
-        fields = ('contrato','idg_interior','servicos_arsesp','entrega_cadastro',
+        fields = ('contrato','idg_interior','servicos_arsesp','total_redes','total_cadastro_entregue',
                   'quantidade_colaboradores','quantidade_acidentes','justificativa')
     def __int__(self,contrato,*args, **kwargs):
         super().__init__(*args, **kwargs)

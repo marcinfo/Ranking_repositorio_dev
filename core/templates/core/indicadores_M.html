@@ -7,7 +7,9 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <body>
-<h2>Informar indicadores M.</h2>
+<h6>ATENÇÃO! Referência {{mes_ano_ref}}, para Indicadores não utilizados no contrato preencher com 0 (zero). Revise as informações antes de CLICAR/ENTER no botão SALVAR. Após SALVAR NÃO será possivel corrigir.</h6>
+
+<h3>Informar indicadores M</h2>
 <h4>{{ mes_ano_ref }}</h4>
 <form method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}

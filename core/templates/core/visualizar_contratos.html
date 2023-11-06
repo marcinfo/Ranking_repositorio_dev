@@ -1,19 +1,13 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
-{% block title %}Castrar Contratos{% endblock %}
+{% block title %}Meus Contratos{% endblock %}
 {% block content %}
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <body>
-<h3>Cadastrar Contratos</h3>
-<form method="post" novalidate enctype="multipart/form-data">
-    {% csrf_token %}
-      <div >
-    {{ form|crispy }}
-       <p><input type="submit" value="Salvar"></p>
-          </div>
-  </form>
+<h3>Visualizar Contratos</h3>
+
 </body>
 {% endblock %}

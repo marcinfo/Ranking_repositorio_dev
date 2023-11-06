@@ -129,11 +129,11 @@ def edit(request):
                   'core/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+@login_required
 def atulizar_localizacao():
     pass
-
+@login_required
 def index(request):
-
     #verifica_validade_contrato()
     gerar_mes_referencia()
     return render(request, 'core/index.html')
@@ -163,10 +163,7 @@ def cadastrar_contrato(request):
 def indicadores_M(request):
 
     mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
-    messages.warning(request, f'ATENÇÃO! Referência {mes_ano_ref}, '
-                           f'para Indicadores não utilizados no contrato preencher com 0 (zero). '
-                           f'Revise as informações antes de CLICAR/ENTER no botão SALVAR. Após SALVAR NÃO será possivel'
-                           f' corrigir.')
+
     if request.method == "GET":
         form=informar_indicador_MForm()
         context={
@@ -180,6 +177,7 @@ def indicadores_M(request):
             indicadorM.inserido_por = request.user
             indicadorM.mes_ano_referencia = mes_ano_ref
             indicadorM.entrega_cadastro = (indicadorM.total_cadastro_entregue/indicadorM.total_redes)*100
+            indicadorM.seg_capacitacao=(indicadorM.quantidade_acidentes/indicadorM.quantidade_colaboradores)*100
 
             contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
                 filter((Q(Q(numemro_contrato=indicadorM.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
@@ -209,10 +207,7 @@ def indicadores_M(request):
         return render(request, 'core/indicadores_M.html',context=context)
 def indicadores_R(request):
     mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
-    messages.warning(request, f'ATENÇÃO! Referência {mes_ano_ref}, '
-                           f'para Indicadores não utilizados no contrato preencher com 0 (zero). '
-                           f'Revise as informações antes de CLICAR/ENTER no botão SALVAR. Após SALVAR NÃO será possivel'
-                           f' corrigir.')
+
     if request.method == "GET":
         form=informar_indicador_RForm()
         context={
@@ -226,6 +221,7 @@ def indicadores_R(request):
             indicadorR.inserido_por = request.user
             indicadorR.mes_ano_referencia = mes_ano_ref
             indicadorR.acidente_trabalho = (indicadorR.quantidade_acidentes/indicadorR.quantidade_colaboradores)*100
+            indicadorR.entrega_cadastro = (indicadorR.total_cadastro_entregue/indicadorR.total_redes)*100
             contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
                 filter((Q(Q(numemro_contrato=indicadorR.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
             contrato_autorizado=str(contrato_autorizado)
@@ -265,7 +261,6 @@ def processar(request):
     gerar_mes_referencia()
     return render(request, 'core/processar.html')
 
-
 @login_required
 def menu_indices(request):
 
@@ -277,7 +272,6 @@ def menu_contratos(request):
 
 def erro_400(request,exception):
     return render(request, 'core/erro_404.html')
-
 def handler500(request, *args, **argv):
     return render(request, 'core/erro_500.html', status=500)
 def handler400(request, exception):
@@ -290,9 +284,6 @@ def handler403(request, exception):
     return render(request, 'core/erro_403.html',status=403)
 def handler404(request, exception):
     return render(request, 'core/erro_404.html',status=404)
-
-
-
 
 def enviar_email_backend():
     print('Criando lista de emails')
@@ -370,15 +361,18 @@ def enviar_email():
     print(f'envio finalizado em {fim_envio_email}')
     print(f'Tempo de envio {tempo_envio_email}')
 
-
+@login_required
 def melhores_M(request):
 
     return render(request, 'core/melhores_M.html')
-
+@login_required
 def melhores_R(request):
 
     return render(request, 'core/melhores_R.html')
-
+@login_required
 def as_melhores(request):
 
     return render(request, 'core/as_melhores.html')
+def ver_contratos(request):
+
+    return render(request, 'core/visualizar_contratos.html')

@@ -41,35 +41,39 @@ class tb_log_email(models.Model):
         verbose_name_plural = "Tabela log de emils"
 class tb_dados_contrato(Base):
     id = models.AutoField(primary_key=True)
-    r_m = models.CharField(max_length= 1,choices=escolhe_M_R,verbose_name="Diretoria:")
-    inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True)
-    cadastrado_por = models.CharField(max_length= 100, blank=False, null=False)
-    unidade = models.CharField(max_length= 100, blank=True, null=True)
-    numemro_contrato = models.CharField(max_length= 10, blank=False, null=False, unique=True)
-    nome_contratada =  models.CharField(max_length= 100, blank=False, null=False)
-    administrador = models.CharField(max_length= 100, blank=False, null=False)
-    superintendente = models.CharField(max_length= 100, blank=False, null=False)
-    data_inicio = models.DateField(blank=False, null=False,)
-    data_fim = models.DateField(blank=False, null=False)
+    r_m = models.CharField(max_length= 1,choices=escolhe_M_R,verbose_name="Metropolitana/Interior")
+    inserido = models.DateTimeField(verbose_name="Inserido em", auto_now_add=True)
+    cadastrado_por = models.CharField(verbose_name="Cadastrado Por",max_length= 100, blank=False, null=False)
+    unidade = models.CharField(verbose_name="Inserido em",max_length= 100, blank=True, null=True)
+    numemro_contrato = models.CharField(verbose_name="Número do Contrato",max_length= 10, blank=False, null=False, unique=True)
+    nome_contratada =  models.CharField(verbose_name="Nome da Contratada",max_length= 100, blank=False, null=False)
+    administrador = models.CharField(verbose_name="Responsavel da Contratada",max_length= 100, blank=False, null=False)
+    superintendente = models.CharField(verbose_name="Surperintendente",max_length= 100, blank=False, null=False)
+    data_inicio = models.DateField(verbose_name="Data de Inicio do Contrato",blank=False, null=False,)
+    data_fim = models.DateField(verbose_name="Data de Inicio do Contrato",blank=False, null=False)
 
     staff_1 = models.CharField(max_length= 100, blank=False, null=False)
     staff_2 = models.CharField(max_length= 100, blank=False, null=False,)
+
     def __str__(self):
         return self.numemro_contrato
     class Meta:
         verbose_name = "Tabela Dados do Contrato"
         verbose_name_plural = "Tabela Dados dos Contratos"
-
 class tb_modalidade_interior(Base):
     id = models.AutoField(primary_key=True)
     mes_ano_referencia = models.CharField(max_length=20)
     inserido_por = models.CharField(max_length= 100, blank=False, null=False)
     contrato = models.CharField(max_length=20)
-    idg_interior = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL (IDG)',max_digits=5,decimal_places=2,
+    idg_interior = models.DecimalField(help_text='Índice de Desempenho Global',max_digits=5,decimal_places=2,
                                        blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    servicos_arsesp = models.DecimalField(help_text='SERVIÇOS ATENDIDOS NO PRAZO ARSESP',max_digits=5,decimal_places=2,
+    servicos_arsesp = models.DecimalField(help_text='Serviços Atendidos No Prazo ARSESP',max_digits=5,decimal_places=2,
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=5,decimal_places=2,
+    total_redes = models.DecimalField(help_text='Total de Redes executadas.',decimal_places=2,max_digits=7,
+                               blank=False,null=False)
+    total_cadastro_entregue = models.DecimalField(help_text='Total de CADASTRO entregue.',decimal_places=2,max_digits=7,
+                               blank=False,null=False)
+    entrega_cadastro = models.DecimalField(help_text='Entrega do Cadastro E Imobilização',max_digits=5,decimal_places=2,
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     quantidade_colaboradores = models.IntegerField(verbose_name='Quantidade de colaboradores',
                                                    help_text='quantidade de colaboradores no contrato',
@@ -81,15 +85,12 @@ class tb_modalidade_interior(Base):
     class Meta:
         verbose_name = "Tabela de Indicador Contrato Interior"
         verbose_name_plural = "Tabela de Indicadores Contratos Interior"
-
-
-
 class tb_modalidade_metropolitana(Base):
     id = models.AutoField(primary_key=True)
     mes_ano_referencia = models.CharField(max_length=20,editable=False)
     inserido_por = models.CharField(max_length= 100, blank=False, null=False,editable=False)
     contrato = models.CharField(max_length=20)
-    idg = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL (IDG)',max_digits=5,decimal_places=2,
+    idg = models.DecimalField(help_text='INDICE DE DESEMPENHO GLOBAL ',max_digits=5,decimal_places=2,
                                        blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     isap = models.DecimalField(help_text='SERVIÇOS ATENDIDOS NO PRAZO (ISAP)',max_digits=5,decimal_places=2,
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
@@ -106,7 +107,11 @@ class tb_modalidade_metropolitana(Base):
 
     entrega_cadastro = models.DecimalField(help_text='ENTREGA DO CADASTRO E IMOBILIZAÇÃO',max_digits=5,decimal_places=2,
                                blank=False,null=False)
-
+    quantidade_colaboradores = models.IntegerField(verbose_name='Quantidade de colaboradores',
+                                                   help_text='quantidade de colaboradores no contrato',
+                                                   null=False,blank=False)
+    quantidade_acidentes = models.IntegerField(help_text='Quantidade de acidentes',verbose_name='Quantidade de acidentes',
+                                               null=False,blank=False)
 
     seg_capacitacao = models.DecimalField(verbose_name='SEGURANÇA E CAPACITAÇÃO',max_digits=5,decimal_places=2,
                            blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
