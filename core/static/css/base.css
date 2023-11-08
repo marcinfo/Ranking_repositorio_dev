@@ -415,7 +415,7 @@ button{
     margin-button:40px;
     box-shadow:4px,4px,0px,#00008B;
     transition: transform 40ms ease-in-out;
-    border-radius:6px;
+    border-radius:25px;
 }
 button:hover{
     transform:scale(1.05);

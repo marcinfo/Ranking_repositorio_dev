@@ -34,7 +34,7 @@ def verifica_validade_contrato():
         values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
         filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
         for valida in valida_contrato:
-            tb_dados_contrato.objects.update(ativo = 'False')
+            tb_dados_contrato.objects.update(ativo = 'Não')
             print(valida_contrato)
 
 def gerar_mes_referencia():
@@ -43,7 +43,7 @@ def gerar_mes_referencia():
     mes_ano_format=data.strftime("%B/%Y")
     lista_contratos = tb_dados_contrato.objects.\
         values_list('numemro_contrato','administrador','unidade', 'superintendente','staff_1','staff_1').\
-        filter(Q(Q(ativo = True) & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
+        filter(Q(Q(ativo = 'SIM') & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
     if lista_contratos.count != 0:
 
         for cont in lista_contratos:
@@ -259,8 +259,7 @@ def informar_indice(request):
         return render(request, 'core/indicadores_M.html')
 def contratos_pendentes(request):
     cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
-                                                      objects.values_list('contrato').
-               filter(status='ABERTO'))
+                                                      objects.values_list('contrato').filter(status='ABERTO'))
     context ={'cont_pendentes':cont_pendentes,
 
               }
@@ -268,7 +267,7 @@ def contratos_pendentes(request):
 
 @login_required
 def sistema(request):
-    gerar_mes_referencia()
+
     return render(request, 'core/sistema.html')
 
 @login_required
@@ -277,7 +276,6 @@ def menu_indices(request):
     return render(request, 'core/menu_indices.html')
 @login_required
 def menu_contratos(request):
-
     return render(request, 'core/menu_contratos.html')
 
 def erro_400(request,exception):
@@ -383,15 +381,21 @@ def melhores_R(request):
 def as_melhores(request):
 
     return render(request, 'core/as_melhores.html')
-def ver_contratos(request):
-    return render(request, 'core/visualizar_contratos.html')
+def visualizar_contratos(request):
+    cont_contratos = tb_dados_contrato.objects.values('id','r_m','numemro_contrato','ativo','unidade','superintendente',
+                                                      'administrador','nome_contratada','data_inicio','data_fim')
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/visualizar_contratos.html',context)
 def processar_indicadores(request):
+    #pagina em branco apenas botões no html SIM ou NÃO
     return render(request, 'core/processar_indicadores.html')
 def iniciar_processamento(request):
     messages.info(request,f'{data_log}  validando contratos')
     valida_contrato = tb_dados_contrato.objects.\
     values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
-    filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
+    filter(Q(Q(ativo = 'SIM') & Q(data_fim__lt = date.today())))
     for valida in valida_contrato:
         tb_dados_contrato.objects.update(ativo = 'False')
         print(valida_contrato)
@@ -403,7 +407,7 @@ def iniciar_processamento(request):
     messages.info(request,f'{data_log} verificando se já existe calendario')
     lista_contratos = tb_dados_contrato.objects.\
         values_list('numemro_contrato','administrador','unidade', 'superintendente','staff_1','staff_1').\
-        filter(Q(Q(ativo = True) & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
+        filter(Q(Q(ativo = 'SIM') & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
     if lista_contratos.count != 0:
 
         for cont in lista_contratos:
@@ -433,3 +437,36 @@ def iniciar_processamento(request):
 
     messages.info(request,f'{data_log} Fim do processamento')
     return render(request, 'core/iniciar_processamento.html')
+
+def status_contratox(request):
+    status = tb_referencia_contrato.objects.values('id','status','contrato').filter(Q(Q(staf_1=request.user)|Q(staf_2=request.user)))
+    print(status)
+    context ={'cont_pendentes':status,
+              }
+    return render(request, 'core/status_contrato.html',context)
+
+
+def status_contrato(request):
+    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
+                                                           'administrador','data_inicio','data_fim').\
+        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/status_contrato.html',context)
+def melhores_idg_r(request):
+    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
+                                                           'administrador','data_inicio','data_fim').\
+        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/melhores_idg_r.html',context)
+def melhores_prazo_r(request):
+    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
+                                                           'administrador','data_inicio','data_fim').\
+        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/melhores_prazo_r.html',context)

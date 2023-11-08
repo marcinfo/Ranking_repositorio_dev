@@ -8,10 +8,11 @@ escolhe_M_R=(
     ("R","Interior"),("M",'Metropolitana'),
 )
 hora_envio_email=(('0','00'),('1','01'))
+escolha_status=(('SIM','SIM'),('NÃO','NÃO'))
 class Base(models.Model):
     inserido = models.DateTimeField(verbose_name="Inserido em:", auto_now_add=True, null=True)
     atualizado = models.DateTimeField(verbose_name="Atualizado em:", auto_now=True, null=True)
-    ativo = models.BooleanField('Ativo?', default=True )
+    ativo = models.CharField('Ativo?', default='SIM',choices=escolha_status,max_length=3 )
     class Meta:
         abstract = True
 class Profile(models.Model):
@@ -44,13 +45,13 @@ class tb_dados_contrato(Base):
     r_m = models.CharField(max_length= 1,choices=escolhe_M_R,verbose_name="Metropolitana/Interior")
     inserido = models.DateTimeField(verbose_name="Inserido em", auto_now_add=True)
     cadastrado_por = models.CharField(verbose_name="Cadastrado Por",max_length= 100, blank=False, null=False)
-    unidade = models.CharField(verbose_name="Inserido em",max_length= 100, blank=True, null=True)
+    unidade = models.CharField(verbose_name="Inserido em",max_length= 10, blank=False, null=False)
     numemro_contrato = models.CharField(verbose_name="Número do Contrato",max_length= 10, blank=False, null=False, unique=True)
     nome_contratada =  models.CharField(verbose_name="Nome da Contratada",max_length= 100, blank=False, null=False)
     administrador = models.CharField(verbose_name="Responsavel da Contratada",max_length= 100, blank=False, null=False)
     superintendente = models.CharField(verbose_name="Surperintendente",max_length= 100, blank=False, null=False)
     data_inicio = models.DateField(verbose_name="Data de Inicio do Contrato",blank=False, null=False,)
-    data_fim = models.DateField(verbose_name="Data de Inicio do Contrato",blank=False, null=False)
+    data_fim = models.DateField(verbose_name="Data de Fim do Contrato",blank=False, null=False)
 
     staff_1 = models.CharField(max_length= 100, blank=False, null=False)
     staff_2 = models.CharField(max_length= 100, blank=False, null=False,)
@@ -100,7 +101,7 @@ class tb_modalidade_metropolitana(Base):
                                    blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
     idr = models.DecimalField(help_text='INDICE DE DESEMPENHO REPOSIÇÃO (IDR)',max_digits=5,decimal_places=2,
                                blank=False,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    total_redes = models.DecimalField(help_text='Total de Redes executadas.',decimal_places=2,max_digits=7,
+    total_redes = models.DecimalField(verbose_name='Metros de rede executadas',help_text='Total de Redes executadas em metros.',decimal_places=2,max_digits=7,
                                blank=False,null=False)
     total_cadastro_entregue = models.DecimalField(help_text='Total de CADASTRO entregue.',decimal_places=2,max_digits=7,
                                blank=False,null=False)

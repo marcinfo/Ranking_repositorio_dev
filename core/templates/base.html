@@ -36,7 +36,7 @@
   {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}
-      Você esta logado como {{ request.user.username }}.
+      Olá, {{ request.user.username }}.
       <a href="{% url "logout" %}">   Sair</a>
     {% else %}
       <a href="{% url "login" %}"> Entrar</a>

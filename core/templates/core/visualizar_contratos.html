@@ -1,13 +1,43 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load crispy_forms_tags %}
-{% block title %}Meus Contratos{% endblock %}
+{% block title %}ODG{% endblock %}
+
 {% block content %}
+<h2 align="center">Contratos Pendentes teste</h2>
+<div class="table-responsive">
+  <table class="table table-striped" align="center">
+    <thead class="thead-dark">
+      <tr nowrap="true">
+        <th scope="col">id</th>
+        <th scope="col">"'Diretoria'"</th>
+        <th scope="col">Contrato</th>
+        <th scope="col">Ativo</th>
+        <th scope="col">Unidade</th>
+        <th scope="col">Superintendente</th>
 
+        <th scope="col">Administrador</th>
+        <th scope="col">Contratada</th>
+        <th scope="col">Data de Inicio</th>
+        <th scope="col">Data Final</th>
+      </tr>
+    </thead>
+    <tbody>
+          {% for contrato in cont_contratos %}
+          <tr>
+            <td>{{contrato.id}}</td>
+            <td>{{contrato.r_m}}</td>
+            <td>{{contrato.numemro_contrato}}</td>
+            <td>{{contrato.ativo}}</td>
+            <td>{{contrato.unidade}}</td>
+            <td>{{contrato.superintendente}}</td>
+            <td>{{contrato.administrador}}</td>
+            <td>{{contrato.nome_contratada}}</td>
+            <td>{{contrato.data_inicio|date:'d-m-Y'}}</td>
+            <td>{{contrato.data_fim|date:'d-m-Y'}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<body>
-<h3>Visualizar Contratos</h3>
-
-</body>
+</div>
 {% endblock %}
