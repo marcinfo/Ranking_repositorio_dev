@@ -253,10 +253,7 @@ def indicadores_R(request):
         }
         return render(request, 'core/indicadores_R.html',context=context)
 
-@login_required
-def informar_indice(request):
 
-        return render(request, 'core/indicadores_M.html')
 def contratos_pendentes(request):
     cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
                                                       objects.values_list('contrato').filter(status='ABERTO'))
@@ -277,8 +274,8 @@ def menu_indices(request):
 @login_required
 def menu_contratos(request):
     return render(request, 'core/menu_contratos.html')
-
-def erro_400(request,exception):
+def erro_400(
+        request,exception):
     return render(request, 'core/erro_404.html')
 def handler500(request, *args, **argv):
     return render(request, 'core/erro_500.html', status=500)
@@ -381,16 +378,21 @@ def melhores_R(request):
 def as_melhores(request):
 
     return render(request, 'core/as_melhores.html')
+@login_required
 def visualizar_contratos(request):
+
     cont_contratos = tb_dados_contrato.objects.values('id','r_m','numemro_contrato','ativo','unidade','superintendente',
-                                                      'administrador','nome_contratada','data_inicio','data_fim')
+        'administrador','nome_contratada','data_inicio','data_fim').\
+    filter(Q(Q(staff_1=request.user) | Q(staff_2=request.user)))
     print(cont_contratos)
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/visualizar_contratos.html',context)
+@login_required
 def processar_indicadores(request):
     #pagina em branco apenas botões no html SIM ou NÃO
     return render(request, 'core/processar_indicadores.html')
+@login_required
 def iniciar_processamento(request):
     messages.info(request,f'{data_log}  validando contratos')
     valida_contrato = tb_dados_contrato.objects.\
@@ -437,31 +439,27 @@ def iniciar_processamento(request):
 
     messages.info(request,f'{data_log} Fim do processamento')
     return render(request, 'core/iniciar_processamento.html')
-
-def status_contratox(request):
-    status = tb_referencia_contrato.objects.values('id','status','contrato').filter(Q(Q(staf_1=request.user)|Q(staf_2=request.user)))
-    print(status)
-    context ={'cont_pendentes':status,
-              }
-    return render(request, 'core/status_contrato.html',context)
-
-
+@login_required
 def status_contrato(request):
+    lista_contrato_usuario = tb_dados_contrato.objects.values_list('numemro_contrato')\
+        .filter(Q(Q(staff_1 = request.user)|Q(staff_2 = request.user)))
+    print(lista_contrato_usuario)
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\
-        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
-    print(cont_contratos)
+        filter(contrato__in =lista_contrato_usuario,status = "ABERTO")
+
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/status_contrato.html',context)
+@login_required
 def melhores_idg_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
-                                                           'administrador','data_inicio','data_fim').\
-        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+                                                           'administrador','data_inicio','data_fim')
     print(cont_contratos)
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_idg_r.html',context)
+@login_required
 def melhores_prazo_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\
@@ -470,3 +468,36 @@ def melhores_prazo_r(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_prazo_r.html',context)
+def melhores_acidentes_r(request):
+    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
+                                                           'administrador','data_inicio','data_fim').\
+        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/melhores_acidentes_r.html',context)
+def melhores_cadastro_r(request):
+    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
+                                                           'administrador','data_inicio','data_fim').\
+        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/melhores_cadastro_r.html',context)
+@login_required
+def informacoes_contrato(request,pk):
+    contrato = tb_dados_contrato.objects.select_related('numemro_contrato').filter( id=pk).\
+        values('id','ativo','numemro_contrato','superintendente','administrador','r_m','cadastrado_por','unidade',
+               'nome_contratada','inserido','data_inicio','data_fim','staff_1','staff_2')
+    print(contrato)
+    context = {
+        'contrato': contrato }
+    return render(request, 'core/informacoes_contrato.html', context)
+def melhores_arsesp_r(request):
+    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
+                                                           'administrador','data_inicio','data_fim').\
+        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
+    print(cont_contratos)
+    context ={'cont_contratos':cont_contratos,
+              }
+    return render(request, 'core/melhores_arsesp_r.html',context)

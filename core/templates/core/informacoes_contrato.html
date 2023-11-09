@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Visualizar Ocorrência{% endblock %}
+
+{% block content %}
+
+<html>
+  <body>
+
+<center>
+
+  <form >
+<div>
+    {% for contrato in contrato %}
+        <h3 align="left"> Número do Contrato: {{contrato.numemro_contrato}} Ativo?: {{contrato.ativo}}</h3>
+        <h3 align="left">Inserido em: {{contrato.inserido|date:'d/m/Y H:i:s'}} Por: {{contrato.cadastrado_por}}</h3>
+        <h3 align="left">Diretoria: {{contrato.r_m}} Unidade: {{contrato.unidade}}</h3>
+        <h3 align="left">Superintendente: {{contrato.superintendente}} Administrador: {{contrato.administrador}} </h3>
+        <h3 align="left">Contratada: {{contrato.nome_contratada}} Cadastrado Por: {{contrato.cadastrado_por}}</h3>
+        <h3 align="left">Validade:de {{contrato.data_inicio|date:'d/m/Y'}} até {{contrato.data_fim|date:'d/m/Y '}}</h3>
+        <h3 align="left">Staff 1: {{contrato.staff_1}} </h3>
+        <h3 align="left" justfy="center">Staff 2 : {{contrato.staff_2}}</h3>
+    {% endfor %}
+</div>
+
+  </form>
+    </center>
+</body>
+{% endblock %}

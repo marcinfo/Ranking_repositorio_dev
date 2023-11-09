@@ -9,11 +9,10 @@
     <thead class="thead-dark">
       <tr nowrap="true">
         <th scope="col">id</th>
-        <th scope="col">"'Diretoria'"</th>
+
         <th scope="col">Contrato</th>
         <th scope="col">Unidade</th>
-        <th scope="col">Administrador</th>
-        <th scope="col">Contratada</th>
+        <th scope="col">Superintendente</th>
         <th scope="col">Data de Inicio</th>
         <th scope="col">Data Final</th>
       </tr>
@@ -21,14 +20,14 @@
     <tbody>
           {% for contrato in cont_pendentes %}
           <tr>
-            <td>{{contrato.id}}</td>
-            <td>{{contrato.r_m}}</td>
-            <td>{{contrato.numemro_contrato}}</td>
-            <td>{{contrato.unidade}}</td>
-            <td>{{contrato.administrador}}</td>
-            <td>{{contrato.nome_contratada}}</td>
-            <td>{{contrato.data_inicio|date:'d-m-Y'}}</td>
-            <td>{{contrato.data_fim|date:'d-m-Y'}}</td>
+
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.id}}</a></td>
+
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.numemro_contrato}}</a></td>
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.unidade}}</a></td>
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.superintendente}}</a></td>
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.data_inicio|date:'d-m-Y'}}</a></td>
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.data_fim|date:'d-m-Y'}}</a></td>
           </tr>
           {% endfor %}
         </tbody>

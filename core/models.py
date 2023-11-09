@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django import forms
 escolhe_M_R=(
 
-    ("R","Interior"),("M",'Metropolitana'),
+    ("Interior/Litoral","Interior/Litoral"),("M",'Metropolitana'),
 )
 hora_envio_email=(('0','00'),('1','01'))
 escolha_status=(('SIM','SIM'),('NÃO','NÃO'))
@@ -42,7 +42,7 @@ class tb_log_email(models.Model):
         verbose_name_plural = "Tabela log de emils"
 class tb_dados_contrato(Base):
     id = models.AutoField(primary_key=True)
-    r_m = models.CharField(max_length= 1,choices=escolhe_M_R,verbose_name="Metropolitana/Interior")
+    r_m = models.CharField(max_length= 20,choices=escolhe_M_R,verbose_name="Metropolitana/Interior")
     inserido = models.DateTimeField(verbose_name="Inserido em", auto_now_add=True)
     cadastrado_por = models.CharField(verbose_name="Cadastrado Por",max_length= 100, blank=False, null=False)
     unidade = models.CharField(verbose_name="Inserido em",max_length= 10, blank=False, null=False)

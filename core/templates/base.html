@@ -12,11 +12,11 @@
 </head>
 <body autocomplete="off">
   <div id="header">
-    <span class="logo" >ODG-Eficiencia Operacional</span>
+    <span class="logo" >Premio Eficiencia Operacional</span>
 
     {% if request.user.is_authenticated %}
      <ul class="menu">
-       <li {% if section == 'as_melhores' %}class="selected"{% endif %}>
+       <li {% if section == "as_melhores" %}class='selected'{% endif %}>
             <a href="{% url 'as_melhores' %}">Melhores</a>
        </li>
      </ul>
@@ -60,12 +60,15 @@
     {% endblock %}
 
   </div>
+
+    <footer>
+@2023Sabesp ODG
+
+
+    </footer>
+
 </body>
 
 
 </html>
-<footer>
-  <p align="right" color="#87CEEB"></p>
 
-  <p></p>
-</footer>
