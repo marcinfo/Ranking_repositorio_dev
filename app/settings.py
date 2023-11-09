@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     "django_extensions",
-    'rolepermissions'
+   'rolepermissions',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
@@ -173,4 +173,4 @@ EMAIL_HOST_PASSWORD = 'xmzr vigv teba yhup'
 DEFAULT_FROM_EMAIL = 'monitorapragas@gmail.com'
 
 
-ROLEPERMISSIONS_MOBILE = 'app.roles'
+ROLEPERMISSIONS_MODULE = 'app.roles'

@@ -1,6 +1,7 @@
 
 import pandas as pd
 import plotly.express as px
+from rolepermissions.roles import assign_role
 import locale
 import smtplib
 from datetime import datetime,date,timedelta
@@ -97,6 +98,7 @@ def register(request):
                 user_form.cleaned_data['password'])
             # Save the User object
             new_user.save()
+            assign_role(new_user, 'doctor')
             # Create the user profile
             Profile.objects.create(user=new_user)
             return render(request,
