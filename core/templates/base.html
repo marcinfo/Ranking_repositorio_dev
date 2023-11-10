@@ -4,15 +4,16 @@
 <!DOCTYPE html>
 <html >
 <head>
+
   <meta charset="="UTF-8>
   <title>{% block title %}{% endblock %}</title>
-  <link rel="icon" href="{% static 'images/favicon.png' %}">
+  <link rel="icon" href="{% static 'images/sabesp.png' %}">
   <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
 </head>
 <body autocomplete="off">
   <div id="header">
-    <span class="logo" >Premio Eficiencia Operacional</span>
+    <span class="logo" > <img src="{% static 'images/sabesp2.png' %}"  width="45" height="45" alt="Logo" align="left" />Premio Eficiencia Operacional</span>
     {% if request.user.is_authenticated %}
 
        <ul class="menu">
@@ -58,11 +59,17 @@
 
   <div id="content">
     {% block content %}
+
     {% endblock %}
+
 
   </div>
 
+    <footer>
+        	<p>&copy; 2023 - Todos os direitos reservados</p>
+	<p>Entre em contato pelo e-mail: contato@exemplo.com</p>
 
+    </footer>
 </body>
 
 

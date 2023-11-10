@@ -142,7 +142,7 @@ def atulizar_localizacao():
 def index(request):
 
     return render(request, 'core/index.html')
-@has_permission_decorator('cadastrar_contrato')
+@has_permission_decorator('contrato')
 def cadastrar_contrato(request):
 
     if request.method == "GET":
@@ -165,7 +165,7 @@ def cadastrar_contrato(request):
         }
         return render(request, 'core/cadastrar_contrato.html',context=context)
 
-@login_required
+@has_permission_decorator('contrato')
 def indicadores_M(request):
 
     mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
@@ -211,6 +211,7 @@ def indicadores_M(request):
             'form':form
         }
         return render(request, 'core/indicadores_M.html',context=context)
+@has_permission_decorator('contrato')
 def indicadores_R(request):
     mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
 
@@ -257,7 +258,7 @@ def indicadores_R(request):
         }
         return render(request, 'core/indicadores_R.html',context=context)
 
-@has_permission_decorator('contrato')
+@has_permission_decorator('contrato','melhores')
 def contratos_pendentes(request):
     cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
                                                       objects.values_list('contrato').filter(status='ABERTO'))
