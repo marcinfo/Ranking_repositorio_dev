@@ -1,23 +1,27 @@
 from rolepermissions.roles import AbstractUserRole
 
 class Diretor(AbstractUserRole):
+    available_permissions = {'melhores': True,}
+class Nao_liberado(AbstractUserRole):
     available_permissions = {
-        'view_as_melhores': True,
-    }
-class Nao_Logado(AbstractUserRole):
-    available_permissions = {
-        'create_medical_record': True,
+        'sem_acao': True,
     }
 
 class Staff(AbstractUserRole):
     available_permissions = {
-        'edit_patient_file': True,
+        'indicadores': True,
+        'contrato': True,
+
     }
-class Grente(AbstractUserRole):
+class Gerente(AbstractUserRole):
     available_permissions = {
-        'edit_patient_file': True,
+        'contratosinformados': True,
+
     }
 class Administrador(AbstractUserRole):
     available_permissions = {
-        'edit_patient_file': True,
+        'informar_indicadores': True,
+        'cadastrar_modificar': True,
+        'administrar':True,
     }
+

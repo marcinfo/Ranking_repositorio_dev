@@ -25,7 +25,8 @@ from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditFor
 from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrato,tb_modalidade_metropolitana,\
     tb_modalidade_interior
 from django.conf import settings
-
+from rolepermissions.decorators import has_role_decorator,has_permission_decorator
+from rolepermissions.permissions import revoke_permission
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 data_log = data=datetime.now()
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
@@ -98,7 +99,7 @@ def register(request):
                 user_form.cleaned_data['password'])
             # Save the User object
             new_user.save()
-            assign_role(new_user, 'doctor')
+            assign_role(new_user, 'nao_liberado')
             # Create the user profile
             Profile.objects.create(user=new_user)
             return render(request,
@@ -141,8 +142,9 @@ def atulizar_localizacao():
 def index(request):
 
     return render(request, 'core/index.html')
-@login_required
+@has_permission_decorator('cadastrar_contrato')
 def cadastrar_contrato(request):
+
     if request.method == "GET":
         form=Cadastrar_ContratoForm()
         context={
@@ -255,7 +257,7 @@ def indicadores_R(request):
         }
         return render(request, 'core/indicadores_R.html',context=context)
 
-
+@has_permission_decorator('contrato')
 def contratos_pendentes(request):
     cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
                                                       objects.values_list('contrato').filter(status='ABERTO'))
@@ -264,19 +266,18 @@ def contratos_pendentes(request):
               }
     return render(request, 'core/contratos_pendentes.html',context)
 
-@login_required
+@has_permission_decorator('administrar')
 def sistema(request):
-
     return render(request, 'core/sistema.html')
 
-@login_required
+@has_permission_decorator('contrato')
 def menu_indices(request):
 
     return render(request, 'core/menu_indices.html')
-@login_required
+@has_permission_decorator('contrato')
 def menu_contratos(request):
     return render(request, 'core/menu_contratos.html')
-def erro_400(
+def handle404(
         request,exception):
     return render(request, 'core/erro_404.html')
 def handler500(request, *args, **argv):
@@ -288,6 +289,8 @@ def handler401(request, exception):
 def handler402(request, exception):
     return render(request, 'core/erro_402.html',status=402)
 def handler403(request, exception):
+    error_message = messages.add_message(request, messages.ERROR, "Sem Permissão de Acesso!")
+    errors = {'errors': error_message}
     return render(request, 'core/erro_403.html',status=403)
 def handler404(request, exception):
     return render(request, 'core/erro_404.html',status=404)
@@ -368,19 +371,19 @@ def enviar_email():
     print(f'envio finalizado em {fim_envio_email}')
     print(f'Tempo de envio {tempo_envio_email}')
 
-@login_required
+@has_permission_decorator('melhores')
 def melhores_M(request):
 
     return render(request, 'core/melhores_M.html')
-@login_required
+@has_permission_decorator('melhores')
 def melhores_R(request):
 
     return render(request, 'core/melhores_R.html')
-@login_required
+@has_permission_decorator('melhores')
 def as_melhores(request):
 
     return render(request, 'core/as_melhores.html')
-@login_required
+@has_permission_decorator('contrato')
 def visualizar_contratos(request):
 
     cont_contratos = tb_dados_contrato.objects.values('id','r_m','numemro_contrato','ativo','unidade','superintendente',
@@ -390,11 +393,13 @@ def visualizar_contratos(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/visualizar_contratos.html',context)
-@login_required
+
+
+@has_permission_decorator('administrar')
 def processar_indicadores(request):
     #pagina em branco apenas botões no html SIM ou NÃO
     return render(request, 'core/processar_indicadores.html')
-@login_required
+@has_permission_decorator('adminstrador')
 def iniciar_processamento(request):
     messages.info(request,f'{data_log}  validando contratos')
     valida_contrato = tb_dados_contrato.objects.\
@@ -441,7 +446,7 @@ def iniciar_processamento(request):
 
     messages.info(request,f'{data_log} Fim do processamento')
     return render(request, 'core/iniciar_processamento.html')
-@login_required
+@has_permission_decorator('contrato')
 def status_contrato(request):
     lista_contrato_usuario = tb_dados_contrato.objects.values_list('numemro_contrato')\
         .filter(Q(Q(staff_1 = request.user)|Q(staff_2 = request.user)))
@@ -453,7 +458,7 @@ def status_contrato(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/status_contrato.html',context)
-@login_required
+@has_permission_decorator('diretor')
 def melhores_idg_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim')
@@ -461,7 +466,7 @@ def melhores_idg_r(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_idg_r.html',context)
-@login_required
+@has_permission_decorator('melhores')
 def melhores_prazo_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\
@@ -470,6 +475,7 @@ def melhores_prazo_r(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_prazo_r.html',context)
+@has_permission_decorator('melhores')
 def melhores_acidentes_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\
@@ -478,6 +484,7 @@ def melhores_acidentes_r(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_acidentes_r.html',context)
+@has_permission_decorator('melhores')
 def melhores_cadastro_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\
@@ -486,7 +493,7 @@ def melhores_cadastro_r(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_cadastro_r.html',context)
-@login_required
+@has_permission_decorator('contrato','melhores')
 def informacoes_contrato(request,pk):
     contrato = tb_dados_contrato.objects.select_related('numemro_contrato').filter( id=pk).\
         values('id','ativo','numemro_contrato','superintendente','administrador','r_m','cadastrado_por','unidade',
@@ -495,6 +502,7 @@ def informacoes_contrato(request,pk):
     context = {
         'contrato': contrato }
     return render(request, 'core/informacoes_contrato.html', context)
+@has_permission_decorator('melhores')
 def melhores_arsesp_r(request):
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\

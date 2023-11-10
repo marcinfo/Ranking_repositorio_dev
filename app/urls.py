@@ -22,8 +22,8 @@ if settings.DEBUG:
     ] + urlpatterns
 
 handler500 ='core.views.handler500'
-handler404 ='core.views.handler400'
-handler404 ='core.views.handler401'
-handler404 ='core.views.handler402'
-handler404 ='core.views.handler403'
+handler400 ='core.views.handler400'
+handler401 ='core.views.handler401'
+handler402 ='core.views.handler402'
+handler403 ='core.views.handler403'
 handler404 ='core.views.handler404'

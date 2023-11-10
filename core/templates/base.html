@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load permission_tags%}
 <html lang="pt-br">
 <!DOCTYPE html>
 <html >
@@ -13,27 +13,28 @@
 <body autocomplete="off">
   <div id="header">
     <span class="logo" >Premio Eficiencia Operacional</span>
-
     {% if request.user.is_authenticated %}
-     <ul class="menu">
-       <li {% if section == "as_melhores" %}class='selected'{% endif %}>
-            <a href="{% url 'as_melhores' %}">Melhores</a>
-       </li>
-     </ul>
 
-    <ul class="menu">
-      <li {% if section == "Indicadores" %}class='selected'{% endif %}>
-        <a href="{% url 'menu_indices' %}">Indicadores</a>
-      </li>
-      <li {% if section == 'contratos' %}class="selected"{% endif %}>
-          <a href="{% url 'menu_contratos' %}">Contratos</a>
-      </li>
-      <li {% if section == "sistema" %}class="selected"{% endif %}>
-          <a href="{% url "sistema" %}">Sistema</a>
-      </li>
+       <ul class="menu">
+         <li {% if section == "as_melhores" %}class='selected'{% endif %}>
+              <a href="{% url 'as_melhores' %}">Melhores</a>
+         </li>
+       </ul>
 
-    </ul>
-  {% endif %}
+      <ul class="menu">
+        <li {% if section == "Indicadores" %}class='selected'{% endif %}>
+          <a href="{% url 'menu_indices' %}">Indicadores</a>
+        </li>
+        <li {% if section == 'contratos' %}class="selected"{% endif %}>
+            <a href="{% url 'menu_contratos' %}">Contratos</a>
+        </li>
+        <li {% if section == "sistema" %}class="selected"{% endif %}>
+            <a href="{% url "sistema" %}">Sistema</a>
+        </li>
+
+      </ul>
+
+    {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}
       Olá, {{ request.user.username }}.
