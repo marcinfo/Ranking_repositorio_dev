@@ -48,11 +48,11 @@ class tb_dados_contrato(Base):
     unidade = models.CharField(verbose_name="Inserido em",max_length= 10, blank=False, null=False)
     numemro_contrato = models.CharField(verbose_name="Número do Contrato",max_length= 10, blank=False, null=False, unique=True)
     nome_contratada =  models.CharField(verbose_name="Nome da Contratada",max_length= 100, blank=False, null=False)
-    administrador = models.CharField(verbose_name="Responsavel da Contratada",max_length= 100, blank=False, null=False)
+    resp_contratada =  models.CharField(verbose_name="Responsavel Pela Contratada",max_length= 100, blank=True, null=True)
+    administrador = models.CharField(verbose_name="Administrador do Contrato",max_length= 100, blank=False, null=False)
     superintendente = models.CharField(verbose_name="Surperintendente",max_length= 100, blank=False, null=False)
     data_inicio = models.DateField(verbose_name="Data de Inicio do Contrato",blank=False, null=False,)
     data_fim = models.DateField(verbose_name="Data de Fim do Contrato",blank=False, null=False)
-
     staff_1 = models.CharField(max_length= 100, blank=False, null=False)
     staff_2 = models.CharField(max_length= 100, blank=False, null=False,)
 

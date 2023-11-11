@@ -42,11 +42,13 @@ class Cadastrar_ContratoForm(forms.ModelForm):
         )
     class Meta:
         model = tb_dados_contrato
-        fields = ('r_m','unidade','numemro_contrato','nome_contratada','administrador','superintendente','data_inicio','data_fim',
-                  'staff_2')
+        fields = ('r_m','unidade','numemro_contrato','nome_contratada','resp_contratada','administrador',
+                  'superintendente','data_inicio','data_fim','staff_2')
         widgets = {
-            'data_inicio': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
-            'data_fim': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
+            'data_inicio': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control',
+                                                                       'placeholder':'Select a date', 'type':'date'}),
+            'data_fim': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control',
+                                                                    'placeholder':'Select a date', 'type':'date'}),
     }
 
     def __int__(self,unidade,data_inicio,*args, **kwargs):

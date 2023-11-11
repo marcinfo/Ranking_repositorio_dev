@@ -19,7 +19,7 @@ class tb_modalidade_interiorAdmin(admin.ModelAdmin):
 @admin.register(tb_dados_contrato)
 class tb_dados_contratoAdmin(admin.ModelAdmin):
     list_display = ['id','r_m','inserido','cadastrado_por','numemro_contrato',
-                    'nome_contratada','administrador','superintendente','data_inicio','data_fim','staff_1','staff_2']
+                    'nome_contratada','resp_contratada','administrador','superintendente','data_inicio','data_fim','staff_1','staff_2']
     filter=['r_m','cadastrado_por','numemro_contrato','nome_contratada','administrador']
     ordering = ['numemro_contrato','administrador',]
     search =['r_m','cadastrado_por','numemro_contrato','nome_contratada','administrador']
