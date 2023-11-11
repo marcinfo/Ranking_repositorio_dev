@@ -15,8 +15,10 @@
   <div id="header">
     <span class="logo" > <img src="{% static 'images/sabesp.png' %}"  width="50" height="50" alt="Logo" align="left" />Premio Eficiencia Operacional</span>
     {% if request.user.is_authenticated %}
-
-       <ul class="menu">
+      {% if user|has_role:'nao_liberado'%}
+        Você ainda não tem o acesso liberado!
+     {% else%}
+    <ul class="menu">
          <li {% if section == "as_melhores" %}class='selected'{% endif %}>
               <a href="{% url 'as_melhores' %}">Melhores</a>
          </li>
@@ -34,7 +36,7 @@
         </li>
 
       </ul>
-
+    {% endif %}
     {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}
@@ -64,6 +66,12 @@
 
 
   </div>
+
+<footer>
+	<p style="text-align:center;">&copy; 2023 - Desenvolvido Por ODG</p>
+
+
+</footer>
 
 </body>
 

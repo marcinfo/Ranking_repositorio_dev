@@ -3,8 +3,9 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
+{% load static %}
+ <body id="bg" style="background-image: url('{% static "images/fundo.jpeg"%}')";>
 
-  <h3>Eficiencia Operacional desenvolvido pela ODG.</h3>
   {% if form.errors %}
     <p>
       O nome de usuário ou senha não correspondem.
@@ -14,9 +15,10 @@
 
   {% endif %}
 
-  <div class="login-form">
+  <div  class="login-form" >
 
-    <form action="{% url 'login' %}" method="post">
+    <form align="center" action="{% url 'login' %}" method="post"  >
+
       {{ form.as_p }}
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}" />
@@ -25,4 +27,5 @@
     <p><a href="{% url "register" %}">registre-se aqui</a>.</p>
     <p><a href="{% url "password_reset" %}">Esqueci a minha senha?</a></p>
   </div>
+</body>
 {% endblock %}
