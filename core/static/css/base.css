@@ -133,7 +133,7 @@ ol {
 }
 
 #content {
-    padding:30px 100px;
+    padding:0px 100px;
 }
 
 /* forms */
@@ -341,11 +341,11 @@ img.user-detail {
 .card {
   background-color:#F5FFFA;
   border-radius: 20px;
-  box-shadow: 7px 7px 13px 0px 	#8DB6CD;
-  padding: 10px;
+  box-shadow: 7px 7px 13px 0px #696969;
+  padding: 5px;
   margin: 5px;
-  width: 300px;
-  height:120px;
+  width: 320px;
+  height:130px;
   transition: all 0.1s ease-out;
 }
 
@@ -356,14 +356,14 @@ img.user-detail {
 }
 
 .card p {
-  color: #808080;
+  color: #2F4F4F;
   font-size: 13px;
  font-weight: bolder;
   text-align: left;
 
 }
 .card h {
-  color:#FF6347;
+  color:#CD4F39;
   font-size: 12px;
   text-align: center;
 
