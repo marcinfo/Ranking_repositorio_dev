@@ -27,6 +27,12 @@ from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrat
 from django.conf import settings
 from rolepermissions.decorators import has_role_decorator,has_permission_decorator
 from rolepermissions.permissions import revoke_permission
+
+config={'displayModeBar':False}
+fonte_titulo='Times New Roman'
+largura= 600
+altura=400
+
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 data_log = data=datetime.now()
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
@@ -38,7 +44,6 @@ def verifica_validade_contrato():
         for valida in valida_contrato:
             tb_dados_contrato.objects.update(ativo = 'Não')
             print(valida_contrato)
-
 def gerar_mes_referencia():
     verifica_validade_contrato()
     data=date.today() - relativedelta(months=1)
@@ -164,7 +169,6 @@ def cadastrar_contrato(request):
             'form':form
         }
         return render(request, 'core/cadastrar_contrato.html',context=context)
-
 @has_permission_decorator('contrato')
 def indicadores_M(request):
 
@@ -257,7 +261,6 @@ def indicadores_R(request):
             'form':form
         }
         return render(request, 'core/indicadores_R.html',context=context)
-
 @has_permission_decorator('contrato','melhores')
 def contratos_pendentes(request):
     cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
@@ -266,11 +269,9 @@ def contratos_pendentes(request):
 
               }
     return render(request, 'core/contratos_pendentes.html',context)
-
 @has_permission_decorator('administrar')
 def sistema(request):
     return render(request, 'core/sistema.html')
-
 @has_permission_decorator('contrato')
 def menu_indices(request):
 
@@ -295,7 +296,6 @@ def handler403(request, exception):
     return render(request, 'core/erro_403.html',status=403)
 def handler404(request, exception):
     return render(request, 'core/erro_404.html',status=404)
-
 def enviar_email_backend():
     print('Criando lista de emails')
     email_usuario = list(User.objects.values_list('first_name','email', flat=True).filter(is_active=True))
@@ -311,7 +311,6 @@ def enviar_email_backend():
     email.send()
     print('enviado')
     return HttpResponse('Email enviado com sucesso!')
-
 def enviar_email():
     inicio_envio_email = datetime.now()
 
@@ -372,18 +371,6 @@ def enviar_email():
     print(f'envio finalizado em {fim_envio_email}')
     print(f'Tempo de envio {tempo_envio_email}')
 
-@has_permission_decorator('melhores')
-def melhores_M(request):
-
-    return render(request, 'core/melhores_M.html')
-@has_permission_decorator('melhores')
-def melhores_R(request):
-
-    return render(request, 'core/melhores_R.html')
-@has_permission_decorator('melhores')
-def as_melhores(request):
-
-    return render(request, 'core/as_melhores.html')
 @has_permission_decorator('contrato')
 def visualizar_contratos(request):
 
@@ -394,8 +381,6 @@ def visualizar_contratos(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/visualizar_contratos.html',context)
-
-
 @has_permission_decorator('administrar')
 def processar_indicadores(request):
     #pagina em branco apenas botões no html SIM ou NÃO
@@ -459,12 +444,24 @@ def status_contrato(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/status_contrato.html',context)
-@has_permission_decorator('diretor')
+
 def melhores_idg_r(request):
-    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
-                                                           'administrador','data_inicio','data_fim')
-    print(cont_contratos)
-    context ={'cont_contratos':cont_contratos,
+    #idg_R_csv = pd.read_csv()
+    idg_R = pd.read_excel("C:\\Users\\maosantos\\Desktop\\Global.xlsx", sheet_name='IDR')
+    idg_R =idg_R.nlargest(3,'IGR')
+
+    graf_idg_R= px.histogram(idg_R, x=idg_R['Consórcio'], y=idg_R['IGR'].astype(float),
+
+                  height=altura,width=largura,template='simple_white',color_discrete_sequence=['#66CDAA'], color="Consórcio",
+                            )
+    graf_idg_R.update_layout(title={'text':'IGR.','font':{'size':16}}, title_font_family=fonte_titulo,
+                                     title_font_color='darkgrey',title_y=0.9,title_x=0.5)
+    graf_idg_R.update_layout(title_font_family='classic-roman',font_color='grey',showlegend=True,
+                                     yaxis_title={'text':'%','font':{'size':12}},
+                                     )
+
+    chart = graf_idg_R.to_html(config = config)
+    context ={'chart':chart,
               }
     return render(request, 'core/melhores_idg_r.html',context)
 @has_permission_decorator('melhores')
@@ -512,3 +509,59 @@ def melhores_arsesp_r(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/melhores_arsesp_r.html',context)
+@has_permission_decorator('melhores')
+def melhores_M(request):
+    indicadores = pd.read_excel("C:\\Users\\maosantos\\Desktop\\eficiencia.xlsx",sheet_name='filtro')
+
+    isap = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
+    idg = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
+    ida = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO NA ÁGUA (IDA)"')
+    ide = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO NA ESGOTO(IDE)"')
+    idr = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO REPOSIÇÃO (IDR)"')
+
+    primeiro_idr = idr.query('colocacao ==1')
+    segundo_idr = idr.query('colocacao ==2')
+    terceiro_idr = idr.query('colocacao ==3')
+
+    primeiro_isap = isap.query('colocacao ==1')
+    segundo_isap = isap.query('colocacao ==2')
+    terceiro_isap = isap.query('colocacao ==3')
+
+    primeiro_idg = idg.query('colocacao ==1')
+    segundo_idg = idg.query('colocacao ==2')
+    terceiro_idg = idg.query('colocacao ==3')
+
+    primeiro_ida = ida.query('colocacao ==1')
+    segundo_ida = ida.query('colocacao ==2')
+    terceiro_ida = ida.query('colocacao ==3')
+
+    primeiro_ide = ide.query('colocacao ==1')
+    segundo_ide = ide.query('colocacao ==2')
+    terceiro_ide = ide.query('colocacao ==3')
+
+    context ={'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
+            'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
+            'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
+            'primeiro_isap':primeiro_isap[['fornecedor']].to_string(header=False,index=False),
+            'segundo_isap':segundo_isap[['fornecedor']].to_string(header=False,index=False),
+            'terceiro_isap':terceiro_isap[['fornecedor']].to_string(header=False,index=False),
+            'primeiro_ida':primeiro_ida[['fornecedor']].to_string(header=False,index=False),
+            'segundo_ida':segundo_ida[['fornecedor']].to_string(header=False,index=False),
+            'terceiro_ida':terceiro_ida[['fornecedor']].to_string(header=False,index=False),
+            'primeiro_ide':primeiro_ide[['fornecedor']].to_string(header=False,index=False),
+            'segundo_ide':segundo_ide[['fornecedor']].to_string(header=False,index=False),
+            'terceiro_ide':terceiro_ide[['fornecedor']].to_string(header=False,index=False),
+            'primeiro_idr':primeiro_idr[['fornecedor']].to_string(header=False,index=False),
+            'segundo_idr':segundo_idr[['fornecedor']].to_string(header=False,index=False),
+            'terceiro_idr':terceiro_idr[['fornecedor']].to_string(header=False,index=False),
+              }
+    return render(request, 'core/melhores_M.html',context)
+@has_permission_decorator('melhores')
+def melhores_R(request):
+
+
+    return render(request, 'core/melhores_R.html')
+@has_permission_decorator('melhores')
+def as_melhores(request):
+
+    return render(request, 'core/as_melhores.html')

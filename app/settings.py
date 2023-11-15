@@ -106,25 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
-
-TIME_ZONE = 'America/Sao_Paulo'
-
-USE_I18N = True
-
-USE_TZ = False
 DECIMAL_SEPARATOR = ','
 USE_THOUSAND_SEPARATOR = True
 LANGUAGE_CODE = 'pt-br'
-
 TIME_ZONE = 'America/Sao_Paulo'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 DATE_INPUT_FORMATS = ('%d-%m-%Y')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -148,11 +136,7 @@ LOGOUT_REDIRECT_URL = 'index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
-
-
-
-"""SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = True
 SECURE_HSTS_INCLUDE_SUBDDOMAINS = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -161,16 +145,16 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
-SECURE_SSL_REDIRECT =True"""
+SECURE_SSL_REDIRECT =True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST ='smtp.gmail.com'
-EMAIL_HOST_USER ='monitorapragas@gmail.com'
+EMAIL_HOST ='smtp'
+EMAIL_HOST_USER =''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_PASSWORD = 'xmzr vigv teba yhup'
-DEFAULT_FROM_EMAIL = 'monitorapragas@gmail.com'
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = ''
 
 
 ROLEPERMISSIONS_MODULE = 'app.roles'

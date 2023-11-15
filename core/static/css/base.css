@@ -340,8 +340,8 @@ img.user-detail {
 
 .card {
   background-color:#F5FFFA;
-  border-radius: 5px;
-  box-shadow: 7px 7px 13px 0px rgba(50, 50, 50, 0.22);
+  border-radius: 20px;
+  box-shadow: 7px 7px 13px 0px 	#8DB6CD;
   padding: 10px;
   margin: 5px;
   width: 300px;
@@ -356,15 +356,15 @@ img.user-detail {
 }
 
 .card p {
-  color: #191970;
-  font-size: 12px;
+  color: #808080;
+  font-size: 13px;
  font-weight: bolder;
   text-align: left;
 
 }
 .card h {
-  color: #FF0000;
-  font-size: 16px;
+  color:#FF6347;
+  font-size: 12px;
   text-align: center;
 
 }

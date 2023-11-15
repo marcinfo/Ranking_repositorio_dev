@@ -42,7 +42,7 @@ class Cadastrar_ContratoForm(forms.ModelForm):
         )
     class Meta:
         model = tb_dados_contrato
-        fields = ('r_m','unidade','numemro_contrato','nome_contratada','resp_contratada','administrador',
+        fields = ('r_m','unidade','numemro_contrato','nome_contratada','gestor_1','gestor_2','resp_contratada','administrador',
                   'superintendente','data_inicio','data_fim','staff_2')
         widgets = {
             'data_inicio': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control',

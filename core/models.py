@@ -48,7 +48,9 @@ class tb_dados_contrato(Base):
     unidade = models.CharField(verbose_name="Inserido em",max_length= 10, blank=False, null=False)
     numemro_contrato = models.CharField(verbose_name="Número do Contrato",max_length= 10, blank=False, null=False, unique=True)
     nome_contratada =  models.CharField(verbose_name="Nome da Contratada",max_length= 100, blank=False, null=False)
-    resp_contratada =  models.CharField(verbose_name="Responsavel Pela Contratada",max_length= 100, blank=True, null=True)
+    gestor_1 =  models.CharField(verbose_name="Gestor do Contrato 1",max_length= 100, blank=False, null=False)
+    gestor_2 =  models.CharField(verbose_name="Gestor do Contrato 2",max_length= 100, blank=False, null=False)
+    resp_contratada =  models.CharField(verbose_name="Responsavel Pela Contratada",max_length= 100, blank=False, null=False)
     administrador = models.CharField(verbose_name="Administrador do Contrato",max_length= 100, blank=False, null=False)
     superintendente = models.CharField(verbose_name="Surperintendente",max_length= 100, blank=False, null=False)
     data_inicio = models.DateField(verbose_name="Data de Inicio do Contrato",blank=False, null=False,)
@@ -143,7 +145,7 @@ class tb_referencia_contrato(Base):
     contrato = models.CharField(max_length=20, blank=True, null=False)
     administrador = models.CharField(max_length= 100, blank=True, null=True)
     superintendente = models.CharField(max_length= 100, blank=True, null=True)
-    status = models.CharField(max_length=20, blank=True, null=False)
+    status = models.CharField(max_length=30, blank=True, null=False)
     data_hora_preenchimento = models.CharField(max_length=20, blank=True, null=False)
     staf_1 = models.CharField(max_length=20, blank=True, null=False)
     staf_2 = models.CharField(max_length=20, blank=True, null=False)
@@ -154,3 +156,26 @@ class tb_referencia_contrato(Base):
     class Meta:
         verbose_name = "Tabela Mês/Ano Referencia"
         verbose_name_plural = "Tabela Mês/Ano Referencias"
+
+class tb_premio_excel(Base):
+    id = models.AutoField(primary_key=True)
+    mes_ref =  models.CharField(verbose_name="Mes de Referencia",max_length= 7, blank=False, null=False)
+    modalidade =  models.CharField(verbose_name="Modalidade",max_length= 100, blank=False, null=False)
+    colocacao = models.IntegerField(verbose_name='Colocação')
+    indicador =  models.DecimalField(verbose_name='Indicador inteiro',max_digits=5,decimal_places=2,
+                           blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
+    fornecedor =  models.CharField(verbose_name="Fornecedor",max_length= 100, blank=False, null=False)
+    gestores =  models.CharField(verbose_name="Gestor(es)",max_length= 150, blank=False, null=False)
+    superintendencia =  models.CharField(verbose_name="Superintendencia",max_length= 5, blank=False, null=False)
+    casas_decimais =  models.DecimalField(verbose_name='Indicador',max_digits=5,decimal_places=2,
+                           blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
+    original =  models.DecimalField(verbose_name='Indicador',max_digits=5,decimal_places=2,
+                           blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
+    OS_fotos=  models.IntegerField(verbose_name='Ordens sem fotos')
+    serv_2_min = models.IntegerField(verbose_name='Serviços em 2 minutos')
+
+    def __str__(self):
+        return self.fornecedor
+    class Meta:
+        verbose_name = "Tabela indicador excel"
+        verbose_name_plural = "Tabela indicadores excel"
