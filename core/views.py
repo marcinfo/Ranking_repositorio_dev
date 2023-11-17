@@ -4,6 +4,7 @@ import plotly.express as px
 from rolepermissions.roles import assign_role
 import locale
 import smtplib
+
 from datetime import datetime,date,timedelta
 from dateutil.relativedelta import relativedelta
 from decouple import config
@@ -23,7 +24,7 @@ from django.shortcuts import render
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Cadastrar_ContratoForm,\
     informar_indicador_MForm,informar_indicador_RForm
 from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrato,tb_modalidade_metropolitana,\
-    tb_modalidade_interior
+    tb_modalidade_interior,tb_premio_excel
 from django.conf import settings
 from rolepermissions.decorators import has_role_decorator,has_permission_decorator
 from rolepermissions.permissions import revoke_permission
@@ -61,7 +62,7 @@ def gerar_mes_referencia():
             superintendente=cont[3]
             staff_1=cont[4]
             staff_2=cont[5]
-            print(staff_1)
+
             verificar_referencia = tb_referencia_contrato.objects.all().\
                 filter(mes_ano_referencia=ref,contrato=num_contra)
             if verificar_referencia.count() == 0:
@@ -279,8 +280,7 @@ def menu_indices(request):
 @has_permission_decorator('contrato')
 def menu_contratos(request):
     return render(request, 'core/menu_contratos.html')
-def handle404(
-        request,exception):
+def handle404(request,exception):
     return render(request, 'core/erro_404.html')
 def handler500(request, *args, **argv):
     return render(request, 'core/erro_500.html', status=500)
@@ -377,7 +377,7 @@ def visualizar_contratos(request):
     cont_contratos = tb_dados_contrato.objects.values('id','r_m','numemro_contrato','ativo','unidade','superintendente',
         'administrador','nome_contratada','data_inicio','data_fim').\
     filter(Q(Q(staff_1=request.user) | Q(staff_2=request.user)))
-    print(cont_contratos)
+
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/visualizar_contratos.html',context)
@@ -385,7 +385,7 @@ def visualizar_contratos(request):
 def processar_indicadores(request):
     #pagina em branco apenas botões no html SIM ou NÃO
     return render(request, 'core/processar_indicadores.html')
-@has_permission_decorator('adminstrador')
+
 def iniciar_processamento(request):
     messages.info(request,f'{data_log}  validando contratos')
     valida_contrato = tb_dados_contrato.objects.\
@@ -436,7 +436,7 @@ def iniciar_processamento(request):
 def status_contrato(request):
     lista_contrato_usuario = tb_dados_contrato.objects.values_list('numemro_contrato')\
         .filter(Q(Q(staff_1 = request.user)|Q(staff_2 = request.user)))
-    print(lista_contrato_usuario)
+
     cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
                                                            'administrador','data_inicio','data_fim').\
         filter(contrato__in =lista_contrato_usuario,status = "ABERTO")
@@ -444,74 +444,39 @@ def status_contrato(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/status_contrato.html',context)
-
 def melhores_idg_r(request):
-    #idg_R_csv = pd.read_csv()
-    idg_R = pd.read_excel("C:\\Users\\maosantos\\Desktop\\Global.xlsx", sheet_name='IDR')
-    idg_R =idg_R.nlargest(3,'IGR')
 
-    graf_idg_R= px.histogram(idg_R, x=idg_R['Consórcio'], y=idg_R['IGR'].astype(float),
-
-                  height=altura,width=largura,template='simple_white',color_discrete_sequence=['#66CDAA'], color="Consórcio",
-                            )
-    graf_idg_R.update_layout(title={'text':'IGR.','font':{'size':16}}, title_font_family=fonte_titulo,
-                                     title_font_color='darkgrey',title_y=0.9,title_x=0.5)
-    graf_idg_R.update_layout(title_font_family='classic-roman',font_color='grey',showlegend=True,
-                                     yaxis_title={'text':'%','font':{'size':12}},
-                                     )
-
-    chart = graf_idg_R.to_html(config = config)
-    context ={'chart':chart,
-              }
-    return render(request, 'core/melhores_idg_r.html',context)
+    return render(request, 'core/melhores_idg_r.html')
 @has_permission_decorator('melhores')
 def melhores_prazo_r(request):
-    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
-                                                           'administrador','data_inicio','data_fim').\
-        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
-    print(cont_contratos)
-    context ={'cont_contratos':cont_contratos,
-              }
-    return render(request, 'core/melhores_prazo_r.html',context)
+
+    return render(request, 'core/melhores_prazo_r.html')
 @has_permission_decorator('melhores')
 def melhores_acidentes_r(request):
-    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
-                                                           'administrador','data_inicio','data_fim').\
-        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
-    print(cont_contratos)
-    context ={'cont_contratos':cont_contratos,
-              }
-    return render(request, 'core/melhores_acidentes_r.html',context)
+
+    return render(request, 'core/melhores_acidentes_r.html')
 @has_permission_decorator('melhores')
 def melhores_cadastro_r(request):
-    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
-                                                           'administrador','data_inicio','data_fim').\
-        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
-    print(cont_contratos)
-    context ={'cont_contratos':cont_contratos,
-              }
-    return render(request, 'core/melhores_cadastro_r.html',context)
+
+    return render(request, 'core/melhores_cadastro_r.html')
 @has_permission_decorator('contrato','melhores')
 def informacoes_contrato(request,pk):
     contrato = tb_dados_contrato.objects.select_related('numemro_contrato').filter( id=pk).\
         values('id','ativo','numemro_contrato','superintendente','administrador','r_m','cadastrado_por','unidade',
                'nome_contratada','inserido','data_inicio','data_fim','staff_1','staff_2')
-    print(contrato)
+
     context = {
         'contrato': contrato }
     return render(request, 'core/informacoes_contrato.html', context)
 @has_permission_decorator('melhores')
 def melhores_arsesp_r(request):
-    cont_contratos = tb_referencia_contrato.objects.values('id','mes_ano_referencia','contrato','unidade','status',
-                                                           'administrador','data_inicio','data_fim').\
-        filter(Q(Q(staf_1=request.user) | Q(staf_2=request.user)))
-    print(cont_contratos)
-    context ={'cont_contratos':cont_contratos,
-              }
-    return render(request, 'core/melhores_arsesp_r.html',context)
+
+    return render(request, 'core/melhores_arsesp_r.html')
 @has_permission_decorator('melhores')
 def melhores_M(request):
-    indicadores = pd.read_excel("C:\\Users\\maosantos\\Desktop\\eficiencia.xlsx",sheet_name='filtro')
+    tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade')
+    indicadores = pd.DataFrame(tabela)
+    indicadores=indicadores[['fornecedor','colocacao','modalidade']]
 
     isap = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
     idg = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
@@ -565,3 +530,66 @@ def melhores_R(request):
 def as_melhores(request):
 
     return render(request, 'core/as_melhores.html')
+@has_permission_decorator('melhores')
+def melhores_M_idg(request):
+
+    referencia = tb_premio_excel.objects.values('mes_ref').first()
+
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+                                                    'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+        filter(Q(modalidade = 'INDICE DE DESEMPENHO GLOBAL (IDG)'))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+              }
+
+    return render(request, 'core/melhores_M_idg.html',context)
+@has_permission_decorator('melhores')
+def melhores_M_isap(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').first()
+
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+                                                    'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+        filter(Q(modalidade = 'SERVIÇOS ATENDIDOS NO PRAZO (ISAP)'))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+              }
+    return render(request, 'core/melhores_M_isap.html',context)
+@has_permission_decorator('melhores')
+def melhores_M_idr(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').first()
+
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+                                                    'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+        filter(Q(modalidade = 'INDICE DE DESEMPENHO REPOSIÇÃO (IDR)'))
+
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+              }
+    return render(request, 'core/melhores_M_idr.html',context)
+@has_permission_decorator('melhores')
+def melhores_M_ida(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').first()
+
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+                                                    'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+        filter(Q(modalidade = 'INDICE DE DESEMPENHO NA ÁGUA (IDA)'))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+              }
+    return render(request, 'core/melhores_M_ida.html',context)
+@has_permission_decorator('melhores')
+def melhores_M_ide(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').first()
+
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+                                                    'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+        filter(Q(modalidade = 'INDICE DE DESEMPENHO NA ESGOTO(IDE)'))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+              }
+    return render(request, 'core/melhores_M_ide.html',context)

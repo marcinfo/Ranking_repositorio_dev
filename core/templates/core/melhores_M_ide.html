@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}ODG{% endblock %}
+
+{% block content %}
+<h2 align="center">IDE Metropolitana.</h2>
+<div class="table-responsive">
+  <table class="table table-striped" align="center">
+    <thead class="thead-dark">
+      <tr nowrap="true">
+        <th scope="col">Colocação</th>
+        <th scope="col">Contrato</th>
+        <th scope="col">Fornecedor</th>
+        <th scope="col">gestores</th>
+        <th scope="col">Indicador</th>
+        <th scope="col">1º Desempate </th>
+          <th scope="col">Fotos </th>
+          <th scope="col">Serviços 2 minutos </th>
+      </tr>
+    </thead>
+    <tbody>
+          {% for contrato in cont_contratos %}
+          <tr>
+            <td>{{contrato.colocacao}}</td>
+            <td>{{contrato.contrato}}</td>
+            <td>{{contrato.fornecedor}}</td>
+            <td>{{contrato.gestores}}</td>
+            <td>{{contrato.casas_decimais}}</td>
+              <td>{{contrato.original}}</td>
+              <td>{{contrato.OS_fotos}}</td>
+              <td>{{contrato.serv_2_min}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+{% endblock %}

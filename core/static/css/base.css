@@ -356,9 +356,9 @@ img.user-detail {
 }
 
 .card p {
-  color: #2F4F4F;
-  font-size: 13px;
- font-weight: bolder;
+  color: #000000;
+  font-size: 12px;
+
   text-align: left;
 
 }

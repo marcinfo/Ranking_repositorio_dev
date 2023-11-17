@@ -5,55 +5,52 @@
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
-<h2 color="#4B0082" align="center">Melhores da M</h2>
+<h3 color="#4B0082" align="center">Melhores da M - Referencia {{referencia}}</h3>
 <div class="row">
     <div class="card blue">
-        <a>
+        <a href="{% url 'melhores_M_idg' %}">
        <h>INDICE DE DESEMPENHO GLOBAL (IDG): </h>
-        <p>1º {{primeiro_idg}}</p>
-        <p>2º {{segundo_idg}}</p>
-        <p>3º {{terceiro_idg}}</p>
+        <p>1º - <b>{{primeiro_idg}}</b></p>
+        <p>2º - <b>{{segundo_idg}}</b></p>
+        <p>3º - <b>{{terceiro_idg}}</b></p>
         </a>
     </div>
     <div class="card blue">
-        <a>
-        <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP)<h></h>
-        <p>1º {{primeiro_isap}}</p>
-        <p>2º {{segundo_isap}}</p>
-        <p>3º {{terceiro_isap}}</p>
+        <a href="{% url 'melhores_M_isap' %}">
+        <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP)</b></h>
+        <p>1º - <b>{{primeiro_isap}}</b></p>
+        <p>2º - <b>{{segundo_isap}}</b></p>
+        <p>3º - <b>{{terceiro_isap}}</b></p>
         </a>
     </div>
         <div class="card blue">
-        <a>
+        <a href="{% url 'melhores_M_idr' %}">
         <h>INDICE DE DESEMPENHO REPOSIÇÃO (IDR): </h>
-        <p>1º {{primeiro_idr}}</p>
-        <p>2º {{segundo_idr}}</p>
-        <p>3º {{terceiro_idr}}</p>
+        <p>1º - <b>{{primeiro_idr}}</b></p>
+        <p>2º - <b>{{segundo_idr}}</b></p>
+        <p>3º - <b>{{terceiro_idr}}</b></p>
         </a>
 
     </div>
 </div>
 <div class="row">
     <div class="card blue">
-        <a>
+        <a href="{% url 'melhores_M_ida' %}">
         <h>INDICE DE DESEMPENHO NA ÁGUA (IDA): </h>
-        <p>1º {{primeiro_ida}}</p>
-        <p>2º {{segundo_ida}}</p>
-        <p>3º {{terceiro_ida}}</p>
+        <p>1º - <b>{{primeiro_ida}}</b></p>
+        <p>2º - <b>{{segundo_ida}}</b></p>
+        <p>3º - <b>{{terceiro_ida}}</b></p>
         </a>
     </div>
     <div class="card blue">
-        <a>
-        <h>INDICE DE DESEMPENHO NA ESGOTO(IDE): </h>
-        <p>1º {{primeiro_ide}}</p>
-        <p>2º {{segundo_ide}}</p>
-        <p>3º {{terceiro_ide}}</p>
+        <a href="{% url 'melhores_M_ide' %}">
+        <h>INDICE DE DESEMPENHO NO ESGOTO(IDE): </h>
+        <p>1º - <b>{{primeiro_ide}}</b></p>
+        <p>2º - <b>{{segundo_ide}}</b></p>
+        <p>3º - <b>{{terceiro_ide}}</b></p>
         </a>
     </div>
-    <div class="row">
 
-    <div class="card blue">
-    </div>
 
 </div>
 </div>

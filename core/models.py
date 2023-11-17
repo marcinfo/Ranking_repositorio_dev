@@ -164,15 +164,19 @@ class tb_premio_excel(Base):
     colocacao = models.IntegerField(verbose_name='Colocação')
     indicador =  models.DecimalField(verbose_name='Indicador inteiro',max_digits=5,decimal_places=2,
                            blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
+    contrato = models.CharField(max_length=10)
     fornecedor =  models.CharField(verbose_name="Fornecedor",max_length= 100, blank=False, null=False)
     gestores =  models.CharField(verbose_name="Gestor(es)",max_length= 150, blank=False, null=False)
     superintendencia =  models.CharField(verbose_name="Superintendencia",max_length= 5, blank=False, null=False)
-    casas_decimais =  models.DecimalField(verbose_name='Indicador',max_digits=5,decimal_places=2,
+    superintendente =  models.CharField(verbose_name="Superintendente",max_length= 5, blank=True, null=True)
+    casas_decimais =  models.DecimalField(max_digits=5,decimal_places=2,
                            blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    original =  models.DecimalField(verbose_name='Indicador',max_digits=5,decimal_places=2,
-                           blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
-    OS_fotos=  models.IntegerField(verbose_name='Ordens sem fotos')
-    serv_2_min = models.IntegerField(verbose_name='Serviços em 2 minutos')
+    original =  models.DecimalField(max_digits=5,decimal_places=2,
+                           blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
+    OS_fotos =  models.DecimalField(verbose_name='Fotos',max_digits=5,decimal_places=2,
+                           blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
+    serv_2_min = models.DecimalField(verbose_name='Serviços 2 Minutos',max_digits=5,decimal_places=2,
+                           blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
 
     def __str__(self):
         return self.fornecedor

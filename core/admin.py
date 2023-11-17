@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile,tb_dados_contrato,tb_modalidade_interior,tb_modalidade_metropolitana,\
-    tb_log_email,tb_unidades,tb_referencia_contrato
+    tb_log_email,tb_unidades,tb_referencia_contrato,tb_premio_excel
 
 
 @admin.register(Profile)
@@ -32,3 +32,10 @@ class tb_unidadesAdmin(admin.ModelAdmin):
 class tb_referencia_contratoAdmin(admin.ModelAdmin):
     list_display = ['id','status','unidade','administrador','mes_ano_referencia','resp_preenchimento','contrato','data_hora_preenchimento',
                     'staf_1','staf_2']
+
+
+@admin.register(tb_premio_excel)
+class tb_premio_excelAdmin(admin.ModelAdmin):
+    list_display = ['mes_ref','modalidade','colocacao','indicador','contrato','fornecedor','gestores',
+                    'superintendencia','casas_decimais','original','OS_fotos','serv_2_min',
+			'OS_fotos','serv_2_min']
