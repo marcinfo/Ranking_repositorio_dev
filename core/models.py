@@ -179,7 +179,7 @@ class tb_premio_excel(Base):
                            blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
 
     def __str__(self):
-        return self.fornecedor
+        return self.fornecedor, self.mes_ref
     class Meta:
         verbose_name = "Tabela indicador excel"
         verbose_name_plural = "Tabela indicadores excel"

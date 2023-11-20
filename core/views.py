@@ -37,6 +37,8 @@ altura=400
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 data_log = data=datetime.now()
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
+global ref
+ref =  tb_premio_excel.objects.values('mes_ref').last()
 def verifica_validade_contrato():
 
         valida_contrato = tb_dados_contrato.objects.\
@@ -474,15 +476,25 @@ def melhores_arsesp_r(request):
     return render(request, 'core/melhores_arsesp_r.html')
 @has_permission_decorator('melhores')
 def melhores_M(request):
-    tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade')
-    indicadores = pd.DataFrame(tabela)
-    indicadores=indicadores[['fornecedor','colocacao','modalidade']]
+    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    ref = str(pd.DataFrame(referencia))
 
-    isap = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
-    idg = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
-    ida = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO NA ÁGUA (IDA)"')
-    ide = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO NA ESGOTO(IDE)"')
-    idr = indicadores[['fornecedor','colocacao','modalidade']].query('modalidade=="INDICE DE DESEMPENHO REPOSIÇÃO (IDR)"')
+    busca=request.POST.get('mes_ref')
+    tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref')
+
+    if (request.method=="POST") & (request.POST.get('mes_ref') != '') :
+
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca)
+    else:
+        ref = tb_premio_excel.objects.values_list('mes_ref').last()
+
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref__in =ref)
+    indicadores = pd.DataFrame(tabela)
+    isap = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
+    idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
+    ida = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO NA ÁGUA (IDA)"')
+    ide = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO NA ESGOTO(IDE)"')
+    idr = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO REPOSIÇÃO (IDR)"')
 
     primeiro_idr = idr.query('colocacao ==1')
     segundo_idr = idr.query('colocacao ==2')
@@ -504,7 +516,8 @@ def melhores_M(request):
     segundo_ide = ide.query('colocacao ==2')
     terceiro_ide = ide.query('colocacao ==3')
 
-    context ={'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
+    context ={'referencia':referencia,
+        'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
             'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
             'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
             'primeiro_isap':primeiro_isap[['fornecedor']].to_string(header=False,index=False),
@@ -548,7 +561,7 @@ def melhores_M_idg(request):
 def melhores_M_isap(request):
     referencia = tb_premio_excel.objects.values('mes_ref').first()
 
-    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
                                                     'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
         filter(Q(modalidade = 'SERVIÇOS ATENDIDOS NO PRAZO (ISAP)'))
 
@@ -560,7 +573,7 @@ def melhores_M_isap(request):
 def melhores_M_idr(request):
     referencia = tb_premio_excel.objects.values('mes_ref').first()
 
-    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
                                                     'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
         filter(Q(modalidade = 'INDICE DE DESEMPENHO REPOSIÇÃO (IDR)'))
 
@@ -571,21 +584,21 @@ def melhores_M_idr(request):
     return render(request, 'core/melhores_M_idr.html',context)
 @has_permission_decorator('melhores')
 def melhores_M_ida(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').first()
 
-    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
                                                     'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
-        filter(Q(modalidade = 'INDICE DE DESEMPENHO NA ÁGUA (IDA)'))
+        filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ÁGUA (IDA)')
+                 ))
 
     context ={'cont_contratos':cont_contratos,
-              'referencia':referencia,
+
               }
     return render(request, 'core/melhores_M_ida.html',context)
 @has_permission_decorator('melhores')
 def melhores_M_ide(request):
     referencia = tb_premio_excel.objects.values('mes_ref').first()
 
-    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores',
+    cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
                                                     'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
         filter(Q(modalidade = 'INDICE DE DESEMPENHO NA ESGOTO(IDE)'))
 

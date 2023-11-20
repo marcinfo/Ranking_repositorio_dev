@@ -9,6 +9,7 @@
     <thead class="thead-dark">
       <tr nowrap="true">
         <th scope="col">Colocação</th>
+        <th scope="col">Referencia</th>
         <th scope="col">Contrato</th>
         <th scope="col">Fornecedor</th>
         <th scope="col">gestores</th>
@@ -22,6 +23,7 @@
           {% for contrato in cont_contratos %}
           <tr>
             <td>{{contrato.colocacao}}</td>
+              <td>{{contrato.mes_ref}}</td>
             <td>{{contrato.contrato}}</td>
             <td>{{contrato.fornecedor}}</td>
             <td>{{contrato.gestores}}</td>
@@ -35,4 +37,9 @@
       </table>
 
 </div>
+<form action="{% url 'melhores_M' %}" align="right">
+    <div align="right">
+    <input align="right" type="submit" value="Voltar" />
+    </div>
+</form>
 {% endblock %}

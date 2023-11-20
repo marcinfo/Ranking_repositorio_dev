@@ -465,3 +465,10 @@ footer {
     text-align:auto;
     line-height: 100px;
 }
+select {
+    appearance: none;
+    webkit-appearance: none;
+    moz-appearance: none;
+    margin: auto;
+    margin: 5px auto;
+}

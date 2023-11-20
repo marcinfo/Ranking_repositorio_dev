@@ -5,7 +5,23 @@
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
-<h3 color="#4B0082" align="center">Melhores da M - Referencia {{referencia}}</h3>
+<h3 color="#4B0082" align="center">Melhores da M -  mes_ref</h3>
+<hr>
+
+<form method="POST">
+    <div >
+    {% csrf_token %}
+    <select name="mes_ref" style="font-size: 15px;height: 34px;width: 100px;" required >
+        <option value="">Referencia</option>
+        {% for ref in referencia %}
+        <option>{{ ref.mes_ref}}</option>
+         {% endfor %}
+    </select>
+    <input type="submit" value="Buscar">
+    <hr>
+        </div>
+</form>
+
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_idg' %}">
@@ -57,5 +73,5 @@
 
 
 </body>
-</html>
+
 {% endblock  %}
