@@ -11,12 +11,11 @@
         {% csrf_token %}
         <div align="center">
             <select onchange="this.form.submit()" name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required>
-                <option value="">Referencia</option>
+                <option value="">Referência</option>
                 {% for ref in referencia %}
                 <option>{{ ref.mes_ref}}</option>
                 {% endfor %}
             </select>
-
         </div>
         <div></div>
     </form>
@@ -27,8 +26,8 @@
         <table class="table table-striped" align="center">
             <thead class="thead-dark">
             <tr nowrap="true">
-                <th scope="col">Colocação</th>
-                <th scope="col">Referencia</th>
+                <th scope="col">Nº</th>
+                <th scope="col">Ref.</th>
                 <th scope="col">Contrato</th>
                 <th scope="col">Fornecedor</th>
                 <th scope="col">Gestor(es)</th>

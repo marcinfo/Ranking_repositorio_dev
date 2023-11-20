@@ -354,9 +354,9 @@ img.user-detail {
 
 .card:hover {
   transform: translateY(10px);
-  transform: scale(1.2);
+  transform: scale(1.4);
   cursor: pointer;
-  background-color:#ADD8E667;
+  background-color:#ADD8E677;
 
 }
 

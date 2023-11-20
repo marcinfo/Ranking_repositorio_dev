@@ -13,42 +13,39 @@
         {% csrf_token %}
         <div align="center">
             <select class="form-control" name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required onchange="this.form.submit()">
-                <option value="">Referencia</option>
+                <option value="">Referência</option>
                 {% for ref in referencia %}
                 <option>{{ ref.mes_ref}}</option>
                 {% endfor %}
             </select>
-
         </div>
         <div></div>
     </form>
-
 </div>
-
-
+<br>
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_idg' %}">
             <h>INDICE DE DESEMPENHO GLOBAL (IDG):</h>
-            <p>1º - <b>{{primeiro_idg}}</b></p>
-            <p>2º - <b>{{segundo_idg}}</b></p>
-            <p>3º - <b>{{terceiro_idg}}</b></p>
+            <p>1º - {{primeiro_idg}}</p>
+            <p>2º - {{segundo_idg}}</p>
+            <p>3º - {{terceiro_idg}}</p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_M_isap' %}">
             <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP)</b></h>
-            <p>1º - <b>{{primeiro_isap}}</b></p>
-            <p>2º - <b>{{segundo_isap}}</b></p>
-            <p>3º - <b>{{terceiro_isap}}</b></p>
+            <p>1º - {{primeiro_isap}}</p>
+            <p>2º - {{segundo_isap}}</p>
+            <p>3º - {{terceiro_isap}}</p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_M_idr' %}">
             <h>INDICE DE DESEMPENHO REPOSIÇÃO (IDR):</h>
-            <p>1º - <b>{{primeiro_idr}}</b></p>
-            <p>2º - <b>{{segundo_idr}}</b></p>
-            <p>3º - <b>{{terceiro_idr}}</b></p>
+            <p>1º - {{primeiro_idr}}</p>
+            <p>2º - {{segundo_idr}}</p>
+            <p>3º - {{terceiro_idr}}</p>
         </a>
 
     </div>
@@ -57,17 +54,17 @@
     <div class="card blue">
         <a href="{% url 'melhores_M_ida' %}">
             <h>INDICE DE DESEMPENHO NA ÁGUA (IDA):</h>
-            <p>1º - <b>{{primeiro_ida}}</b></p>
-            <p>2º - <b>{{segundo_ida}}</b></p>
-            <p>3º - <b>{{terceiro_ida}}</b></p>
+            <p>1º - {{primeiro_ida}}</p>
+            <p>2º - {{segundo_ida}}</p>
+            <p>3º - {{terceiro_ida}}</p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_M_ide' %}">
             <h>INDICE DE DESEMPENHO NO ESGOTO(IDE):</h>
-            <p>1º - <b>{{primeiro_ide}}</b></p>
-            <p>2º - <b>{{segundo_ide}}</b></p>
-            <p>3º - <b>{{terceiro_ide}}</b></p>
+            <p>1º - {{primeiro_ide}}</p>
+            <p>2º - {{segundo_ide}}</p>
+            <p>3º - {{terceiro_ide}}</p>
         </a>
     </div>
 
