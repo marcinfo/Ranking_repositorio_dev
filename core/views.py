@@ -461,6 +461,9 @@ def melhores_acidentes_r(request):
 def melhores_cadastro_r(request):
 
     return render(request, 'core/melhores_cadastro_r.html')
+def contatos(request):
+
+    return render(request, 'core/contatos.html')
 @has_permission_decorator('contrato','melhores')
 def informacoes_contrato(request,pk):
     contrato = tb_dados_contrato.objects.select_related('numemro_contrato').filter( id=pk).\
@@ -487,10 +490,11 @@ def melhores_M(request):
         tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca)
 
         ref = request.POST.get('mes_ref')
+
     else:
         ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
-
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref__in =ref)
+        ref=pd.DataFrame(ref).to_string(header=False,index=False)
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref)
     indicadores = pd.DataFrame(tabela)
     isap = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
     idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
@@ -518,7 +522,7 @@ def melhores_M(request):
     segundo_ide = ide.query('colocacao ==2')
     terceiro_ide = ide.query('colocacao ==3')
 
-    context ={'referencia':referencia,
+    context ={'referencia':referencia,'ref':ref,
         'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
             'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
             'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),

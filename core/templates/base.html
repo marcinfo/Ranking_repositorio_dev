@@ -37,6 +37,11 @@
 
       </ul>
     {% endif %}
+        <ul class="menu">
+         <li {% if section == "contatos" %}class='selected'{% endif %}>
+              <a href="{% url 'contatos' %}">Duvidas</a>
+         </li>
+       </ul>
     {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}

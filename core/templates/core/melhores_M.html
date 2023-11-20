@@ -1,54 +1,54 @@
 {% extends "base.html" %}
 
-{% block title %}ODG-Eficiencia Operacional{% endblock %}
+{% block title %}ODG-Eficiencia Operacional {% endblock %}
 
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
-<h3 color="#4B0082" align="center">Melhores da M -  mes_ref</h3>
+<h3 color="#4B0082" align="center">Melhores da M - {{ref}}</h3>
 <hr>
 <div class="row">
-<form method="POST">
-    <div></div>
-    {% csrf_token %}
-    <div align="center">
-    <select name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required >
-        <option value="">Referencia</option>
-        {% for ref in referencia %}
-        <option>{{ ref.mes_ref}}</option>
-         {% endfor %}
-    </select>
-    <input style="font-size: 12px;height: 30px;width: 100px; align;center;"  type="submit" value="Buscar">
-    </div>
-<div></div>
-</form>
+    <form method="POST">
+        <div></div>
+        {% csrf_token %}
+        <div align="center">
+            <select class="form-control" name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required onchange="this.form.submit()">
+                <option value="">Referencia</option>
+                {% for ref in referencia %}
+                <option>{{ ref.mes_ref}}</option>
+                {% endfor %}
+            </select>
 
-    </div>
+        </div>
+        <div></div>
+    </form>
+
+</div>
 
 
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_idg' %}">
-       <h>INDICE DE DESEMPENHO GLOBAL (IDG): </h>
-        <p>1º - <b>{{primeiro_idg}}</b></p>
-        <p>2º - <b>{{segundo_idg}}</b></p>
-        <p>3º - <b>{{terceiro_idg}}</b></p>
+            <h>INDICE DE DESEMPENHO GLOBAL (IDG):</h>
+            <p>1º - <b>{{primeiro_idg}}</b></p>
+            <p>2º - <b>{{segundo_idg}}</b></p>
+            <p>3º - <b>{{terceiro_idg}}</b></p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_M_isap' %}">
-        <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP)</b></h>
-        <p>1º - <b>{{primeiro_isap}}</b></p>
-        <p>2º - <b>{{segundo_isap}}</b></p>
-        <p>3º - <b>{{terceiro_isap}}</b></p>
+            <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP)</b></h>
+            <p>1º - <b>{{primeiro_isap}}</b></p>
+            <p>2º - <b>{{segundo_isap}}</b></p>
+            <p>3º - <b>{{terceiro_isap}}</b></p>
         </a>
     </div>
-        <div class="card blue">
+    <div class="card blue">
         <a href="{% url 'melhores_M_idr' %}">
-        <h>INDICE DE DESEMPENHO REPOSIÇÃO (IDR): </h>
-        <p>1º - <b>{{primeiro_idr}}</b></p>
-        <p>2º - <b>{{segundo_idr}}</b></p>
-        <p>3º - <b>{{terceiro_idr}}</b></p>
+            <h>INDICE DE DESEMPENHO REPOSIÇÃO (IDR):</h>
+            <p>1º - <b>{{primeiro_idr}}</b></p>
+            <p>2º - <b>{{segundo_idr}}</b></p>
+            <p>3º - <b>{{terceiro_idr}}</b></p>
         </a>
 
     </div>
@@ -56,18 +56,18 @@
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_ida' %}">
-        <h>INDICE DE DESEMPENHO NA ÁGUA (IDA): </h>
-        <p>1º - <b>{{primeiro_ida}}</b></p>
-        <p>2º - <b>{{segundo_ida}}</b></p>
-        <p>3º - <b>{{terceiro_ida}}</b></p>
+            <h>INDICE DE DESEMPENHO NA ÁGUA (IDA):</h>
+            <p>1º - <b>{{primeiro_ida}}</b></p>
+            <p>2º - <b>{{segundo_ida}}</b></p>
+            <p>3º - <b>{{terceiro_ida}}</b></p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_M_ide' %}">
-        <h>INDICE DE DESEMPENHO NO ESGOTO(IDE): </h>
-        <p>1º - <b>{{primeiro_ide}}</b></p>
-        <p>2º - <b>{{segundo_ide}}</b></p>
-        <p>3º - <b>{{terceiro_ide}}</b></p>
+            <h>INDICE DE DESEMPENHO NO ESGOTO(IDE):</h>
+            <p>1º - <b>{{primeiro_ide}}</b></p>
+            <p>2º - <b>{{segundo_ide}}</b></p>
+            <p>3º - <b>{{terceiro_ide}}</b></p>
         </a>
     </div>
 

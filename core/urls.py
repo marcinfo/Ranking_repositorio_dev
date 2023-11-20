@@ -36,4 +36,5 @@ urlpatterns = [
     path('processar_indicadores/', views.processar_indicadores, name='processar_indicadores'),
     path('iniciar_processamento/', views.iniciar_processamento, name='iniciar_processamento'),
     path('enviar_email_backend/', views.enviar_email_backend, name='enviar_email_backend'),
+    path('contatos/', views.contatos, name='contatos'),
 ]

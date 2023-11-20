@@ -5,11 +5,17 @@
 {% block content %}
 {% load static %}
 
-    <body>
-    <div align="center">
-        <a href='{% url "contratos_pendentes" %}'><button>Contratos Pendentes</button></a><br>
-        <a href='{% url "processar_indicadores" %}'><button>Processar Indicadores</button></a><br>
-        <a href='{% url "admin:index" %}'><button>Administrar</button></a><br>
-    </div>
+<body>
+<div align="center">
+    <a href='{% url "contratos_pendentes" %}'>
+        <button>Contratos Pendentes</button>
+    </a><br>
+    <a href='{% url "processar_indicadores" %}'>
+        <button>Processar Indicadores</button>
+    </a><br>
+    <a href='{% url "admin:index" %}'>
+        <button>Administrar</button>
+    </a><br>
+</div>
 </body>
 {% endblock  %}

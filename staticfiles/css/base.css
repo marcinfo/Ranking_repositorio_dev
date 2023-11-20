@@ -23,14 +23,17 @@ td, th {
     text-align: center;
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-size: 13px;
+    text-transform: uppercase;
 }
 
 th{
-  background-color:	#F5FFFA;
+font-size: 12px;
+  background-color:#B0E0E650;
 }
 td{
 
-  background-color:#F0FFFF;
+  background-color:#F0FFFF80;
 }
 
 table{
@@ -115,8 +118,8 @@ ol {
 }
 
 #header ul.menu li.selected a, #header ul.menu li.selected a:hover {
-    /*color:#FFFFE0;*/
-    /*font-weight:bold;*/
+    color:#FFFFE0;
+    font-weight:bold;
 }
 
 #header a {
@@ -339,7 +342,7 @@ img.user-detail {
 }
 
 .card {
-  background-color:#F5FFFA;
+  background-color:#F5FFFAAA;
   border-radius: 20px;
   box-shadow: 7px 7px 13px 0px #696969;
   padding: 5px;
@@ -353,6 +356,8 @@ img.user-detail {
   transform: translateY(10px);
   transform: scale(1.4);
   cursor: pointer;
+  background-color:#ADD8E677;
+
 }
 
 .card p {
@@ -465,3 +470,4 @@ footer {
     text-align:auto;
     line-height: 100px;
 }
+

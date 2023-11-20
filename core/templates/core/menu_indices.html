@@ -4,11 +4,17 @@
 
 {% block content %}
 <body>
-    <div align="center">
-        <a href='{% url 'indicadores_M' %}'><button>Informar Indicador M</button></a><br>
-        <a href='{% url 'indicadores_R' %}'><button>Informar Indicador R</button></a><br>
+<div align="center">
+    <a href='{% url ' indicadores_M' %}'>
+    <button>Informar Indicador M</button>
+    </a><br>
+    <a href='{% url ' indicadores_R' %}'>
+    <button>Informar Indicador R</button>
+    </a><br>
 
-        <a href='{% url 'status_contrato' %}'><button>Status Contratos</button></a><br>
-    </div>
+    <a href='{% url ' status_contrato' %}'>
+    <button>Status Contratos</button>
+    </a><br>
+</div>
 </body>
 {% endblock %}

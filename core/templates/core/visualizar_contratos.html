@@ -5,32 +5,32 @@
 {% block content %}
 <h2 align="center">Informações do Contratos</h2>
 <div class="table-responsive">
-  <table class="table table-striped" align="center">
-    <thead class="thead-dark">
-      <tr nowrap="true">
-        <th scope="col">id</th>
+    <table class="table table-striped" align="center">
+        <thead class="thead-dark">
+        <tr nowrap="true">
+            <th scope="col">id</th>
 
-        <th scope="col">"'Diretoria'"</th>
-        <th scope="col">Contrato</th>
-        <th scope="col">Ativo</th>
-        <th scope="col">Unidade</th>
-        <th scope="col">Superintendente</th>
+            <th scope="col">"'Diretoria'"</th>
+            <th scope="col">Contrato</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Unidade</th>
+            <th scope="col">Superintendente</th>
 
-      </tr>
-    </thead>
-    <tbody>
-          {% for contrato in cont_contratos %}
-          <tr>
-            <td><a  href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.id}}</a></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for contrato in cont_contratos %}
+        <tr>
+            <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.id}}</a></td>
             <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.r_m}}</a></td>
             <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.numemro_contrato}}</td>
             <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.ativo}}</td>
             <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.unidade}}</td>
             <td><a href="{% url 'informacoes_contrato' contrato.id %}">{{contrato.superintendente}}</td>
-          </tr>
-          {% endfor %}
+        </tr>
+        {% endfor %}
         </tbody>
-      </table>
+    </table>
 
 </div>
 {% endblock %}
