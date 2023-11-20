@@ -479,7 +479,7 @@ def melhores_arsesp_r(request):
     return render(request, 'core/melhores_arsesp_r.html')
 @has_permission_decorator('melhores')
 def melhores_M(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     ref = str(pd.DataFrame(referencia))
 
     busca=request.POST.get('mes_ref')
@@ -551,7 +551,7 @@ def as_melhores(request):
     return render(request, 'core/as_melhores.html')
 @has_permission_decorator('melhores')
 def melhores_M_idg(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
@@ -575,7 +575,7 @@ def melhores_M_idg(request):
     return render(request, 'core/melhores_M_idg.html',context)
 @has_permission_decorator('melhores')
 def melhores_M_isap(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
@@ -598,7 +598,7 @@ def melhores_M_isap(request):
     return render(request, 'core/melhores_M_isap.html',context)
 @has_permission_decorator('melhores')
 def melhores_M_idr(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
@@ -621,7 +621,7 @@ def melhores_M_idr(request):
     return render(request, 'core/melhores_M_idr.html',context)
 @has_permission_decorator('melhores')
 def melhores_M_ida(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
@@ -644,7 +644,7 @@ def melhores_M_ida(request):
     return render(request, 'core/melhores_M_ida.html',context)
 @has_permission_decorator('melhores')
 def melhores_M_ide(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):

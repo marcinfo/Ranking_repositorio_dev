@@ -471,3 +471,18 @@ footer {
     line-height: 100px;
 }
 
+select{
+    background-color:#ADD8E630;
+    font-size: 14px;
+    height: 30px;
+    width: 110px;
+    overflow-y:auto;
+    size:6;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    font-family: Tahoma;
+
+    border: 1px solid #ADD8E6;
+    padding: 1px;
+    border-radius: 9px;
+}
