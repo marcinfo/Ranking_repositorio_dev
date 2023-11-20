@@ -4,6 +4,25 @@
 
 {% block content %}
 <h2 align="center">IDA Metropolitana.</h2>
+<hr>
+<div class="row">
+<form method="POST">
+    <div></div>
+    {% csrf_token %}
+    <div align="center">
+    <select name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required >
+        <option value="">Referencia</option>
+        {% for ref in referencia %}
+        <option>{{ ref.mes_ref}}</option>
+         {% endfor %}
+    </select>
+    <input style="font-size: 12px;height: 30px;width: 100px; align;center;"  type="submit" value="Buscar">
+    </div>
+<div></div>
+</form>
+
+    </div>
+<div class="container">
 <div class="table-responsive">
   <table class="table table-striped" align="center">
     <thead class="thead-dark">
@@ -37,9 +56,15 @@
       </table>
 
 </div>
+
+
+</div>
+<div class="row">
 <form action="{% url 'melhores_M' %}" align="right">
     <div align="right">
     <input align="right" type="submit" value="Voltar" />
     </div>
 </form>
+
+    </div>
 {% endblock %}

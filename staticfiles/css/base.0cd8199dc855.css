@@ -23,7 +23,6 @@ td, th {
     text-align: center;
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-size: 13px;
 }
 
 th{
@@ -466,4 +465,3 @@ footer {
     text-align:auto;
     line-height: 100px;
 }
-

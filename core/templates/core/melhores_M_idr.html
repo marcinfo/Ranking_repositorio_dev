@@ -4,11 +4,31 @@
 
 {% block content %}
 <h2 align="center">IDR Metropolitana.</h2>
+<hr>
+<div class="row">
+<form method="POST">
+    <div></div>
+    {% csrf_token %}
+    <div align="center">
+    <select name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required >
+        <option value="">Referencia</option>
+        {% for ref in referencia %}
+        <option>{{ ref.mes_ref}}</option>
+         {% endfor %}
+    </select>
+    <input style="font-size: 12px;height: 30px;width: 100px; align;center;"  type="submit" value="Buscar">
+    </div>
+<div></div>
+</form>
+
+    </div>
+<div class="container">
 <div class="table-responsive">
   <table class="table table-striped" align="center">
     <thead class="thead-dark">
       <tr nowrap="true">
         <th scope="col">Colocação</th>
+        <th scope="col">Referencia</th>
         <th scope="col">Contrato</th>
         <th scope="col">Fornecedor</th>
         <th scope="col">gestores</th>
@@ -22,17 +42,29 @@
           {% for contrato in cont_contratos %}
           <tr>
             <td>{{contrato.colocacao}}</td>
+              <td>{{contrato.mes_ref}}</td>
             <td>{{contrato.contrato}}</td>
             <td>{{contrato.fornecedor}}</td>
             <td>{{contrato.gestores}}</td>
             <td>{{contrato.casas_decimais}}</td>
-              <td>{{contrato.original}}</td>
-              <td>{{contrato.OS_fotos}}</td>
-              <td>{{contrato.serv_2_min}}</td>
+            <td>{{contrato.original}}</td>
+            <td>{{contrato.OS_fotos}}</td>
+            <td>{{contrato.serv_2_min}}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
 
 </div>
+
+
+</div>
+<div class="row">
+<form action="{% url 'melhores_M' %}" align="right">
+    <div align="right">
+    <input align="right" type="submit" value="Voltar" />
+    </div>
+</form>
+
+    </div>
 {% endblock %}

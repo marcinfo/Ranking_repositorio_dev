@@ -7,20 +7,24 @@
 <body>
 <h3 color="#4B0082" align="center">Melhores da M -  mes_ref</h3>
 <hr>
-
+<div class="row">
 <form method="POST">
-    <div >
+    <div></div>
     {% csrf_token %}
-    <select name="mes_ref" style="font-size: 15px;height: 34px;width: 100px;" required >
+    <div align="center">
+    <select name="mes_ref" style="font-size: 14px;height: 30px;width: 100px;" required >
         <option value="">Referencia</option>
         {% for ref in referencia %}
         <option>{{ ref.mes_ref}}</option>
          {% endfor %}
     </select>
-    <input type="submit" value="Buscar">
-    <hr>
-        </div>
+    <input style="font-size: 12px;height: 30px;width: 100px; align;center;"  type="submit" value="Buscar">
+    </div>
+<div></div>
 </form>
+
+    </div>
+
 
 <div class="row">
     <div class="card blue">
