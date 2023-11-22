@@ -168,7 +168,7 @@ class tb_premio_excel(Base):
     fornecedor =  models.CharField(verbose_name="Fornecedor",max_length= 100, blank=False, null=False)
     gestores =  models.CharField(verbose_name="Gestor(es)",max_length= 150, blank=False, null=False)
     superintendencia =  models.CharField(verbose_name="Superintendencia",max_length= 5, blank=False, null=False)
-    superintendente =  models.CharField(verbose_name="Superintendente",max_length= 5, blank=True, null=True)
+    superintendente =  models.CharField(verbose_name="Superintendente",max_length= 50, blank=True, null=True)
     casas_decimais =  models.DecimalField(max_digits=5,decimal_places=2,
                            blank=True,null=True,validators=[MinValueValidator(0),MaxValueValidator(100)])
     original =  models.DecimalField(max_digits=5,decimal_places=2,
@@ -179,7 +179,7 @@ class tb_premio_excel(Base):
                            blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
 
     def __str__(self):
-        return self.fornecedor, self.mes_ref
+        return self.fornecedor
     class Meta:
         verbose_name = "Tabela indicador excel"
         verbose_name_plural = "Tabela indicadores excel"

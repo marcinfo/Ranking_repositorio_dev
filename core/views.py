@@ -220,50 +220,8 @@ def indicadores_M(request):
         return render(request, 'core/indicadores_M.html',context=context)
 @has_permission_decorator('contrato')
 def indicadores_R(request):
-    mes_ano_ref = tb_referencia_contrato.objects.all().order_by('-id').filter(status='ABERTO').first()
 
-    if request.method == "GET":
-        form=informar_indicador_RForm()
-        context={
-            'form': form
-        }
-        return render(request, 'core/indicadores_R.html',context=context)
-    else:
-        form = informar_indicador_RForm(request.POST, request.FILES)
-        if form.is_valid():
-            indicadorR = form.save(commit=False)
-            indicadorR.inserido_por = request.user
-            indicadorR.mes_ano_referencia = mes_ano_ref
-            indicadorR.acidente_trabalho = (indicadorR.quantidade_acidentes/indicadorR.quantidade_colaboradores)*100
-            indicadorR.entrega_cadastro = (indicadorR.total_cadastro_entregue/indicadorR.total_redes)*100
-            contrato_autorizado = tb_dados_contrato.objects.values('numemro_contrato').\
-                filter((Q(Q(numemro_contrato=indicadorR.contrato)) & (Q(staff_1=request.user) | Q(staff_2=request.user)))).first()
-            contrato_autorizado=str(contrato_autorizado)
-            print(contrato_autorizado)
-            print(indicadorR.contrato)
-            if indicadorR.contrato in contrato_autorizado :
-                indicadorR = form.save()
-                messages.success(request, f'Indicador do Contrato {indicadorR.contrato} '
-                                          f'foi cadastrado com Sucesso!')
-                form = informar_indicador_RForm()
-                tb_referencia_contrato.objects.filter(Q(Q(contrato=indicadorR.contrato) &
-                                        Q(mes_ano_referencia=indicadorR.mes_ano_referencia))).\
-                    update(status='INFORMADO',resp_preenchimento=indicadorR.inserido_por)
-
-                print(indicadorR.contrato)
-            else:
-                pass
-                messages.error(request,f'Você não tem permissão para informar indicadores '
-                                       f'para o contrato {indicadorR.contrato}! Verifique o número do CONTRATO ou'
-                                       f' revise o CADASTRO. ')
-        else:
-            pass
-            messages.error(request,'Verifique o preenchimento!')
-        context = {
-
-            'form':form
-        }
-        return render(request, 'core/indicadores_R.html',context=context)
+        return render(request, 'core/indicadores_R.html')
 @has_permission_decorator('contrato','melhores')
 def contratos_pendentes(request):
     cont_pendentes = tb_dados_contrato.objects.filter(numemro_contrato__in =tb_referencia_contrato.
@@ -542,8 +500,6 @@ def melhores_M(request):
     return render(request, 'core/melhores_M.html',context)
 @has_permission_decorator('melhores')
 def melhores_R(request):
-
-
     return render(request, 'core/melhores_R.html')
 @has_permission_decorator('melhores')
 def as_melhores(request):

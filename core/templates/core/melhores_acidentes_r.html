@@ -3,30 +3,5 @@
 {% block title %}ODG{% endblock %}
 
 {% block content %}
-<h2 align="center">Acidentes R</h2>
-<div class="table-responsive">
-  <table class="table table-striped" align="center">
-    <thead class="thead-dark">
-      <tr nowrap="true">
 
-        <th scope="col">Mês de Referência</th>
-        <th scope="col">Contrato</th>
-        <th scope="col">Unidade</th>
-        <th scope="col">Administrador</th>
-      </tr>
-    </thead>
-    <tbody>
-          {% for contrato in cont_contratos %}
-          <tr>
-
-            <td>{{contrato.mes_ano_referencia}}</td>
-            <td>{{contrato.contrato}}</td>
-            <td>{{contrato.unidade}}</td>
-            <td>{{contrato.administrador}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-</div>
 {% endblock %}

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}ODG-Eficiencia Operacional {% endblock %}
 
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
-<h3 color="#4B0082" align="center">Melhores da M - {{ref}}</h3>
+
+<h3 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"  width="90" height="70" alt="Logo" align="center"> Melhores da M - {{ref}}</h3>
 <hr>
 <div class="row">
     <form method="POST">
