@@ -340,7 +340,6 @@ img.user-detail {
   justify-content: center;
   align-items: center;
 }
-
 .card {
   background-color:#F5FFFAAA;
   border-radius: 20px;
@@ -350,28 +349,23 @@ img.user-detail {
   width: 320px;
   height:130px;
   transition: all 0.1s ease-out;
+  text-transform: uppercase;
 }
-
 .card:hover {
   transform: translateY(10px);
-  transform: scale(1.4);
+  transform: scale(1.2);
   cursor: pointer;
-  background-color:#ADD8E677;
-
+  background-color:#ADD8E667;
 }
-
 .card p {
   color: #000000;
   font-size: 12px;
-
   text-align: left;
-
 }
 .card h {
   color:#CD4F39;
   font-size: 12px;
   text-align: center;
-
 }
 .image {
   float: right;
@@ -471,3 +465,17 @@ footer {
     line-height: 100px;
 }
 
+select{
+    background-color:#ADD8E611;
+    font-size: 14px;
+    height: 30px;
+    width: 110px;
+    overflow-y:auto;
+    size:6;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    font-family: Tahoma;
+    border: 1px solid #ADD8E6;
+    padding: 1px;
+    border-radius: 9px;
+}

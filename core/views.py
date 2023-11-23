@@ -500,6 +500,8 @@ def melhores_M(request):
     return render(request, 'core/melhores_M.html',context)
 @has_permission_decorator('melhores')
 def melhores_R(request):
+
+
     return render(request, 'core/melhores_R.html')
 @has_permission_decorator('melhores')
 def as_melhores(request):
