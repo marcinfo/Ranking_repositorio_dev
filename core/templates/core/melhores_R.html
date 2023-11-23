@@ -1,64 +1,65 @@
 {% extends "base.html" %}
-
-{% block title %}ODG-Eficiencia Operacional{% endblock %}
-
+{% load static %}
+{% block title %}ODG-Eficiencia Operacional {% endblock %}
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
-<h4 color="#4B0082" align="center">Melhores da R</h4>
+<h3 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"
+                                         width="90" height="70" alt="Logo" align="center">
+    Ranking <b>{{ref}}</b> Interior/Litoral</h3>
+<hr>
+<div class="row">
+    <form method="POST">
+        <div></div>
+        {% csrf_token %}
+        <div align="center">
+            <select class="form-control" name="mes_ref"  required onchange="this.form.submit()">
+                <option value="">REFERÊNCIA</option>
+                {% for ref in referencia %}
+                <option>{{ ref.mes_ref}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div></div>
+    </form>
+</div>
+<br>
 <div class="row">
     <div class="card blue">
-        <a href="{% url 'melhores_idg_r' %}">
-        <h>IDG: </h>
-        <p>1º {{primeiro}}</p>
-        <p>2º {{segundo}}</p>
-        <p>3º {{terceiro}}</p>
+        <a href="{% url 'melhores_M_idg' %}">
+            <h>:</h>
+            <p>1º - {{primeiro_idg}}</p>
+            <p>2º - {{segundo_idg}}</p>
+            <p>3º - {{terceiro_idg}}</p>
         </a>
     </div>
-            <div class="card blue">
-        <a href="{% url 'melhores_cadastro_r' %}">
-        <h>CADASTRO E IMOBILIZAÇÃO: </h>
-        <p>1ª JJJJJJJJ</p>
-        <p>2ª AAAAAAAA</p>
-        <p>3ª BBBBBBBB</p>
-    </div>
     <div class="card blue">
-            <a href="{% url 'melhores_arsesp_r' %}">
-            <h>PRAZO ARSESP: </h>
-            <p>1ª XXXXXXXX</p>
-            <p>2ª AAAAAAAA</p>
-            <p>3ª BBBBBBBB</p>
-            <a>
+        <a href="{% url 'melhores_M_isap' %}">
+            <h></b></h>
+            <p>1º - {{primeiro_isap}}</p>
+            <p>2º - {{segundo_isap}}</p>
+            <p>3º - {{terceiro_isap}}</p>
+        </a>
     </div>
-
 </div>
 <div class="row">
     <div class="card blue">
-        <a href="{% url 'melhores_acidentes_r' %}">
-        <h>ACIDENTES: </h>
-        <p>1ª JJJJJJJJ</p>
-        <p>2ª AAAAAAAA</p>
-        <p>3ª BBBBBBBB</p>
+        <a href="{% url 'melhores_M_ida' %}">
+            <h></h>
+            <p>1º - {{primeiro_ida}}</p>
+            <p>2º - {{segundo_ida}}</p>
+            <p>3º - {{terceiro_ida}}</p>
+        </a>
     </div>
-        <div class="card blue">
-        <a href="{% url 'melhores_cadastro_r' %}">
-        <h>CADASTRO E IMOBILIZAÇÃO: </h>
-        <p>1ª JJJJJJJJ</p>
-        <p>2ª AAAAAAAA</p>
-        <p>3ª BBBBBBBB</p>
+     <div class="card blue">
+        <a href="{% url 'melhores_M_idr' %}">
+            <h></h>
+            <p>1º - {{primeiro_idr}}</p>
+            <p>2º - {{segundo_idr}}</p>
+            <p>3º - {{terceiro_idr}}</p>
+        </a>
     </div>
-            <div class="card blue">
-        <a href="{% url 'melhores_cadastro_r' %}">
-        <h>CADASTRO E IMOBILIZAÇÃO: </h>
-        <p>1ª JJJJJJJJ</p>
-        <p>2ª AAAAAAAA</p>
-        <p>3ª BBBBBBBB</p>
-    </div>
-
 </div>
-<div class="row">
-
 </div>
 </body>
-</html>
 {% endblock  %}

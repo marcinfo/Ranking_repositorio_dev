@@ -500,9 +500,14 @@ def melhores_M(request):
     return render(request, 'core/melhores_M.html',context)
 @has_permission_decorator('melhores')
 def melhores_R(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
+    ref = request.POST.get('mes_ref')
+    context={
+        'referencia':referencia,
+        'ref':ref,
+    }
 
-
-    return render(request, 'core/melhores_R.html')
+    return render(request, 'core/melhores_R.html',context)
 @has_permission_decorator('melhores')
 def as_melhores(request):
 
@@ -514,14 +519,14 @@ def melhores_M_idg(request):
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO GLOBAL (IDG)') & Q(mes_ref= busca)))
 
         ref = request.POST.get('mes_ref')
     else:
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO GLOBAL (IDG)') & Q(mes_ref__in= ref)))
 
@@ -538,14 +543,14 @@ def melhores_M_isap(request):
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'SERVIÇOS ATENDIDOS NO PRAZO (ISAP)') & Q(mes_ref= busca)))
 
         ref = request.POST.get('mes_ref')
     else:
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'SERVIÇOS ATENDIDOS NO PRAZO (ISAP)') & Q(mes_ref__in= ref)))
 
@@ -561,14 +566,14 @@ def melhores_M_idr(request):
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO REPOSIÇÃO (IDR)') & Q(mes_ref= busca)))
 
         ref = request.POST.get('mes_ref')
     else:
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO REPOSIÇÃO (IDR)') & Q(mes_ref__in= ref)))
 
@@ -584,14 +589,14 @@ def melhores_M_ida(request):
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ÁGUA (IDA)') & Q(mes_ref= busca)))
 
         ref = request.POST.get('mes_ref')
     else:
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ÁGUA (IDA)') & Q(mes_ref__in= ref)))
 
@@ -607,14 +612,14 @@ def melhores_M_ide(request):
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
     if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ESGOTO(IDE)') & Q(mes_ref= busca)))
 
         ref = request.POST.get('mes_ref')
     else:
 
-        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref',
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ESGOTO(IDE)') & Q(mes_ref__in= ref)))
 
