@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}ODG - Eficiencia Operacional{% endblock %}
+{% block title %}ODG - Eficiência Operacional{% endblock %}
 
 {% block content %}
 {% load static %}
     <body>
     <div align="center">
-        <a href='{% url "melhores_M" %}'><button>Ranking M</button></a><br>
-        <a href='{% url "melhores_R" %}'><button>Ranking R</button></a><br>
+        <br><br><br><br><br><br><br><br>
+
+        <a href='{% url "melhores_M" %}'><button>Capital</button></a><br>
+        <a href='{% url "melhores_R" %}'><button>Interior</button></a><br>
     </div>
 </body>
 {% endblock  %}

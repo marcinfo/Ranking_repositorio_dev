@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django import forms
 escolhe_M_R=(
 
-    ("Interior/Litoral","Interior/Litoral"),("M",'Metropolitana'),
+    ("Interior","Interior"),("C",'Capital'),
 )
 hora_envio_email=(('0','00'),('1','01'))
 escolha_status=(('SIM','SIM'),('NÃO','NÃO'))
@@ -177,7 +177,7 @@ class tb_premio_excel(Base):
                            blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
     serv_2_min = models.DecimalField(verbose_name='Serviços 2 Minutos',max_digits=5,decimal_places=2,
                            blank=True,null=False,validators=[MinValueValidator(0),MaxValueValidator(100)],default='')
-
+    setor= models.CharField(max_length= 20,choices=escolhe_M_R,verbose_name="Capital/Interior",blank=True,null=True)
     def __str__(self):
         return self.fornecedor
     class Meta:

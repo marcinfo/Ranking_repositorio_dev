@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}ODG-Eficiencia Operacional {% endblock %}
+{% block title %}Premio Eficiência Operacional {% endblock %}
+
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
+
 <h3 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"
                                          width="90" height="70" alt="Logo" align="center">
-    Ranking <b>{{ref}}</b> Interior/Litoral</h3>
+    Ranking <b>{{ref}}</b>Interior</h3>
 <hr>
 <div class="row">
     <form method="POST">
@@ -23,11 +25,11 @@
         <div></div>
     </form>
 </div>
-<br>
+
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_idg' %}">
-            <h>:</h>
+            <h>INDICE DE DESEMPENHO GLOBAL (IDG):</h>
             <p>1º - {{primeiro_idg}}</p>
             <p>2º - {{segundo_idg}}</p>
             <p>3º - {{terceiro_idg}}</p>
@@ -35,31 +37,77 @@
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_M_isap' %}">
-            <h></b></h>
+            <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP)</b></h>
             <p>1º - {{primeiro_isap}}</p>
             <p>2º - {{segundo_isap}}</p>
             <p>3º - {{terceiro_isap}}</p>
+        </a>
+    </div>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_idr' %}">
+            <h>INDICE DE DESEMPENHO REPOSIÇÃO (IDR):</h>
+            <p>1º - {{primeiro_idr}}</p>
+            <p>2º - {{segundo_idr}}</p>
+            <p>3º - {{terceiro_idr}}</p>
+        </a>
+
+    </div>
+</div>
+<div class="row">
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ida' %}">
+            <h>INDICE DE DESEMPENHO NA ÁGUA (IDA):</h>
+            <p>1º - {{primeiro_ida}}</p>
+            <p>2º - {{segundo_ida}}</p>
+            <p>3º - {{terceiro_ida}}</p>
+        </a>
+    </div>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>INDICE DE DESEMPENHO NO ESGOTO(IDE):</h>
+            <p>1º - {{primeiro_ide}}</p>
+            <p>2º - {{segundo_ide}}</p>
+            <p>3º - {{terceiro_ide}}</p>
+        </a>
+    </div>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>ENTREGA DO CADASTRO E IMOBILIZAÇÃO:</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
         </a>
     </div>
 </div>
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_ida' %}">
-            <h></h>
-            <p>1º - {{primeiro_ida}}</p>
-            <p>2º - {{segundo_ida}}</p>
-            <p>3º - {{terceiro_ida}}</p>
+            <h>SEGURANÇA:</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
         </a>
     </div>
-     <div class="card blue">
-        <a href="{% url 'melhores_M_idr' %}">
-            <h></h>
-            <p>1º - {{primeiro_idr}}</p>
-            <p>2º - {{segundo_idr}}</p>
-            <p>3º - {{terceiro_idr}}</p>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>SINISTROS OPERACIONAIS (COMGAS):</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
+        </a>
+    </div>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>CAPACITAÇÃO DE EMPREGADOS:</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
         </a>
     </div>
 </div>
 </div>
+
+
 </body>
+
 {% endblock  %}

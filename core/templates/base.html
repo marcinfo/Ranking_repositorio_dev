@@ -13,7 +13,7 @@
 </head>
 <body autocomplete="off">
   <div id="header">
-    <span class="logo" > <img src="{% static 'images/sabesp.png' %}"  width="50" height="50" alt="Logo" align="left" />Premio Eficiencia Operacional</span>
+    <span class="logo" > <img src="{% static 'images/sabesp.png' %}"  width="50" height="50" alt="Logo" align="left" />Premio Eficiência Operacional</span>
     {% if request.user.is_authenticated %}
       {% if user|has_role:'nao_liberado'%}
         Você ainda não tem o acesso liberado!
@@ -72,7 +72,12 @@
   </div>
 
 </body>
-
+<br>
+  <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+    <div class="container text-center">
+      <small>Copyright &copy; ODG-Sabesp</small>
+    </div>
+  </footer>
 
 </html>
 

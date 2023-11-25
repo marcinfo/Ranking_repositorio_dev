@@ -8,7 +8,7 @@
 
 <h3 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"
                                          width="90" height="70" alt="Logo" align="center">
-    Ranking <b>{{ref}}</b> Metropolitana</h3>
+    Ranking <b>{{ref}}</b> Capital</h3>
 <hr>
 <div class="row">
     <form method="POST">
@@ -25,7 +25,7 @@
         <div></div>
     </form>
 </div>
-<br>
+
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_idg' %}">
@@ -70,8 +70,40 @@
             <p>3º - {{terceiro_ide}}</p>
         </a>
     </div>
-
-
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>ENTREGA DO CADASTRO E IMOBILIZAÇÃO:</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ida' %}">
+            <h>SEGURANÇA:</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
+        </a>
+    </div>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>SINISTROS OPERACIONAIS (COMGAS):</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
+        </a>
+    </div>
+    <div class="card blue">
+        <a href="{% url 'melhores_M_ide' %}">
+            <h>CAPACITAÇÃO DE EMPREGADOS:</h>
+            <p>1º - </p>
+            <p>2º - </p>
+            <p>3º - </p>
+        </a>
+    </div>
 </div>
 </div>
 
