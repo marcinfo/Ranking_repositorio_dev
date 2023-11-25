@@ -670,10 +670,8 @@ def melhores_M_ide(request):
         cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ESGOTO(IDE)') & Q(mes_ref= busca) & Q(setor= 'CAPITAL')))
-
         ref = request.POST.get('mes_ref')
     else:
-
         cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
                                                         'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
             filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO NA ESGOTO(IDE)') & Q(mes_ref__in= ref) & Q(setor= 'CAPITAL')))
