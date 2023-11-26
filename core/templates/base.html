@@ -19,8 +19,8 @@
         Você ainda não tem o acesso liberado!
      {% else%}
     <ul class="menu">
-         <li {% if section == "as_melhores" %}class='selected'{% endif %}>
-              <a href="{% url 'as_melhores' %}">Ranking </a>
+         <li {% if section == "ranking" %}class='selected'{% endif %}>
+              <a href="{% url 'ranking' %}">Ranking </a>
          </li>
        </ul>
 
@@ -45,8 +45,8 @@
     {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}
-      Olá, {{ request.user.username }}.
-      <a href="{% url "logout" %}">   Sair</a>
+      {{saudacao}}, {{ request.user.username }}.
+      <a href="{% url "logout" %}">    Sair</a>
     {% else %}
       <a href="{% url "login" %}"> Entrar</a>
     {% endif %}
@@ -70,12 +70,13 @@
 
   </div>
 </body>
-<br>
+
   <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
     <div class="container text-center">
       <small>Copyright &copy; ODG-Sabesp</small>
     </div>
-  </footer>
 
+  </footer>
+<br>
 </html>
 

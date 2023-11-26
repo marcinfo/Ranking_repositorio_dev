@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Premio Eficiência Operacional{% endblock %}
+{% block content %}
+{% load static %}
+    <body>
+    <div align="center">
+        <br><br><br><br><br><br><br><br>
+        <a href='{% url "melhores_capital" %}'><button>Capital</button></a><br>
+        <a href='{% url "melhores_interior" %}'><button>Interior</button></a><br>
+    </div>
+</body>
+{% endblock  %}

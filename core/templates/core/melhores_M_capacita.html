@@ -3,21 +3,21 @@
 {% block title %}ODG{% endblock %}
 
 {% block content %}
-<h2 align="center">INDICE DE DESEMPENHO GLOBAL (IDG) Capital.</h2>
+<h3 align="center">CAPACITAÇÃO DE EMPREGADOS Capital.</h3>
 <hr>
 <div class="row">
     <form method="POST">
         <div></div>
         {% csrf_token %}
         <div align="center">
-            <select onchange="this.form.submit()" name="mes_ref" required>
+            <select onchange="this.form.submit()" name="mes_ref" required onchange="this.form.submit()">
                 <option value="">REFERÊNCIA</option>
                 {% for ref in referencia %}
                 <option>{{ ref.mes_ref}}</option>
                 {% endfor %}
             </select>
 
-        </div>
+                </div>
         <div></div>
     </form>
 
@@ -27,7 +27,7 @@
         <table class="table table-striped" align="center">
             <thead class="thead-dark">
             <tr nowrap="true">
-              <th scope="col">Nº</th>
+                <th scope="col">Nº</th>
                 <th scope="col">Ref.</th>
                 <th scope="col">Indicador</th>
                 <th scope="col">Contrato</th>
@@ -58,12 +58,10 @@
         </table>
 
     </div>
-
-
 </div>
 <br>
 <div class="row">
-    <form action="{% url 'melhores_M' %}" align="right" padding=".4em">
+    <form action="{% url 'melhores_M' %}" align="right">
         <div align="right">
             <input align="right" type="submit" value="Voltar"/>
         </div>

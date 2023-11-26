@@ -88,7 +88,7 @@ ol {
 }
 
 #header {
-    padding:15px 100px;
+    padding:10px 100px;
     font-size:16px;
     background:	#104E8B;
     color:#12CDFF;
@@ -98,11 +98,10 @@ ol {
 
 #header .logo {
     font-family: 'Tahoma';
-
     float:left;
-    color:#12CDFF;
-    font-size:20px;
-    margin-right:5%;
+    color:lightgreen;
+    font-size:18px;
+    margin-right:2%;
 }
 
 #header ul.menu {
@@ -126,13 +125,13 @@ ol {
     color:#f3f7cc;
 }
 #header a:hover {
-    color:#00FFFF;
+    color:yellow;
 }
 
 #header .user {
     float:right;
     padding-top:4px;
-
+    color:lightgreen;
 }
 
 #content {
@@ -347,15 +346,18 @@ img.user-detail {
   padding: 5px;
   margin: 5px;
   width: 320px;
-  height:130px;
-  transition: all 0.1s ease-out;
+  height:120px;
+  transition: all 0.2s ease-out;
   text-transform: uppercase;
 }
 .card:hover {
   transform: translateY(10px);
+
   transform: scale(1.2);
   cursor: pointer;
   background-color:#ADD8E667;
+
+
 }
 .card p {
   color: #000000;
@@ -455,9 +457,7 @@ body {
 }
 
 footer {
-  background:  #fff;
-  background: linear-gradient(to right,  #fff);
-	background-color:  #fff;
+	background:  #fff;
 	color: black;
 	padding: 0.1px;
 	text-align: center;

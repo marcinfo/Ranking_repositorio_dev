@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Premio Eficiência Operacional {% endblock %}
-
 {% block content %}
 <meta http-equiv="refresh" content="180"/>
 <body>
-
-<h3 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"
-                                         width="90" height="70" alt="Logo" align="center">
-    Ranking <b>{{ref}}</b>Interior</h3>
+<h4 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"
+                                         width="70" height="50" alt="Logo" align="center">
+    Ranking  <b>{{ref}}</b>  Capital</h4>
 <hr>
 <div class="row">
     <form method="POST">
@@ -25,7 +23,6 @@
         <div></div>
     </form>
 </div>
-
 <div class="row">
     <div class="card blue">
         <a href="{% url 'melhores_M_idg' %}">
@@ -71,43 +68,40 @@
         </a>
     </div>
     <div class="card blue">
-        <a href="{% url 'melhores_M_ide' %}">
+        <a href="{% url 'melhores_M_cadastro' %}">
             <h>ENTREGA DO CADASTRO E IMOBILIZAÇÃO:</h>
-            <p>1º - </p>
-            <p>2º - </p>
-            <p>3º - </p>
+            <p>1º - {{primeiro_cad_imob}}</p>
+            <p>2º - {{segundo_cad_imob}}</p>
+            <p>3º - {{terceiro_cad_imob}}</p>
         </a>
     </div>
 </div>
 <div class="row">
     <div class="card blue">
-        <a href="{% url 'melhores_M_ida' %}">
+        <a href="{% url 'melhores_M_seguranca' %}">
             <h>SEGURANÇA:</h>
-            <p>1º - </p>
-            <p>2º - </p>
-            <p>3º - </p>
+            <p>1º - {{primeiro_seg}}</p>
+            <p>2º - {{primeiro_seg}}</p>
+            <p>3º - {{primeiro_seg}}</p>
         </a>
     </div>
     <div class="card blue">
-        <a href="{% url 'melhores_M_ide' %}">
+        <a href="{% url 'melhores_M_comgas' %}">
             <h>SINISTROS OPERACIONAIS (COMGAS):</h>
-            <p>1º - </p>
-            <p>2º - </p>
-            <p>3º - </p>
+            <p>1º - {{primeiro_comgas}}</p>
+            <p>2º - {{primeiro_comgas}}</p>
+            <p>3º - {{primeiro_comgas}}</p>
         </a>
     </div>
     <div class="card blue">
-        <a href="{% url 'melhores_M_ide' %}">
+        <a href="{% url 'melhores_M_capacita' %}">
             <h>CAPACITAÇÃO DE EMPREGADOS:</h>
-            <p>1º - </p>
-            <p>2º - </p>
-            <p>3º - </p>
+            <p>1º - {{primeiro_capacita}}</p>
+            <p>2º - {{primeiro_capacita}}</p>
+            <p>3º - {{primeiro_capacita}}</p>
         </a>
     </div>
 </div>
 </div>
-
-
 </body>
-
 {% endblock  %}
