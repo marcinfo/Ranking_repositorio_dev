@@ -13,12 +13,8 @@ SECRET_KEY = 'django-insecure-&1(zbj-f#3fb=_5+zlam(^ae^yyf)(7d5z-us2pb+19s=jj9oe
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-
 ALLOWED_HOSTS = ['*','premio.sabesp.com.br']
-
 # Application definition
-
 INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'django.contrib.admin',
@@ -33,7 +29,6 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     "django_extensions",
     'rolepermissions',
-
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
@@ -64,38 +59,27 @@ TEMPLATES = [
         },
     },
 ]
+#pip install django mssql-django
 
 WSGI_APPLICATION = 'app.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-#pip install django-mssql-backend
-
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'mydb',
-        'USER': 'user@myserver',
-        'PASSWORD': 'password',
-        'HOST': 'myserver.database.windows.net',
-        'PORT': '',
+        'ENGINE': 'mssql',
+        'NAME': 'PEGLOBAL',
+        'USER': 'app_peglobal',
+        'PASSWORD': 'P0Jhnb%DD#1M',
+        'HOST': 'sql_mp03.spo.sabesp.com.br',
+        'PORT': '1433',
 
         'OPTIONS': {
             'driver': 'ODBC Driver 13 for SQL Server',
         },
     },
 }
-
 # set this to False if you want to turn off pyodbc's connection pooling
-DATABASE_CONNECTION_POOLING = False"""
+DATABASE_CONNECTION_POOLING = False
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

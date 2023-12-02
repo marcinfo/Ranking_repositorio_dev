@@ -3,7 +3,7 @@
 {% block title %}ODG{% endblock %}
 
 {% block content %}
-<h2 align="center">INDICE DE DESEMPENHO REPOSIÇÃO (IDR) Capital.</h2>
+<h2 align="center">SERVIÇOS ATENDIDOS NO PRAZO ARSESP Interior.</h2>
 <hr>
 <div class="row">
     <form method="POST">
@@ -58,10 +58,12 @@
         </table>
 
     </div>
+
+
 </div>
 <br>
 <div class="row">
-    <form action="{% url 'melhores_M' %}" align="right">
+    <form action="{% url 'melhores_interior' %}" align="right" padding=".4em">
         <div align="right">
             <input align="right" type="submit" value="Voltar"/>
         </div>
@@ -69,3 +71,4 @@
 
 </div>
 {% endblock %}
+

@@ -15,9 +15,7 @@
   <div id="header">
     <span class="logo" > <img src="{% static 'images/sabesp.png' %}"  width="50" height="50" alt="Logo" align="left" />Premio Eficiência Operacional</span>
     {% if request.user.is_authenticated %}
-      {% if user|has_role:'nao_liberado'%}
-        Você ainda não tem o acesso liberado!
-     {% else%}
+
     <ul class="menu">
          <li {% if section == "ranking" %}class='selected'{% endif %}>
               <a href="{% url 'ranking' %}">Ranking </a>
@@ -42,10 +40,10 @@
               <a href="{% url 'contatos' %}">Duvidas</a>
          </li>
        </ul>
-    {% endif %}
-  <span class="user">
+
+  <span class="user" style="text-transform: capitalize;">
     {% if request.user.is_authenticated %}
-      {{saudacao}}, {{ request.user.username }}.
+      Olá, {{ request.user.first_name }}.
       <a href="{% url "logout" %}">    Sair</a>
     {% else %}
       <a href="{% url "login" %}"> Entrar</a>

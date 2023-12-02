@@ -18,7 +18,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
-
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm,Cadastrar_ContratoForm,\
     informar_indicador_MForm,informar_indicador_RForm
 from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrato,tb_modalidade_metropolitana,\
@@ -411,21 +410,96 @@ def status_contrato(request):
     context ={'cont_contratos':cont_contratos,
               }
     return render(request, 'core/status_contrato.html',context)
-def melhores_idg_r(request):
+def melhores_interior_idg(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').distinct()
+    busca=request.POST.get('mes_ref')
+    ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
+    if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-    return render(request, 'core/melhores_idg_r.html')
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO GLOBAL (IDG)') & Q(mes_ref= busca)& Q(setor= 'INTERIOR')))
+
+        ref = request.POST.get('mes_ref')
+    else:
+
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'INDICE DE DESEMPENHO GLOBAL (IDG)') & Q(mes_ref__in= ref) & Q(setor= 'INTERIOR')))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+
+              }
+    return render(request, 'core/melhores_interior_idg.html',context)
+def melhores_interior_arsesp(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').distinct()
+    busca=request.POST.get('mes_ref')
+    ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
+    if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
+
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'SERVIÇOS ATENDIDOS NO PRAZO ARSESP') & Q(mes_ref= busca)& Q(setor= 'INTERIOR')))
+
+        ref = request.POST.get('mes_ref')
+    else:
+
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'SERVIÇOS ATENDIDOS NO PRAZO ARSESP') & Q(mes_ref__in= ref) & Q(setor= 'INTERIOR')))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+
+              }
+    return render(request, 'core/melhores_interior_arsesp.html',context)
 @has_permission_decorator('melhores')
-def melhores_prazo_r(request):
+def melhores_interior_seguranca(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').distinct()
+    busca=request.POST.get('mes_ref')
+    ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
+    if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-    return render(request, 'core/melhores_prazo_r.html')
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'SEGURANÇA') & Q(mes_ref= busca)& Q(setor= 'INTERIOR')))
+
+        ref = request.POST.get('mes_ref')
+    else:
+
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'SEGURANÇA') & Q(mes_ref__in= ref) & Q(setor= 'INTERIOR')))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+
+              }
+    return render(request, 'core/melhores_interior_seguranca.html',context)
 @has_permission_decorator('melhores')
-def melhores_acidentes_r(request):
+def melhores_interior_cadastro(request):
+    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').distinct()
+    busca=request.POST.get('mes_ref')
+    ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
+    if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-    return render(request, 'core/melhores_acidentes_r.html')
-@has_permission_decorator('melhores')
-def melhores_cadastro_r(request):
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'ENTREGA DO CADASTRO E IMOBILIZAÇÃO') & Q(mes_ref= busca)& Q(setor= 'INTERIOR')))
 
-    return render(request, 'core/melhores_cadastro_r.html')
+        ref = request.POST.get('mes_ref')
+    else:
+
+        cont_contratos = tb_premio_excel.objects.values('colocacao','contrato','fornecedor','gestores','mes_ref','indicador',
+                                                        'indicador','casas_decimais','original','OS_fotos','serv_2_min').\
+            filter(Q(Q(modalidade = 'ENTREGA DO CADASTRO E IMOBILIZAÇÃO') & Q(mes_ref__in= ref) & Q(setor= 'INTERIOR')))
+
+    context ={'cont_contratos':cont_contratos,
+              'referencia':referencia,
+
+              }
+    return render(request, 'core/melhores_interior_cadastro.html',context)
 def contatos(request):
 
     return render(request, 'core/contatos.html')
@@ -438,170 +512,169 @@ def informacoes_contrato(request,pk):
     context = {
         'contrato': contrato }
     return render(request, 'core/informacoes_contrato.html', context)
-@has_permission_decorator('melhores')
-def melhores_arsesp_r(request):
 
-    return render(request, 'core/melhores_arsesp_r.html')
 @has_permission_decorator('melhores')
-def melhores_capital(request):
+def melhores(request):
     referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='CAPITAL').order_by('-mes_ref').distinct()
     ref = str(pd.DataFrame(referencia))
+    if len(referencia) > 0:
+        busca=request.POST.get('mes_ref')
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='CAPITAL')
 
-    busca=request.POST.get('mes_ref')
-    tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='CAPITAL')
+        if (request.method=="POST") & (request.POST.get('mes_ref') != '') :
 
-    if (request.method=="POST") & (request.POST.get('mes_ref') != '') :
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca,setor ='CAPITAL')
 
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca,setor ='CAPITAL')
+            ref = request.POST.get('mes_ref')
 
-        ref = request.POST.get('mes_ref')
+        else:
+            ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='CAPITAL').order_by('-mes_ref').first()
+            ref=pd.DataFrame(ref).to_string(header=False,index=False)
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref,setor ='CAPITAL')
+        indicadores = pd.DataFrame(tabela)
+        isap = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
+        idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
+        ida = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO NA ÁGUA (IDA)"')
+        ide = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO NA ESGOTO(IDE)"')
+        idr = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO REPOSIÇÃO (IDR)"')
+        cad_imob= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="ENTREGA DO CADASTRO E IMOBILIZAÇÃO"')
+        seg= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
+        comgas= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SINISTROS OPERACIONAIS (COMGAS)"')
+        capacita= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="CAPACITAÇÃO DE EMPREGADOS"')
+        primeiro_idr = idr.query('colocacao ==1')
+        segundo_idr = idr.query('colocacao ==2')
+        terceiro_idr = idr.query('colocacao ==3')
 
-    else:
-        ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='CAPITAL').order_by('-mes_ref').first()
-        ref=pd.DataFrame(ref).to_string(header=False,index=False)
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref,setor ='CAPITAL')
-    indicadores = pd.DataFrame(tabela)
-    isap = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
-    idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
-    ida = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO NA ÁGUA (IDA)"')
-    ide = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO NA ESGOTO(IDE)"')
-    idr = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO REPOSIÇÃO (IDR)"')
-    cad_imob= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="ENTREGA DO CADASTRO E IMOBILIZAÇÃO"')
-    seg= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
-    comgas= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SINISTROS OPERACIONAIS (COMGAS)"')
-    capacita= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="CAPACITAÇÃO DE EMPREGADOS"')
-    print(comgas)
+        primeiro_isap = isap.query('colocacao ==1')
+        segundo_isap = isap.query('colocacao ==2')
+        terceiro_isap = isap.query('colocacao ==3')
 
-    primeiro_idr = idr.query('colocacao ==1')
-    segundo_idr = idr.query('colocacao ==2')
-    terceiro_idr = idr.query('colocacao ==3')
+        primeiro_idg = idg.query('colocacao ==1')
+        segundo_idg = idg.query('colocacao ==2')
+        terceiro_idg = idg.query('colocacao ==3')
 
-    primeiro_isap = isap.query('colocacao ==1')
-    segundo_isap = isap.query('colocacao ==2')
-    terceiro_isap = isap.query('colocacao ==3')
+        primeiro_ida = ida.query('colocacao ==1')
+        segundo_ida = ida.query('colocacao ==2')
+        terceiro_ida = ida.query('colocacao ==3')
 
-    primeiro_idg = idg.query('colocacao ==1')
-    segundo_idg = idg.query('colocacao ==2')
-    terceiro_idg = idg.query('colocacao ==3')
+        primeiro_ide = ide.query('colocacao ==1')
+        segundo_ide = ide.query('colocacao ==2')
+        terceiro_ide = ide.query('colocacao ==3')
 
-    primeiro_ida = ida.query('colocacao ==1')
-    segundo_ida = ida.query('colocacao ==2')
-    terceiro_ida = ida.query('colocacao ==3')
+        primeiro_cad_imob = cad_imob.query('colocacao ==1')
+        segundo_cad_imob = cad_imob.query('colocacao ==2')
+        terceiro_cad_imob = cad_imob.query('colocacao ==3')
 
-    primeiro_ide = ide.query('colocacao ==1')
-    segundo_ide = ide.query('colocacao ==2')
-    terceiro_ide = ide.query('colocacao ==3')
+        primeiro_seg = seg.query('colocacao ==1')
+        segundo_seg = seg.query('colocacao ==2')
+        terceiro_seg = seg.query('colocacao ==3')
 
-    primeiro_cad_imob = cad_imob.query('colocacao ==1')
-    segundo_cad_imob = cad_imob.query('colocacao ==2')
-    terceiro_cad_imob = cad_imob.query('colocacao ==3')
+        primeiro_comgas = comgas.query('colocacao ==1')
+        segundo_comgas = comgas.query('colocacao ==2')
+        terceiro_comgas = comgas.query('colocacao ==3')
 
-    primeiro_seg = seg.query('colocacao ==1')
-    segundo_seg = seg.query('colocacao ==2')
-    terceiro_seg = seg.query('colocacao ==3')
+        primeiro_capacita = capacita.query('colocacao ==1')
+        segundo_capacita = capacita.query('colocacao ==2')
+        terceiro_capacita = capacita.query('colocacao ==3')
 
-    primeiro_comgas = comgas.query('colocacao ==1')
-    segundo_comgas = comgas.query('colocacao ==2')
-    terceiro_comgas = comgas.query('colocacao ==3')
-
-    primeiro_capacita = capacita.query('colocacao ==1')
-    segundo_capacita = capacita.query('colocacao ==2')
-    terceiro_capacita = capacita.query('colocacao ==3')
-
-    context ={'referencia':referencia,'ref':ref,
-        'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
-            'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_isap':primeiro_isap[['fornecedor']].to_string(header=False,index=False),
-            'segundo_isap':segundo_isap[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_isap':terceiro_isap[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_ida':primeiro_ida[['fornecedor']].to_string(header=False,index=False),
-            'segundo_ida':segundo_ida[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_ida':terceiro_ida[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_ide':primeiro_ide[['fornecedor']].to_string(header=False,index=False),
-            'segundo_ide':segundo_ide[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_ide':terceiro_ide[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_idr':primeiro_idr[['fornecedor']].to_string(header=False,index=False),
-            'segundo_idr':segundo_idr[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_idr':terceiro_idr[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_cad_imob':primeiro_cad_imob[['fornecedor']].to_string(header=False,index=False),
-            'segundo_cad_imob':segundo_cad_imob[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_cad_imob':terceiro_cad_imob[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_seg':primeiro_seg[['fornecedor']].to_string(header=False,index=False),
-            'segundo_seg':segundo_seg[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_seg':terceiro_seg[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_comgas':primeiro_comgas[['fornecedor']].to_string(header=False,index=False),
-            'segundo_comgas':segundo_comgas[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_comgas':terceiro_comgas[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_capacita':primeiro_capacita[['fornecedor']].to_string(header=False,index=False),
-            'segundo_capacita':segundo_capacita[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_capacita':terceiro_capacita[['fornecedor']].to_string(header=False,index=False),
-              }
-    return render(request, 'core/melhores_capital.html',context)
+        context ={'referencia':referencia,'ref':ref,
+            'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
+                'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_isap':primeiro_isap[['fornecedor']].to_string(header=False,index=False),
+                'segundo_isap':segundo_isap[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_isap':terceiro_isap[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_ida':primeiro_ida[['fornecedor']].to_string(header=False,index=False),
+                'segundo_ida':segundo_ida[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_ida':terceiro_ida[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_ide':primeiro_ide[['fornecedor']].to_string(header=False,index=False),
+                'segundo_ide':segundo_ide[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_ide':terceiro_ide[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_idr':primeiro_idr[['fornecedor']].to_string(header=False,index=False),
+                'segundo_idr':segundo_idr[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_idr':terceiro_idr[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_cad_imob':primeiro_cad_imob[['fornecedor']].to_string(header=False,index=False),
+                'segundo_cad_imob':segundo_cad_imob[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_cad_imob':terceiro_cad_imob[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_seg':primeiro_seg[['fornecedor']].to_string(header=False,index=False),
+                'segundo_seg':segundo_seg[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_seg':terceiro_seg[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_comgas':primeiro_comgas[['fornecedor']].to_string(header=False,index=False),
+                'segundo_comgas':segundo_comgas[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_comgas':terceiro_comgas[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_capacita':primeiro_capacita[['fornecedor']].to_string(header=False,index=False),
+                'segundo_capacita':segundo_capacita[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_capacita':terceiro_capacita[['fornecedor']].to_string(header=False,index=False),
+                  }
+        return render(request, 'core/melhores.html',context)
+    messages.error(request,'O Banco de Dados não tem Dados para o processamento!')
+    return render(request, 'core/melhores.html')
 @has_permission_decorator('melhores')
 def melhores_interior(request):
     referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').distinct()
     ref = str(pd.DataFrame(referencia))
+    if len(referencia) > 0:
+        busca=request.POST.get('mes_ref')
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='INTERIOR')
 
-    busca=request.POST.get('mes_ref')
-    tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='INTERIOR')
+        if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-    if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca,setor ='INTERIOR')
 
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca,setor ='INTERIOR')
+            ref = request.POST.get('mes_ref')
 
-        ref = request.POST.get('mes_ref')
+        else:
+            ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').first()
+            ref=pd.DataFrame(ref).to_string(header=False,index=False)
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref,setor ='INTERIOR')
 
-    else:
-        ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').first()
-        ref=pd.DataFrame(ref).to_string(header=False,index=False)
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref,setor ='INTERIOR')
+        indicadores = pd.DataFrame(tabela)
+        arsesp = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO ARSESP"')
+        idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
+        cadastro = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="ENTREGA DO CADASTRO E IMOBILIZAÇÃO"')
 
-    indicadores = pd.DataFrame(tabela)
-    arsesp = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
-    idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
-    cadastro = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="ENTREGA DO CADASTRO E IMOBILIZAÇÃO"')
+        seguranca = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
+        primeiro_arsesp = arsesp.query('colocacao ==1')
+        segundo_arsesp = arsesp.query('colocacao ==2')
+        terceiro_arsesp = arsesp.query('colocacao ==3')
 
-    seguranca = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
-    primeiro_arsesp = arsesp.query('colocacao ==1')
-    segundo_arsesp = arsesp.query('colocacao ==2')
-    terceiro_arsesp = arsesp.query('colocacao ==3')
+        primeiro_cadastro = cadastro.query('colocacao ==1')
+        segundo_cadastro = cadastro.query('colocacao ==2')
+        terceiro_cadastro = cadastro.query('colocacao ==3')
 
-    primeiro_cadastro = cadastro.query('colocacao ==1')
-    segundo_cadastro = cadastro.query('colocacao ==2')
-    terceiro_cadastro = cadastro.query('colocacao ==3')
+        primeiro_idg = idg.query('colocacao ==1')
+        segundo_idg = idg.query('colocacao ==2')
+        terceiro_idg = idg.query('colocacao ==3')
 
-    primeiro_idg = idg.query('colocacao ==1')
-    segundo_idg = idg.query('colocacao ==2')
-    terceiro_idg = idg.query('colocacao ==3')
-
-    primeiro_seguranca = seguranca.query('colocacao ==1')
-    segundo_seguranca = seguranca.query('colocacao ==2')
-    terceiro_seguranca = seguranca.query('colocacao ==3')
+        primeiro_seguranca = seguranca.query('colocacao ==1')
+        segundo_seguranca = seguranca.query('colocacao ==2')
+        terceiro_seguranca = seguranca.query('colocacao ==3')
 
 
-    context ={'referencia':referencia,'ref':ref,
-        'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
-            'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_arsesp':primeiro_arsesp[['fornecedor']].to_string(header=False,index=False),
-            'segundo_arsesp':segundo_arsesp[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_arsesp':terceiro_arsesp[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_cadastro':primeiro_cadastro[['fornecedor']].to_string(header=False,index=False),
-            'segundo_cadastro':segundo_cadastro[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_cadastro':terceiro_cadastro[['fornecedor']].to_string(header=False,index=False),
-            'primeiro_seguranca':primeiro_seguranca[['fornecedor']].to_string(header=False,index=False),
-            'segundo_seguranca':segundo_seguranca[['fornecedor']].to_string(header=False,index=False),
-            'terceiro_seguranca':terceiro_seguranca[['fornecedor']].to_string(header=False,index=False),
-              }
+        context ={'referencia':referencia,'ref':ref,
+            'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
+                'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_arsesp':primeiro_arsesp[['fornecedor']].to_string(header=False,index=False),
+                'segundo_arsesp':segundo_arsesp[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_arsesp':terceiro_arsesp[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_cadastro':primeiro_cadastro[['fornecedor']].to_string(header=False,index=False),
+                'segundo_cadastro':segundo_cadastro[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_cadastro':terceiro_cadastro[['fornecedor']].to_string(header=False,index=False),
+                'primeiro_seguranca':primeiro_seguranca[['fornecedor']].to_string(header=False,index=False),
+                'segundo_seguranca':segundo_seguranca[['fornecedor']].to_string(header=False,index=False),
+                'terceiro_seguranca':terceiro_seguranca[['fornecedor']].to_string(header=False,index=False),
+                  }
 
-    return render(request, 'core/melhores_interior.html',context)
+        return render(request, 'core/melhores_interior.html',context)
+    messages.error(request,'O Banco de Dados não tem Dados para o processamento!')
+    return render(request, 'core/melhores_interior.html')
 @has_permission_decorator('melhores')
 def ranking(request):
 
     return render(request, 'core/ranking.html')
 @has_permission_decorator('melhores')
-def melhores_M_idg(request):
+def melhores_idg(request):
     referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='CAPITAL').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -623,9 +696,9 @@ def melhores_M_idg(request):
 
               }
 
-    return render(request, 'core/melhores_M_idg.html',context)
+    return render(request, 'core/melhores_idg.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_isap(request):
+def melhores_isap(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -646,9 +719,9 @@ def melhores_M_isap(request):
               'referencia':referencia,
 
               }
-    return render(request, 'core/melhores_M_isap.html',context)
+    return render(request, 'core/melhores_isap.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_idr(request):
+def melhores_idr(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -669,9 +742,9 @@ def melhores_M_idr(request):
               'referencia':referencia,
 
               }
-    return render(request, 'core/melhores_M_idr.html',context)
+    return render(request, 'core/melhores_idr.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_ida(request):
+def melhores_ida(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -692,9 +765,9 @@ def melhores_M_ida(request):
               'referencia':referencia,
 
               }
-    return render(request, 'core/melhores_M_ida.html',context)
+    return render(request, 'core/melhores_ida.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_ide(request):
+def melhores_ide(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -713,9 +786,9 @@ def melhores_M_ide(request):
               'referencia':referencia,
 
               }
-    return render(request, 'core/melhores_M_ide.html',context)
+    return render(request, 'core/melhores_ide.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_capacita(request):
+def melhores_capacitacao(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -736,9 +809,9 @@ def melhores_M_capacita(request):
               'referencia':referencia,
 
               }
-    return render(request, 'core/melhores_M_capacita.html',context)
+    return render(request, 'core/melhores_capacitacao.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_comgas(request):
+def melhores_comgas(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -756,9 +829,9 @@ def melhores_M_comgas(request):
     context ={'cont_contratos':cont_contratos,
               'referencia':referencia,
               }
-    return render(request, 'core/melhores_M_comgas.html',context)
+    return render(request, 'core/melhores_comgas.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_seguranca(request):
+def melhores_seguranca(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -776,9 +849,9 @@ def melhores_M_seguranca(request):
     context ={'cont_contratos':cont_contratos,
               'referencia':referencia,
               }
-    return render(request, 'core/melhores_M_seguranca.html',context)
+    return render(request, 'core/melhores_seguranca.html',context)
 @has_permission_decorator('melhores')
-def melhores_M_cadastro(request):
+def melhores_cadastro(request):
     referencia = tb_premio_excel.objects.values('mes_ref').order_by('-mes_ref').distinct()
     busca=request.POST.get('mes_ref')
     ref = tb_premio_excel.objects.values_list('mes_ref').order_by('-mes_ref').first()
@@ -796,4 +869,4 @@ def melhores_M_cadastro(request):
     context ={'cont_contratos':cont_contratos,
               'referencia':referencia,
               }
-    return render(request, 'core/melhores_M_cadastro.html',context)
+    return render(request, 'core/melhores_cadastro.html',context)

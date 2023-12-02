@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}ODG{% endblock %}
+
+{% block content %}
+<h2 align="center">INDICE DE DESEMPENHO REPOSIÇÃO (IDR) Capital.</h2>
+<hr>
+<div class="row">
+    <form method="POST">
+        <div></div>
+        {% csrf_token %}
+        <div align="center">
+            <select onchange="this.form.submit()" name="mes_ref" required>
+                <option value="">REFERÊNCIA</option>
+                {% for ref in referencia %}
+                <option>{{ ref.mes_ref}}</option>
+                {% endfor %}
+            </select>
+
+        </div>
+        <div></div>
+    </form>
+
+</div>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped" align="center">
+            <thead class="thead-dark">
+            <tr nowrap="true">
+              <th scope="col">Nº</th>
+                <th scope="col">Ref.</th>
+                <th scope="col">Indicador</th>
+                <th scope="col">Contrato</th>
+                <th scope="col">Fornecedor</th>
+                <th scope="col">Gestor(es)</th>
+                <th scope="col">Indicador 2</th>
+                <th scope="col">1º Desempate</th>
+                <th scope="col">Fotos</th>
+                <th scope="col">Serviços 2 minutos</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contrato in cont_contratos %}
+            <tr>
+                <td>{{contrato.colocacao}}</td>
+                <td>{{contrato.mes_ref}}</td>
+                <td>{{contrato.indicador}}</td>
+                <td>{{contrato.contrato}}</td>
+                <td>{{contrato.fornecedor}}</td>
+                <td>{{contrato.gestores}}</td>
+                <td>{{contrato.casas_decimais}}</td>
+                <td>{{contrato.original}}</td>
+                <td>{{contrato.OS_fotos}}</td>
+                <td>{{contrato.serv_2_min}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <form action="{% url 'melhores' %}" align="right">
+        <div align="right">
+            <input align="right" type="submit" value="Voltar"/>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

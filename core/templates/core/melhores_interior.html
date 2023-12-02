@@ -26,7 +26,7 @@
 
 <div class="row">
     <div class="card blue">
-        <a href="{% url 'melhores_M_idg' %}">
+        <a href="{% url 'melhores_interior_idg' %}">
             <h>INDICE DE DESEMPENHO GLOBAL (IDG):</h>
             <p>1º - {{primeiro_idg}}</p>
             <p>2º - {{segundo_idg}}</p>
@@ -34,8 +34,8 @@
         </a>
     </div>
     <div class="card blue">
-        <a href="{% url 'melhores_M_isap' %}">
-            <h>SERVIÇOS ATENDIDOS NO PRAZO (ISAP):</b></h>
+        <a href="{% url 'melhores_interior_arsesp' %}">
+            <h>SERVIÇOS ATENDIDOS NO PRAZO ARSESP:</b></h>
             <p>1º - {{primeiro_arsesp}}</p>
             <p>2º - {{segundo_arsesp}}</p>
             <p>3º - {{terceiro_arsesp}}</p>
@@ -44,7 +44,7 @@
 </div>
 <div class="row">
     <div class="card blue">
-        <a href="{% url 'melhores_M_idr' %}">
+        <a href="{% url 'melhores_interior_cadastro' %}">
             <h>ENTREGA DO CADASTRO E IMOBILIZAÇÃO:</h>
             <p>1º - {{primeiro_cadastro}}</p>
             <p>2º - {{segundo_cadastro}}</p>
@@ -52,7 +52,7 @@
         </a>
     </div>
     <div class="card blue">
-        <a href="{% url 'melhores_M_ida' %}">
+        <a href="{% url 'melhores_interior_seguranca' %}">
             <h>SEGURANÇA:</h>
             <p>1º - {{primeiro_seguranca}}</p>
             <p>2º - {{segundo_seguranca}}</p>
@@ -60,5 +60,6 @@
         </a>
     </div>
 </div>
+
 </body>
 {% endblock  %}
