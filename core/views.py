@@ -25,9 +25,9 @@ from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrat
 from django.conf import settings
 from rolepermissions.decorators import has_role_decorator,has_permission_decorator
 from rolepermissions.permissions import revoke_permission
+from celery import Task
 
-
-locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+#locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 data_log = data=datetime.now()
 
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
@@ -141,6 +141,7 @@ def atulizar_localizacao():
     pass
 @login_required
 def index(request):
+    gerar_mes_referencia()
     horario =datetime.now()
     horario = int(horario.strftime("%H"))
     if (horario >= 0) and (horario <12):
@@ -515,22 +516,24 @@ def informacoes_contrato(request,pk):
 
 @has_permission_decorator('melhores')
 def melhores(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='CAPITAL').order_by('-mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='CAPITAL',ativo='SIM').order_by('-mes_ref').distinct()
     ref = str(pd.DataFrame(referencia))
     if len(referencia) > 0:
         busca=request.POST.get('mes_ref')
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='CAPITAL')
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='CAPITAL',ativo='SIM')
 
         if (request.method=="POST") & (request.POST.get('mes_ref') != '') :
 
-            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca,setor ='CAPITAL')
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').\
+                filter(mes_ref =busca,setor ='CAPITAL',ativo='SIM')
 
             ref = request.POST.get('mes_ref')
 
         else:
-            ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='CAPITAL').order_by('-mes_ref').first()
+            ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='CAPITAL',ativo='SIM').order_by('-mes_ref').first()
             ref=pd.DataFrame(ref).to_string(header=False,index=False)
-            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref,setor ='CAPITAL')
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').\
+                filter(mes_ref =ref,setor ='CAPITAL',ativo='SIM')
         indicadores = pd.DataFrame(tabela)
         isap = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO (ISAP)"')
         idg = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO GLOBAL (IDG)"')
@@ -541,92 +544,208 @@ def melhores(request):
         seg= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
         comgas= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SINISTROS OPERACIONAIS (COMGAS)"')
         capacita= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="CAPACITAÇÃO DE EMPREGADOS"')
-        primeiro_idr = idr.query('colocacao ==1')
-        segundo_idr = idr.query('colocacao ==2')
-        terceiro_idr = idr.query('colocacao ==3')
 
+        primeiro_idr = idr.query('colocacao ==1')
+        if primeiro_idr.empty == True:
+            primeiro_idr='Sem concorrente'
+        else:
+            primeiro_idr= primeiro_idr[['fornecedor']].to_string(header=False,index=False)
+        segundo_idr = idr.query('colocacao ==2')
+        if segundo_idr.empty == True:
+            segundo_idr='Sem concorrente'
+        else:
+            segundo_idr= segundo_idr[['fornecedor']].to_string(header=False,index=False)
+        terceiro_idr = idr.query('colocacao ==3')
+        if terceiro_idr.empty == True:
+            terceiro_idr='Sem concorrente'
+        else:
+            terceiro_idr= terceiro_idr[['fornecedor']].to_string(header=False,index=False)
         primeiro_isap = isap.query('colocacao ==1')
+        if primeiro_isap.empty == True:
+            primeiro_isap='Sem concorrente'
+        else:
+            primeiro_isap= primeiro_isap[['fornecedor']].to_string(header=False,index=False)
         segundo_isap = isap.query('colocacao ==2')
+        if segundo_isap.empty == True:
+            segundo_isap='Sem concorrente'
+        else:
+            segundo_isap= segundo_isap[['fornecedor']].to_string(header=False,index=False)
         terceiro_isap = isap.query('colocacao ==3')
+        if terceiro_isap.empty == True:
+            terceiro_isap='Sem concorrente'
+        else:
+            terceiro_isap= terceiro_isap[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_idg = idg.query('colocacao ==1')
+        if primeiro_idg.empty == True:
+            primeiro_idg='Sem concorrente'
+
+        else:
+            primeiro_idg= primeiro_idg[['fornecedor']].to_string(header=False,index=False)
         segundo_idg = idg.query('colocacao ==2')
+        if segundo_idg.empty == True:
+            segundo_idg='Sem concorrente'
+        else:
+            segundo_idg= segundo_idg[['fornecedor']].to_string(header=False,index=False)
         terceiro_idg = idg.query('colocacao ==3')
-
+        if terceiro_idg.empty == True:
+            terceiro_idg='Sem concorrente'
+        else:
+            terceiro_idg= terceiro_idg[['fornecedor']].to_string(header=False,index=False)
         primeiro_ida = ida.query('colocacao ==1')
+        if primeiro_ida.empty == True:
+            primeiro_ida='Sem concorrente'
+        else:
+            primeiro_ida= primeiro_ida[['fornecedor']].to_string(header=False,index=False)
         segundo_ida = ida.query('colocacao ==2')
+        if segundo_ida.empty == True:
+            segundo_ida='Sem concorrente'
+        else:
+            segundo_ida= segundo_ida[['fornecedor']].to_string(header=False,index=False)
         terceiro_ida = ida.query('colocacao ==3')
-
+        if terceiro_ida.empty == True:
+            terceiro_ida='Sem concorrente'
+        else:
+            terceiro_ida= terceiro_ida[['fornecedor']].to_string(header=False,index=False)
         primeiro_ide = ide.query('colocacao ==1')
+        if primeiro_ide.empty == True:
+            primeiro_ide='Sem concorrente'
+        else:
+            primeiro_ide= primeiro_ide[['fornecedor']].to_string(header=False,index=False)
         segundo_ide = ide.query('colocacao ==2')
+        if segundo_ide.empty == True:
+            segundo_ide='Sem concorrente'
+        else:
+            segundo_ide= segundo_ide[['fornecedor']].to_string(header=False,index=False)
         terceiro_ide = ide.query('colocacao ==3')
-
+        if terceiro_ide.empty == True:
+            terceiro_ide='Sem concorrente'
+        else:
+            terceiro_ide= terceiro_ide[['fornecedor']].to_string(header=False,index=False)
         primeiro_cad_imob = cad_imob.query('colocacao ==1')
+        if primeiro_cad_imob.empty == True:
+            primeiro_cad_imob='Sem concorrente'
+        else:
+            primeiro_cad_imob= primeiro_cad_imob[['fornecedor']].to_string(header=False,index=False)
         segundo_cad_imob = cad_imob.query('colocacao ==2')
+        if segundo_cad_imob.empty == True:
+            segundo_cad_imob='Sem concorrente'
+
+        else:
+            segundo_cad_imob= segundo_cad_imob[['fornecedor']].to_string(header=False,index=False)
         terceiro_cad_imob = cad_imob.query('colocacao ==3')
+        if terceiro_cad_imob.empty == True:
+            terceiro_cad_imob='Sem concorrente'
+
+        else:
+            terceiro_cad_imob= terceiro_cad_imob[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_seg = seg.query('colocacao ==1')
+        if primeiro_seg.empty == True:
+            primeiro_seg='Sem concorrente'
+
+        else:
+            primeiro_seg= primeiro_seg[['fornecedor']].to_string(header=False,index=False)
         segundo_seg = seg.query('colocacao ==2')
+        if segundo_seg.empty == True:
+            segundo_seg='Sem concorrente'
+
+        else:
+            segundo_seg= segundo_seg[['fornecedor']].to_string(header=False,index=False)
         terceiro_seg = seg.query('colocacao ==3')
+        if terceiro_seg.empty == True:
+            terceiro_seg='Sem concorrente'
+
+        else:
+            terceiro_seg= terceiro_seg[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_comgas = comgas.query('colocacao ==1')
+        if primeiro_comgas.empty == True:
+            primeiro_comgas='Sem concorrente'
+
+        else:
+            primeiro_comgas= primeiro_comgas[['fornecedor']].to_string(header=False,index=False)
         segundo_comgas = comgas.query('colocacao ==2')
+        if segundo_comgas.empty == True:
+            segundo_comgas='Sem concorrente'
+
+        else:
+            segundo_comgas= segundo_comgas[['fornecedor']].to_string(header=False,index=False)
         terceiro_comgas = comgas.query('colocacao ==3')
+        if terceiro_comgas.empty == True:
+            terceiro_comgas='Sem concorrente'
 
+        else:
+            terceiro_comgas= terceiro_comgas[['fornecedor']].to_string(header=False,index=False)
         primeiro_capacita = capacita.query('colocacao ==1')
-        segundo_capacita = capacita.query('colocacao ==2')
-        terceiro_capacita = capacita.query('colocacao ==3')
+        if primeiro_capacita.empty == True:
+            primeiro_capacita='Sem concorrente'
 
+        else:
+            primeiro_capacita= primeiro_capacita[['fornecedor']].to_string(header=False,index=False)
+        segundo_capacita = capacita.query('colocacao ==2')
+        if segundo_capacita.empty == True:
+            segundo_capacita='Sem concorrente'
+
+        else:
+            segundo_capacita= segundo_capacita[['fornecedor']].to_string(header=False,index=False)
+        terceiro_capacita = capacita.query('colocacao ==3')
+        if terceiro_capacita.empty == True:
+            terceiro_capacita='Sem concorrente'
+        else:
+            terceiro_capacita= terceiro_capacita[['fornecedor']].to_string(header=False,index=False)
         context ={'referencia':referencia,'ref':ref,
-            'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
-                'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_isap':primeiro_isap[['fornecedor']].to_string(header=False,index=False),
-                'segundo_isap':segundo_isap[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_isap':terceiro_isap[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_ida':primeiro_ida[['fornecedor']].to_string(header=False,index=False),
-                'segundo_ida':segundo_ida[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_ida':terceiro_ida[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_ide':primeiro_ide[['fornecedor']].to_string(header=False,index=False),
-                'segundo_ide':segundo_ide[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_ide':terceiro_ide[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_idr':primeiro_idr[['fornecedor']].to_string(header=False,index=False),
-                'segundo_idr':segundo_idr[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_idr':terceiro_idr[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_cad_imob':primeiro_cad_imob[['fornecedor']].to_string(header=False,index=False),
-                'segundo_cad_imob':segundo_cad_imob[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_cad_imob':terceiro_cad_imob[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_seg':primeiro_seg[['fornecedor']].to_string(header=False,index=False),
-                'segundo_seg':segundo_seg[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_seg':terceiro_seg[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_comgas':primeiro_comgas[['fornecedor']].to_string(header=False,index=False),
-                'segundo_comgas':segundo_comgas[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_comgas':terceiro_comgas[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_capacita':primeiro_capacita[['fornecedor']].to_string(header=False,index=False),
-                'segundo_capacita':segundo_capacita[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_capacita':terceiro_capacita[['fornecedor']].to_string(header=False,index=False),
+            'primeiro_idg':primeiro_idg,
+                'segundo_idg':segundo_idg,
+                'terceiro_idg':terceiro_idg,
+                'primeiro_isap':primeiro_isap,
+                'segundo_isap':segundo_isap,
+                'terceiro_isap':terceiro_isap,
+                'primeiro_ida':primeiro_ida,
+                'segundo_ida':segundo_ida,
+                'terceiro_ida':terceiro_ida,
+                'primeiro_ide':primeiro_ide,
+                'segundo_ide':segundo_ide,
+                'terceiro_ide':terceiro_ide,
+                'primeiro_idr':primeiro_idr,
+                'segundo_idr':segundo_idr,
+                'terceiro_idr':terceiro_idr,
+                'primeiro_cad_imob':primeiro_cad_imob,
+                'segundo_cad_imob':segundo_cad_imob,
+                'terceiro_cad_imob':terceiro_cad_imob,
+                'primeiro_seg':primeiro_seg,
+                'segundo_seg':segundo_seg,
+                'terceiro_seg':terceiro_seg,
+                'primeiro_comgas':primeiro_comgas,
+                'segundo_comgas':segundo_comgas,
+                'terceiro_comgas':terceiro_comgas,
+                'primeiro_capacita':primeiro_capacita,
+                'segundo_capacita':segundo_capacita,
+                'terceiro_capacita':terceiro_capacita,
                   }
         return render(request, 'core/melhores.html',context)
     messages.error(request,'O Banco de Dados não tem Dados para o processamento!')
     return render(request, 'core/melhores.html')
 @has_permission_decorator('melhores')
 def melhores_interior(request):
-    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').distinct()
+    referencia = tb_premio_excel.objects.values('mes_ref').filter(setor ='INTERIOR',ativo='SIM').order_by('-mes_ref').distinct()
     ref = str(pd.DataFrame(referencia))
     if len(referencia) > 0:
         busca=request.POST.get('mes_ref')
-        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='INTERIOR')
+        tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(setor ='INTERIOR',ativo='SIM')
 
         if (request.method=="POST") & (request.POST.get('mes_ref') != ''):
 
-            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =busca,setor ='INTERIOR')
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').\
+                filter(mes_ref =busca,setor ='INTERIOR',ativo='SIM')
 
             ref = request.POST.get('mes_ref')
 
         else:
-            ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='INTERIOR').order_by('-mes_ref').first()
+            ref = tb_premio_excel.objects.values_list('mes_ref').filter(setor ='INTERIOR',ativo='SIM').order_by('-mes_ref').first()
             ref=pd.DataFrame(ref).to_string(header=False,index=False)
-            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').filter(mes_ref =ref,setor ='INTERIOR')
+            tabela = tb_premio_excel.objects.values('fornecedor','colocacao','modalidade','mes_ref').\
+                filter(mes_ref =ref,setor ='INTERIOR',ativo='SIM')
 
         indicadores = pd.DataFrame(tabela)
         arsesp = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SERVIÇOS ATENDIDOS NO PRAZO ARSESP"')
@@ -643,16 +762,19 @@ def melhores_interior(request):
         terceiro_cadastro = cadastro.query('colocacao ==3')
 
         primeiro_idg = idg.query('colocacao ==1')
+        primeiro_idg[['fornecedor']].to_string(header=False,index=False)
         segundo_idg = idg.query('colocacao ==2')
         terceiro_idg = idg.query('colocacao ==3')
 
         primeiro_seguranca = seguranca.query('colocacao ==1')
+        primeiro_seguranca[['fornecedor']].to_string(header=False,index=False)
+
         segundo_seguranca = seguranca.query('colocacao ==2')
         terceiro_seguranca = seguranca.query('colocacao ==3')
 
 
         context ={'referencia':referencia,'ref':ref,
-            'primeiro_idg':primeiro_idg[['fornecedor']].to_string(header=False,index=False),
+            'primeiro_idg':primeiro_idg,
                 'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
                 'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
                 'primeiro_arsesp':primeiro_arsesp[['fornecedor']].to_string(header=False,index=False),
@@ -870,3 +992,4 @@ def melhores_cadastro(request):
               'referencia':referencia,
               }
     return render(request, 'core/melhores_cadastro.html',context)
+

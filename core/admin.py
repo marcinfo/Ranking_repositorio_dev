@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Profile,tb_dados_contrato,tb_modalidade_interior,tb_modalidade_metropolitana,\
     tb_log_email,tb_unidades,tb_referencia_contrato,tb_premio_excel
-
+from django.contrib.admin.models import LogEntry
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -34,8 +34,14 @@ class tb_referencia_contratoAdmin(admin.ModelAdmin):
                     'staf_1','staf_2']
 
 
-@admin.register(tb_premio_excel)
+
+
 class tb_premio_excelAdmin(admin.ModelAdmin):
     list_display = ['mes_ref','setor','modalidade','colocacao','indicador','contrato','fornecedor','gestores',
                     'superintendencia','casas_decimais','original','OS_fotos','serv_2_min',
-			'OS_fotos','serv_2_min']
+			'OS_fotos','serv_2_min','setor']
+
+
+@admin.register(LogEntry)
+class LogEntryAdmin(admin.ModelAdmin):
+        list_display = ['id','action_time','object_id','action_flag','change_message','user_id']

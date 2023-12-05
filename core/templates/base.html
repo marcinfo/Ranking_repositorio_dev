@@ -15,32 +15,44 @@
   <div id="header">
     <span class="logo" > <img src="{% static 'images/sabesp.png' %}"  width="50" height="50" alt="Logo" align="left" />Premio Eficiência Operacional</span>
     {% if request.user.is_authenticated %}
-
-    <ul class="menu">
-         <li {% if section == "ranking" %}class='selected'{% endif %}>
-              <a href="{% url 'ranking' %}">Ranking </a>
-         </li>
-       </ul>
-
-      <ul class="menu">
-        <li {% if section == "Indicadores" %}class='selected'{% endif %}>
-          <a href="{% url 'menu_indices' %}">Indicadores</a>
-        </li>
-        <li {% if section == 'contratos' %}class="selected"{% endif %}>
-            <a href="{% url 'menu_contratos' %}">Contratos</a>
-        </li>
-        <li {% if section == "sistema" %}class="selected"{% endif %}>
-            <a href="{% url "sistema" %}">Sistema</a>
-        </li>
-
-      </ul>
-    {% endif %}
+      {% if user|has_role:'nao_liberado' %}
+        Você ainda não tem o acesso liberado!
+      {% elif user|has_role:'diretor' %}
         <ul class="menu">
-         <li {% if section == "contatos" %}class='selected'{% endif %}>
-              <a href="{% url 'contatos' %}">Duvidas</a>
-         </li>
-       </ul>
+             <li {% if section == "ranking" %}class='selected'{% endif %}>
+                  <a href="{% url 'ranking' %}">Ranking </a>
+             </li>
+        </ul>
+          {% elif user|has_role:'staff' %}
+            <ul class="menu">
+                <li {% if section == "Indicadores" %}class='selected'{% endif %}>
+                    <a href="{% url 'menu_indices' %}">Indicadores</a>
+                </li>
+                <li {% if section == 'contratos' %}class="selected"{% endif %}>
+                    <a href="{% url 'menu_contratos' %}">Contratos</a>
+                </li>
+            </ul>
+  {% elif user|has_role:'administrador' %}
 
+        <ul class="menu">
+            <li {% if section == "ranking" %}class='selected'{% endif %}>
+                <a href="{% url 'ranking' %}">Ranking </a>
+            </li>
+            <li {% if section == "Indicadores" %}class='selected'{% endif %}>
+                <a href="{% url 'menu_indices' %}">Indicadores</a>
+            </li>
+            <li {% if section == 'contratos' %}class="selected"{% endif %}>
+                <a href="{% url 'menu_contratos' %}">Contratos</a>
+            </li>
+            <li {% if section == "contatos" %}class='selected'{% endif %}>
+                <a href="{% url 'contatos' %}">Duvidas</a>
+            </li>
+            <li {% if section == "sistema" %}class="selected"{% endif %}>
+                <a href="{% url 'sistema' %}">Sistema</a>
+            </li>
+        </ul>
+    {% endif %}
+    {% endif %}
   <span class="user" style="text-transform: capitalize;">
     {% if request.user.is_authenticated %}
       Olá, {{ request.user.first_name }}.

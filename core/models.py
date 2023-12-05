@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django import forms
 escolhe_M_R=(
 
-    ("Interior","Interior"),("C",'Capital'),
+    ("INTERIOR","INTERIOR"),("CAPITAL",'CAPITAL'),
 )
 hora_envio_email=(('0','00'),('1','01'))
 escolha_status=(('SIM','SIM'),('NÃO','NÃO'))
