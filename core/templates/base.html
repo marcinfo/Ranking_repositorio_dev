@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html >
 <head>
-
+{% csrf_token %}
   <meta charset="="UTF-8>
   <title>{% block title %}{% endblock %}</title>
   <link rel="icon" href="{% static 'images/favicon1.png' %}">
@@ -44,9 +44,7 @@
             <li {% if section == 'contratos' %}class="selected"{% endif %}>
                 <a href="{% url 'menu_contratos' %}">Contratos</a>
             </li>
-            <li {% if section == "contatos" %}class='selected'{% endif %}>
-                <a href="{% url 'contatos' %}">Duvidas</a>
-            </li>
+
             <li {% if section == "sistema" %}class="selected"{% endif %}>
                 <a href="{% url 'sistema' %}">Sistema</a>
             </li>
@@ -83,7 +81,7 @@
 
   <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
     <div class="container text-center">
-      <small>Copyright &copy; ODG-Sabesp</small>
+      <small>Copyright &copy; Sabesp - ODG 2023</small>
     </div>
 
   </footer>

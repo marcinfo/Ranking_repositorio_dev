@@ -1,7 +1,8 @@
 import pandas as pd
-import plotly.express as px
+from celery import shared_task
+
 from rolepermissions.roles import assign_role
-import locale
+#import locale
 import smtplib
 from datetime import datetime,date,timedelta
 from dateutil.relativedelta import relativedelta
@@ -31,7 +32,7 @@ from celery import Task
 data_log = data=datetime.now()
 
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
-
+mensagem_concorrencia = 'sem concorrentes para esta posição'
 def verifica_validade_contrato():
 
         valida_contrato = tb_dados_contrato.objects.\
@@ -40,6 +41,7 @@ def verifica_validade_contrato():
         for valida in valida_contrato:
             tb_dados_contrato.objects.update(ativo = 'Não')
             print(valida_contrato)
+
 def gerar_mes_referencia():
     verifica_validade_contrato()
     data=date.today() - relativedelta(months=1)
@@ -278,7 +280,9 @@ def enviar_email_backend():
     email.send()
     print('enviado')
     return HttpResponse('Email enviado com sucesso!')
+@shared_task
 def enviar_email():
+
     inicio_envio_email = datetime.now()
 
     email_usuario = User.objects.values('first_name','email').filter(is_active=True)
@@ -542,6 +546,7 @@ def melhores(request):
         idr = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="INDICE DE DESEMPENHO REPOSIÇÃO (IDR)"')
         cad_imob= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="ENTREGA DO CADASTRO E IMOBILIZAÇÃO"')
         seg= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
+
         comgas= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SINISTROS OPERACIONAIS (COMGAS)"')
         capacita= indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="CAPACITAÇÃO DE EMPREGADOS"')
 
@@ -552,146 +557,146 @@ def melhores(request):
             primeiro_idr= primeiro_idr[['fornecedor']].to_string(header=False,index=False)
         segundo_idr = idr.query('colocacao ==2')
         if segundo_idr.empty == True:
-            segundo_idr='Sem concorrente'
+            segundo_idr=mensagem_concorrencia
         else:
             segundo_idr= segundo_idr[['fornecedor']].to_string(header=False,index=False)
         terceiro_idr = idr.query('colocacao ==3')
         if terceiro_idr.empty == True:
-            terceiro_idr='Sem concorrente'
+            terceiro_idr=mensagem_concorrencia
         else:
             terceiro_idr= terceiro_idr[['fornecedor']].to_string(header=False,index=False)
         primeiro_isap = isap.query('colocacao ==1')
         if primeiro_isap.empty == True:
-            primeiro_isap='Sem concorrente'
+            primeiro_isap=mensagem_concorrencia
         else:
             primeiro_isap= primeiro_isap[['fornecedor']].to_string(header=False,index=False)
         segundo_isap = isap.query('colocacao ==2')
         if segundo_isap.empty == True:
-            segundo_isap='Sem concorrente'
+            segundo_isap=mensagem_concorrencia
         else:
             segundo_isap= segundo_isap[['fornecedor']].to_string(header=False,index=False)
         terceiro_isap = isap.query('colocacao ==3')
         if terceiro_isap.empty == True:
-            terceiro_isap='Sem concorrente'
+            terceiro_isap=mensagem_concorrencia
         else:
             terceiro_isap= terceiro_isap[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_idg = idg.query('colocacao ==1')
         if primeiro_idg.empty == True:
-            primeiro_idg='Sem concorrente'
+            primeiro_idg=mensagem_concorrencia
 
         else:
             primeiro_idg= primeiro_idg[['fornecedor']].to_string(header=False,index=False)
         segundo_idg = idg.query('colocacao ==2')
         if segundo_idg.empty == True:
-            segundo_idg='Sem concorrente'
+            segundo_idg=mensagem_concorrencia
         else:
             segundo_idg= segundo_idg[['fornecedor']].to_string(header=False,index=False)
         terceiro_idg = idg.query('colocacao ==3')
         if terceiro_idg.empty == True:
-            terceiro_idg='Sem concorrente'
+            terceiro_idg=mensagem_concorrencia
         else:
             terceiro_idg= terceiro_idg[['fornecedor']].to_string(header=False,index=False)
         primeiro_ida = ida.query('colocacao ==1')
         if primeiro_ida.empty == True:
-            primeiro_ida='Sem concorrente'
+            primeiro_ida=mensagem_concorrencia
         else:
             primeiro_ida= primeiro_ida[['fornecedor']].to_string(header=False,index=False)
         segundo_ida = ida.query('colocacao ==2')
         if segundo_ida.empty == True:
-            segundo_ida='Sem concorrente'
+            segundo_ida=mensagem_concorrencia
         else:
             segundo_ida= segundo_ida[['fornecedor']].to_string(header=False,index=False)
         terceiro_ida = ida.query('colocacao ==3')
         if terceiro_ida.empty == True:
-            terceiro_ida='Sem concorrente'
+            terceiro_ida=mensagem_concorrencia
         else:
             terceiro_ida= terceiro_ida[['fornecedor']].to_string(header=False,index=False)
         primeiro_ide = ide.query('colocacao ==1')
         if primeiro_ide.empty == True:
-            primeiro_ide='Sem concorrente'
+            primeiro_ide=mensagem_concorrencia
         else:
             primeiro_ide= primeiro_ide[['fornecedor']].to_string(header=False,index=False)
         segundo_ide = ide.query('colocacao ==2')
         if segundo_ide.empty == True:
-            segundo_ide='Sem concorrente'
+            segundo_ide=mensagem_concorrencia
         else:
             segundo_ide= segundo_ide[['fornecedor']].to_string(header=False,index=False)
         terceiro_ide = ide.query('colocacao ==3')
         if terceiro_ide.empty == True:
-            terceiro_ide='Sem concorrente'
+            terceiro_ide=mensagem_concorrencia
         else:
             terceiro_ide= terceiro_ide[['fornecedor']].to_string(header=False,index=False)
         primeiro_cad_imob = cad_imob.query('colocacao ==1')
         if primeiro_cad_imob.empty == True:
-            primeiro_cad_imob='Sem concorrente'
+            primeiro_cad_imob=mensagem_concorrencia
         else:
             primeiro_cad_imob= primeiro_cad_imob[['fornecedor']].to_string(header=False,index=False)
         segundo_cad_imob = cad_imob.query('colocacao ==2')
         if segundo_cad_imob.empty == True:
-            segundo_cad_imob='Sem concorrente'
+            segundo_cad_imob=mensagem_concorrencia
 
         else:
             segundo_cad_imob= segundo_cad_imob[['fornecedor']].to_string(header=False,index=False)
         terceiro_cad_imob = cad_imob.query('colocacao ==3')
         if terceiro_cad_imob.empty == True:
-            terceiro_cad_imob='Sem concorrente'
+            terceiro_cad_imob=mensagem_concorrencia
 
         else:
             terceiro_cad_imob= terceiro_cad_imob[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_seg = seg.query('colocacao ==1')
         if primeiro_seg.empty == True:
-            primeiro_seg='Sem concorrente'
+            primeiro_seg=mensagem_concorrencia
 
         else:
             primeiro_seg= primeiro_seg[['fornecedor']].to_string(header=False,index=False)
         segundo_seg = seg.query('colocacao ==2')
         if segundo_seg.empty == True:
-            segundo_seg='Sem concorrente'
+            segundo_seg=mensagem_concorrencia
 
         else:
             segundo_seg= segundo_seg[['fornecedor']].to_string(header=False,index=False)
         terceiro_seg = seg.query('colocacao ==3')
         if terceiro_seg.empty == True:
-            terceiro_seg='Sem concorrente'
+            terceiro_seg=mensagem_concorrencia
 
         else:
             terceiro_seg= terceiro_seg[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_comgas = comgas.query('colocacao ==1')
         if primeiro_comgas.empty == True:
-            primeiro_comgas='Sem concorrente'
+            primeiro_comgas=mensagem_concorrencia
 
         else:
             primeiro_comgas= primeiro_comgas[['fornecedor']].to_string(header=False,index=False)
         segundo_comgas = comgas.query('colocacao ==2')
         if segundo_comgas.empty == True:
-            segundo_comgas='Sem concorrente'
+            segundo_comgas=mensagem_concorrencia
 
         else:
             segundo_comgas= segundo_comgas[['fornecedor']].to_string(header=False,index=False)
         terceiro_comgas = comgas.query('colocacao ==3')
         if terceiro_comgas.empty == True:
-            terceiro_comgas='Sem concorrente'
+            terceiro_comgas=mensagem_concorrencia
 
         else:
             terceiro_comgas= terceiro_comgas[['fornecedor']].to_string(header=False,index=False)
         primeiro_capacita = capacita.query('colocacao ==1')
         if primeiro_capacita.empty == True:
-            primeiro_capacita='Sem concorrente'
+            primeiro_capacita=mensagem_concorrencia
 
         else:
             primeiro_capacita= primeiro_capacita[['fornecedor']].to_string(header=False,index=False)
         segundo_capacita = capacita.query('colocacao ==2')
         if segundo_capacita.empty == True:
-            segundo_capacita='Sem concorrente'
+            segundo_capacita=mensagem_concorrencia
 
         else:
             segundo_capacita= segundo_capacita[['fornecedor']].to_string(header=False,index=False)
         terceiro_capacita = capacita.query('colocacao ==3')
         if terceiro_capacita.empty == True:
-            terceiro_capacita='Sem concorrente'
+            terceiro_capacita=mensagem_concorrencia
         else:
             terceiro_capacita= terceiro_capacita[['fornecedor']].to_string(header=False,index=False)
         context ={'referencia':referencia,'ref':ref,
@@ -753,36 +758,73 @@ def melhores_interior(request):
         cadastro = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="ENTREGA DO CADASTRO E IMOBILIZAÇÃO"')
 
         seguranca = indicadores[['fornecedor','colocacao','modalidade','mes_ref']].query('modalidade=="SEGURANÇA"')
+
         primeiro_arsesp = arsesp.query('colocacao ==1')
+        if primeiro_arsesp.empty == True:
+            primeiro_arsesp=mensagem_concorrencia
+        else:
+            primeiro_arsesp= primeiro_arsesp[['fornecedor']].to_string(header=False,index=False)
+
         segundo_arsesp = arsesp.query('colocacao ==2')
+        if segundo_arsesp.empty == True:
+            segundo_arsesp=mensagem_concorrencia
+        else:
+            segundo_arsesp= segundo_arsesp[['fornecedor']].to_string(header=False,index=False)
+
         terceiro_arsesp = arsesp.query('colocacao ==3')
+        if terceiro_arsesp.empty == True:
+            terceiro_arsesp=mensagem_concorrencia
+        else:
+            terceiro_arsesp= terceiro_arsesp[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_cadastro = cadastro.query('colocacao ==1')
+        if primeiro_cadastro.empty == True:
+            primeiro_cadastro=mensagem_concorrencia
+        else:
+            primeiro_cadastro= primeiro_cadastro[['fornecedor']].to_string(header=False,index=False)
         segundo_cadastro = cadastro.query('colocacao ==2')
+        if segundo_cadastro.empty == True:
+            segundo_cadastro=mensagem_concorrencia
+        else:
+            segundo_cadastro= segundo_cadastro[['fornecedor']].to_string(header=False,index=False)
+
         terceiro_cadastro = cadastro.query('colocacao ==3')
+        if terceiro_cadastro.empty == True:
+            terceiro_cadastro=mensagem_concorrencia
+        else:
+            terceiro_cadastro= terceiro_cadastro[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_idg = idg.query('colocacao ==1')
-        primeiro_idg[['fornecedor']].to_string(header=False,index=False)
+        if primeiro_idg.empty == True:
+            primeiro_idg=mensagem_concorrencia
+        else:
+            primeiro_idg= primeiro_idg[['fornecedor']].to_string(header=False,index=False)
+
         segundo_idg = idg.query('colocacao ==2')
+        if segundo_idg.empty == True:
+            segundo_idg=mensagem_concorrencia
+        else:
+            segundo_idg= segundo_idg[['fornecedor']].to_string(header=False,index=False)
         terceiro_idg = idg.query('colocacao ==3')
+        if terceiro_idg.empty == True:
+            terceiro_idg=mensagem_concorrencia
+        else:
+            terceiro_idg= terceiro_idg[['fornecedor']].to_string(header=False,index=False)
 
         primeiro_seguranca = seguranca.query('colocacao ==1')
-        primeiro_seguranca[['fornecedor']].to_string(header=False,index=False)
-
         segundo_seguranca = seguranca.query('colocacao ==2')
         terceiro_seguranca = seguranca.query('colocacao ==3')
 
-
         context ={'referencia':referencia,'ref':ref,
             'primeiro_idg':primeiro_idg,
-                'segundo_idg':segundo_idg[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_idg':terceiro_idg[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_arsesp':primeiro_arsesp[['fornecedor']].to_string(header=False,index=False),
-                'segundo_arsesp':segundo_arsesp[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_arsesp':terceiro_arsesp[['fornecedor']].to_string(header=False,index=False),
-                'primeiro_cadastro':primeiro_cadastro[['fornecedor']].to_string(header=False,index=False),
-                'segundo_cadastro':segundo_cadastro[['fornecedor']].to_string(header=False,index=False),
-                'terceiro_cadastro':terceiro_cadastro[['fornecedor']].to_string(header=False,index=False),
+                'segundo_idg':segundo_idg,
+                'terceiro_idg':terceiro_idg,
+                'primeiro_arsesp':primeiro_arsesp,
+                'segundo_arsesp':segundo_arsesp,
+                'terceiro_arsesp':terceiro_arsesp,
+                'primeiro_cadastro':primeiro_cadastro,
+                'segundo_cadastro':segundo_cadastro,
+                'terceiro_cadastro':terceiro_cadastro,
                 'primeiro_seguranca':primeiro_seguranca[['fornecedor']].to_string(header=False,index=False),
                 'segundo_seguranca':segundo_seguranca[['fornecedor']].to_string(header=False,index=False),
                 'terceiro_seguranca':terceiro_seguranca[['fornecedor']].to_string(header=False,index=False),

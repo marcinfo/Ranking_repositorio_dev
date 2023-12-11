@@ -36,6 +36,7 @@ class tb_referencia_contratoAdmin(admin.ModelAdmin):
 
 
 
+@admin.register(tb_premio_excel)
 class tb_premio_excelAdmin(admin.ModelAdmin):
     list_display = ['mes_ref','setor','modalidade','colocacao','indicador','contrato','fornecedor','gestores',
                     'superintendencia','casas_decimais','original','OS_fotos','serv_2_min',

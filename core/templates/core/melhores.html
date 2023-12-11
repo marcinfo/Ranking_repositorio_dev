@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Premio Eficiência Operacional {% endblock %}
 {% block content %}
-<meta http-equiv="refresh" content="180"/>
+<meta http-equiv="refresh" content="60000"/>
 <body>
 <h4 color="#4B0082" align="center" ><img src="{% static 'images/trofeis.jpeg' %}"
                                          width="70" height="50" alt="Logo" align="center">
@@ -82,24 +82,24 @@
             <h>SEGURANÇA:</h>
 
             <p>1º - {{primeiro_seg}}</p>
-            <p>2º - {{primeiro_seg}}</p>
-            <p>3º - {{primeiro_seg}}</p>
+            <p>2º - {{segundo_seg}}</p>
+            <p>3º - {{terceiro_seg}}</p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_comgas' %}">
             <h>SINISTROS OPERACIONAIS (COMGAS):</h>
             <p>1º - {{primeiro_comgas}}</p>
-            <p>2º - {{primeiro_comgas}}</p>
-            <p>3º - {{primeiro_comgas}}</p>
+            <p>2º - {{segundo_comgas}}</p>
+            <p>3º - {{terceiro_comgas}}</p>
         </a>
     </div>
     <div class="card blue">
         <a href="{% url 'melhores_capacitacao' %}">
             <h>CAPACITAÇÃO DE EMPREGADOS:</h>
             <p>1º - {{primeiro_capacita}}</p>
-            <p>2º - {{primeiro_capacita}}</p>
-            <p>3º - {{primeiro_capacita}}</p>
+            <p>2º - {{segundo_capacita}}</p>
+            <p>3º - {{terceiro_capacita}}</p>
         </a>
     </div>
 </div>

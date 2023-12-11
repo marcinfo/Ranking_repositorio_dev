@@ -353,9 +353,10 @@ img.user-detail {
 }
 .card:hover {
   transform: translateY(10px);
+
   transform: scale(1.2);
   cursor: pointer;
-  background-color:#ADD8E6;
+  background-color:#ADD8E667;
 
 
 }

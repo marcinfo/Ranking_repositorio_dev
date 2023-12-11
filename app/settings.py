@@ -1,6 +1,8 @@
 from decouple import config
 from pathlib import Path
 import os
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&1(zbj-f#3fb=_5+zlam(^ae^yyf)(7d5z-us2pb+19s=jj9oe'
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #python manage.py runserver_plus spo-plm-38.spo.sabesp.com.br:8000 --cert-file cert.pem --key-file key.pem
 
 ALLOWED_HOSTS = ['10.7.18.76','spo-plm-38.spo.sabesp.com.br','*']
@@ -71,12 +73,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'PEGLOBAL',
-        'USER': 'app_peglobal',
-        'PASSWORD': 'P0Jhnb%DD#1M',
-        'HOST': 'sql_mp03.spo.sabesp.com.br',
-        'PORT': '1433',
-
+        'NAME': config('DB_DATABASE_NAME'),
+        'USER': config('DB_USER_NAME'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
         'OPTIONS': {
             'driver': 'ODBC Driver 13 for SQL Server',
         },
@@ -132,7 +133,7 @@ LOGOUT_REDIRECT_URL = 'index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = True
 SECURE_HSTS_INCLUDE_SUBDDOMAINS = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -189,3 +190,4 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
+
