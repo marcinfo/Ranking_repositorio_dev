@@ -3,6 +3,9 @@ from pathlib import Path
 import os
 from decouple import config
 
+from datetime import datetime,date,timedelta
+data_log = datetime.now()
+data_log=data_log.strftime("%Y_%m_%d")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -195,3 +198,33 @@ CACHES = {
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": f"C:\\Users\\maosantos\\Documents\\logs\\{data_log}_logs_premio_eficiencia.log",
+            'when': 'midnight',
+            'backupCount': 30,
+            'interval':1,
+            "formatter":'simpleRe'
+        },
+
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+    'formatters': {
+        'simpleRe': {
+            'format': '[{levelname}] - {module} -  {asctime}  {message}',
+            'style': '{',
+    }
+    }
+}

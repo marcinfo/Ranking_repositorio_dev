@@ -1,5 +1,5 @@
 import pandas as pd
-
+import logging
 from rolepermissions.roles import assign_role
 #import locale
 import smtplib
@@ -24,14 +24,13 @@ from .models import Profile,tb_log_email,tb_referencia_contrato,tb_dados_contrat
     tb_modalidade_interior,tb_premio_excel
 from django.conf import settings
 from rolepermissions.decorators import has_role_decorator,has_permission_decorator
-from rolepermissions.permissions import revoke_permission
-from celery import Task
-from django_celery_beat.models import PeriodicTask,IntervalSchedule
+
 #locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 data_log = datetime.now()
-
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
 mensagem_concorrencia = 'sem concorrentes para esta posição'
+logger =logging.getLogger('django')
+
 def verifica_validade_contrato():
     valida_contrato = tb_dados_contrato.objects.\
     values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
