@@ -20,6 +20,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['10.7.18.76','spo-plm-38.spo.sabesp.com.br','*']
 # Application definition
 INSTALLED_APPS = [
+    'django_celery_beat',
     'core.apps.CoreConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,7 +35,7 @@ INSTALLED_APPS = [
     "django_extensions",
     'rolepermissions',
     'django_celery_results',
-    'django_celery_beat',
+
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
@@ -112,7 +113,7 @@ LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_L10N = True
-USE_TZ = False
+USE_TZ = True
 DATE_INPUT_FORMATS = ('%d-%m-%Y')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -173,13 +174,13 @@ LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = 'SERVER'
 
 
 # Celery Configuration Options
-CELERY_TIMEZONE = 'America/Sao_Paulo'
+CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
-
+CELERY_RESULT_EXTENDED = True
 # celery setting.
 CELERY_CACHE_BACKEND = 'default'
 
@@ -190,4 +191,7 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
 

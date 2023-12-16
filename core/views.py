@@ -1,5 +1,4 @@
 import pandas as pd
-from celery import shared_task
 
 from rolepermissions.roles import assign_role
 #import locale
@@ -27,30 +26,28 @@ from django.conf import settings
 from rolepermissions.decorators import has_role_decorator,has_permission_decorator
 from rolepermissions.permissions import revoke_permission
 from celery import Task
-
+from django_celery_beat.models import PeriodicTask,IntervalSchedule
 #locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
-data_log = data=datetime.now()
+data_log = datetime.now()
 
 data_log=data_log.strftime("%H:%M:%S %d-%m-%Y")
 mensagem_concorrencia = 'sem concorrentes para esta posição'
 def verifica_validade_contrato():
-
-        valida_contrato = tb_dados_contrato.objects.\
-        values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
-        filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
-        for valida in valida_contrato:
-            tb_dados_contrato.objects.update(ativo = 'Não')
-            print(valida_contrato)
-
+    valida_contrato = tb_dados_contrato.objects.\
+    values_list('numemro_contrato','administrador','unidade', 'superintendente','data_inicio','data_fim').\
+    filter(Q(Q(ativo = True) & Q(data_fim__lte = date.today())))
+    for valida in valida_contrato:
+        tb_dados_contrato.objects.update(ativo = 'Não')
+        print(valida_contrato)
+    return "Tarefa executada"
 def gerar_mes_referencia():
     verifica_validade_contrato()
     data=date.today() - relativedelta(months=1)
-    mes_ano_format=data.strftime("%B/%Y")
+    mes_ano_format=data.strftime("%m/%Y")
     lista_contratos = tb_dados_contrato.objects.\
         values_list('numemro_contrato','administrador','unidade', 'superintendente','staff_1','staff_1').\
         filter(Q(Q(ativo = 'SIM') & Q(data_fim__gte = date.today()) & Q(data_inicio__lte = date.today())))
     if lista_contratos.count != 0:
-
         for cont in lista_contratos:
             ref=mes_ano_format
             num_contra=cont[0]
@@ -59,7 +56,6 @@ def gerar_mes_referencia():
             superintendente=cont[3]
             staff_1=cont[4]
             staff_2=cont[5]
-
             verificar_referencia = tb_referencia_contrato.objects.all().\
                 filter(mes_ano_referencia=ref,contrato=num_contra)
             if verificar_referencia.count() == 0:
@@ -138,9 +134,7 @@ def edit(request):
                   'core/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
-@login_required
-def atulizar_localizacao():
-    pass
+
 @login_required
 def index(request):
     gerar_mes_referencia()
@@ -280,7 +274,7 @@ def enviar_email_backend():
     email.send()
     print('enviado')
     return HttpResponse('Email enviado com sucesso!')
-@shared_task
+
 def enviar_email():
 
     inicio_envio_email = datetime.now()
